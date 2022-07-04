@@ -1,21 +1,35 @@
-import { HStack, Stack } from "@chakra-ui/react";
-import { RiDashboardLine, RiGitRepositoryLine } from "react-icons/ri";
-import { FiUsers, FiUserPlus } from "react-icons/Fi";
-import { NavLink } from "./NavLink";
-import { NavSection } from "./NavSection";
+import { Box, Drawer, DrawerBody, DrawerCloseButton, DrawerContent, DrawerHeader, DrawerOverlay, useBreakpointValue } from "@chakra-ui/react";
+import { useSidebarDrawer } from "../../Context/SidebarDrawerContext";
+import { SidebarNav } from './SidebarNav';
 
 export function Sidebar () {
-  return (
-    <Stack spacing="12" align="flex-start">
-        <NavSection title="GERAL">
-          <NavLink icon={RiDashboardLine} href="/dashboard">Overview</NavLink>
-          <NavLink icon={RiGitRepositoryLine} href="/repositories">Repositories</NavLink>
-        </NavSection>
+  const { isOpen, onClose }= useSidebarDrawer();
 
-        <NavSection title="PROFILE">
-          <NavLink icon={FiUsers} href="/following">Following</NavLink>
-          <NavLink icon={FiUserPlus} href="/followers">Followers</NavLink>
-        </NavSection>
-    </Stack>
+  const isDrawerSidebar = useBreakpointValue({
+    base: true,
+    lg: false,
+  })
+
+  if (isDrawerSidebar) {
+    
+    return (
+      <Drawer isOpen={isOpen} placement="left" onClose={onClose}>
+        <DrawerOverlay>
+          <DrawerContent bg="gray.800" p="4">
+              <DrawerCloseButton mt="6" />
+              <DrawerHeader>Navegação</DrawerHeader>
+
+              <DrawerBody>
+                <SidebarNav />
+              </DrawerBody>
+          </DrawerContent>
+        </DrawerOverlay>
+      </Drawer>
+    )
+  }
+  return (
+    <Box as="aside" w="64" mr="8">
+     <SidebarNav />
+    </Box>
   );
 }

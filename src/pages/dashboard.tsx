@@ -1,136 +1,65 @@
-import { Box, Flex, HStack, Icon, Image, SimpleGrid, Text, VStack } from "@chakra-ui/react";
-import { Sidebar } from "../components/Sidebar";
-import { Header } from './../components/Header/index';
+import { Box, Flex, HStack, Icon, Image, Text, VStack } from '@chakra-ui/react';
+import { Header } from "../components/Header";
+import { Sidebar } from '../components/Sidebar';
+import { BiBuilding } from 'react-icons/bi'
+import { HiOutlineLocationMarker } from 'react-icons/hi'
+import { StarredRepo } from '../components/starredRepo';
 
-import { BsCircleFill } from 'react-icons/bs';
-import { IoGitCommitOutline } from "react-icons/io5";
-import { AiOutlineStar } from 'react-icons/ai';
-import { HiOutlineLocationMarker } from 'react-icons/hi';
-import { BiBuilding } from 'react-icons/bi';
+export default function  Dashboard () {
 
-export default function Dashboard () {
   return (
-    <Flex direction="column" h="100vh">
+    <Flex direction="column" h="100vh" pb="4">
       <Header />
 
-        <Flex w="100%" my="6" maxWidth={1480} mx="auto" px="6" mt="8">
-          <Box as="aside" w="64" mr="8">
-              <Sidebar />
-          </Box>
-          <SimpleGrid flex="1" gap="4" minChildWidth="320px" alignItems="flex-start"> 
+      <Flex w="100%" my="6" maxWidth={1480} mx="auto" px="6" mt="8">
+        <Sidebar />
 
-           {/* //create a components UserOverview */}
+        <Flex flex="1" gap="4" alignItems="flex-start" justifyContent={{ base: 'center', md: 'center', lg: 'space-between', xl: 'space-between' }} flexWrap={{ base: 'wrap', md: 'initial', lg: 'initial', xl: 'initial' }}>
+          <Box mb="4">
+            <Box p="6" bg="gray.800" borderRadius="30px" pb="4" minWidth={{sm:'unset', md: 400, lg: 400, xl: 400}} maxWidth={480} minHeight={{sm: 'unset', md:"610px", lg:"610px", xl: "610px"}}>
             <Flex
-              flexDirection="column"
-              bg="gray.800"
-              py="10"
-              px="10"
-              borderRadius="30px"
-              align="center"
-              justify="center"
-              width="100%"
-              height="100%"
-              maxWidth={480}
-            >
-              <Image src="https://github.com/viniscode.png" w="100%" maxWidth="400px" borderRadius="full"/>
-              <Box alignSelf="self-start" mt="5">
-                <Text fontSize={["22px", "32px"]} alignSelf="self-start">Vinícius Rodrigues</Text>
-                <Text fontSize={["18px", "19px"]} color="pink.500"  alignSelf="self-start">ViniSCode</Text>
-              </Box>
+                flexDirection="column"
+                bg="gray.800"
+                borderRadius="30px"
+                align="center"
+                justify="center"
+                width="100%"
+                height="100%"
+              >
+                <Image src="https://github.com/viniscode.png" w="100%" maxWidth="380px" borderRadius="full"/>
+                <Box alignSelf="self-start" mt="3">
+                  <Text fontSize={["22px", "32px"]} alignSelf="self-start">Vinícius Rodrigues</Text>
+                  <Text fontSize={["18px", "19px"]} color="pink.500"  alignSelf="self-start">ViniSCode</Text>
+                </Box>
 
-              <Text mt="6" fontSize="1xl">CTO at @Rocketseat. Passionate about education and changing people's lives through programming.</Text>
-              <HStack spacing="3" mt="3" alignSelf="self-start" alignItems="center">
-                <Box display="flex" gap="0.5">
-                  <Icon as={HiOutlineLocationMarker} w="20px" h="20px" color="gray.200"/>
-                  <Text color="gray.200">Brazil, RS</Text>
-                </Box>
-                <Box display="flex" gap="0.5" alignItems="center">
-                  <Icon as={BiBuilding} w="20px" h="20px" color="gray.200"/>
-                  <Text color="gray.200">@Rocketseat</Text>
-                </Box>
-              </HStack>
+                <Text mt="4" fontSize="1xl" noOfLines={2} alignSelf="self-start">CTO at @Rocketseat. Passionate about education and changing people's lives through programming.</Text>
+                <HStack spacing="3" mt="3" alignSelf="self-start" alignItems="c                 enter">
+                  <Box display="flex" gap="0.5">
+                    <Icon as={HiOutlineLocationMarker} fontSize="17px" color="gray.200"/>
+                    <Text color="gray.200" fontSize="14px">Brazil, RS</Text>
+                  </Box>
+                  <Box display="flex" gap="0.5" alignItems="center">
+                    <Icon as={BiBuilding} fontSize="17px" color="gray.200"/>
+                    <Text color="gray.200" fontSize="14px">@Rocketseat</Text>
+                  </Box>
+                </HStack>
               </Flex> 
+            </Box>
+          </Box>
 
-            <VStack spacing="6">
-              <Box bg="gray.800" p="4" borderRadius="md">
-                <Text fontSize="18px" color="pink.500">DevBlog</Text>
-                <Text fontSize="16px">App created using ReactJS, Firebase (Real time database and Firebase Auth).</Text>
-                <HStack display="flex" align="center" mt="4" spacing="4">
-                  <Box display="flex" alignItems="center">
-                    <Icon mr="1.5" as={BsCircleFill} color="blue.500" fontSize="15px"/>
-                    <Text fontSize="14px" color="gray.200">Typescript</Text>
-                  </Box>
-                  <Box display="flex" alignItems="center">
-                    <Icon mr="1" as={IoGitCommitOutline} color="green.500" fontSize="25px"/>
-                    <Text fontSize="14px" color="gray.200">23 Commits</Text>
-                  </Box>
-                  <Box display="flex" alignItems="center">
-                    <Icon mr="1.5" as={AiOutlineStar} color="yellow.500" fontSize="20px"/>
-                    <Text fontSize="14px" color="gray.200">2 Stars</Text>
-                  </Box>
-                </HStack>
-              </Box>
-              
-              <Box bg="gray.800" p="4" borderRadius="md">
-                <Text fontSize="18px" color="pink.500">DevBlog</Text>
-                <Text fontSize="16px">App created using ReactJS, Firebase (Real time database and Firebase Auth).</Text>
-                <HStack display="flex" align="center" mt="4" spacing="4">
-                  <Box display="flex" alignItems="center">
-                    <Icon mr="1.5" as={BsCircleFill} color="blue.500" fontSize="15px"/>
-                    <Text fontSize="14px" color="gray.200">Typescript</Text>
-                  </Box>
-                  <Box display="flex" alignItems="center">
-                    <Icon mr="1" as={IoGitCommitOutline} color="green.500" fontSize="25px"/>
-                    <Text fontSize="14px" color="gray.200">23 Commits</Text>
-                  </Box>
-                  <Box display="flex" alignItems="center">
-                    <Icon mr="1.5" as={AiOutlineStar} color="yellow.500" fontSize="20px"/>
-                    <Text fontSize="14px" color="gray.200">2 Stars</Text>
-                  </Box>
-                </HStack>
-              </Box>
-
-              <Box bg="gray.800" p="4" borderRadius="md">
-                <Text fontSize="18px" color="pink.500">DevBlog</Text>
-                <Text fontSize="16px">App created using ReactJS, Firebase (Real time database and Firebase Auth).</Text>
-                <HStack display="flex" align="center" mt="4" spacing="4">
-                  <Box display="flex" alignItems="center">
-                    <Icon mr="1.5" as={BsCircleFill} color="blue.500" fontSize="15px"/>
-                    <Text fontSize="14px" color="gray.200">Typescript</Text>
-                  </Box>
-                  <Box display="flex" alignItems="center">
-                    <Icon mr="1" as={IoGitCommitOutline} color="green.500" fontSize="25px"/>
-                    <Text fontSize="14px" color="gray.200">23 Commits</Text>
-                  </Box>
-                  <Box display="flex" alignItems="center">
-                    <Icon mr="1.5" as={AiOutlineStar} color="yellow.500" fontSize="20px"/>
-                    <Text fontSize="14px" color="gray.200">2 Stars</Text>
-                  </Box>
-                </HStack>
-              </Box>
-              
-              <Box bg="gray.800" p="4" borderRadius="md">
-                <Text fontSize="18px" color="pink.500">DevBlog</Text>
-                <Text fontSize="16px">App created using ReactJS, Firebase (Real time database and Firebase Auth).</Text>
-                <HStack display="flex" align="center" mt="4" spacing="4">
-                  <Box display="flex" alignItems="center">
-                    <Icon mr="1.5" as={BsCircleFill} color="blue.500" fontSize="15px"/>
-                    <Text fontSize="14px" color="gray.200">Typescript</Text>
-                  </Box>
-                  <Box display="flex" alignItems="center">
-                    <Icon mr="1" as={IoGitCommitOutline} color="green.500" fontSize="25px"/>
-                    <Text fontSize="14px" color="gray.200">23 Commits</Text>
-                  </Box>
-                  <Box display="flex" alignItems="center">
-                    <Icon mr="1.5" as={AiOutlineStar} color="yellow.500" fontSize="20px"/>
-                    <Text fontSize="14px" color="gray.200">2 Stars</Text>
-                  </Box>
-                </HStack>
-              </Box>
+          <Box borderRadius="8" pb="4" width="100%">
+            <VStack spacing="4" display="flex">
+              {/* If user does not have starred repos, show the last 6 public repos */}
+              {/* Change to last repos instead last starred repos */}
+              <StarredRepo />
+              <StarredRepo />
+              <StarredRepo />
+              <StarredRepo />
+              <StarredRepo />
             </VStack>
-          </SimpleGrid>
+          </Box>
         </Flex>
+      </Flex>
     </Flex>
   );
 }
-
