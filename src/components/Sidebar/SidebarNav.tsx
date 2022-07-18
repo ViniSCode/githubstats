@@ -1,5 +1,5 @@
 import { Stack } from "@chakra-ui/react";
-import { RiContactsLine, RiDashboardLine, RiFolderLine, RiGitMergeLine, RiInputMethodLine } from "react-icons/ri";
+import { RiDashboardLine, RiFolderLine, RiGitMergeLine, RiInputMethodLine } from "react-icons/ri";
 import { NavLink } from "./NavLink";
 import { NavSection } from "./NavSection";
 

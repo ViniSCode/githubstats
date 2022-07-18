@@ -1,73 +1,76 @@
-import { Button, Flex, Stack } from '@chakra-ui/react';
-import { yupResolver } from '@hookform/resolvers/yup';
-import { SubmitHandler, useForm } from 'react-hook-form';
-import * as yup from 'yup';
-import { Input } from './../components/Form/Input';
-
-
-type SignInFormData = {
-  email: string;
-  password: string;
-}
-
-const signInFormSchema = yup.object().shape({
-  email: yup.string().required('E-mail obrigatório').email('E-mail inválido'),
-  password: yup.string().required('Senha obrigatória'),
-})
+import { Avatar, Button, Flex, Icon, Text } from '@chakra-ui/react';
+import { RiGithubFill } from 'react-icons/ri';
+import { useSession, signIn, signOut } from "next-auth/react"
+import Link from 'next/link'
 
 export default function SignIn() {
-  const {register, handleSubmit, formState} = useForm({
-    resolver: yupResolver(signInFormSchema)
-  });   
-  const handleSignIn: SubmitHandler<SignInFormData> = async (values) => {
-
-  }
+  const { data: session } = useSession();
   
-  return (
-    <Flex
-      w="100vw"
-      h="100vh"
-      align="center"
-      justify="center"
-    >
+  return !session ? (
+    <Flex w="100vw" h="100vh" align="center" justify="center">
       <Flex
         flexDir="column"
-        as="form"
         w="100%"
         maxWidth={360}
         bg="gray.800"
         p="8"
         borderRadius={8}
-        onSubmit={handleSubmit(handleSignIn)}
       >
-
-        <Stack spacing="4">
-          <Input
-            name="email"
-            type="email"
-            label="E-mail" 
-            {...register('email')}
-            error={formState.errors.email}
-          />
-          <Input
-            name="password"
-            type="password"
-            label="Senha" 
-            {...register('password')}
-            error={formState.errors.password}
-          />
-        </Stack>
-
-        <Button
-          type="submit"
-          mt="6"
+       <Button
+          onClick={() => signIn()}
           colorScheme="pink"
           size="lg"
-          isLoading={formState.isSubmitting}
+          display="flex"
+          alignItems="center"
         >
-          Entrar
+        <Icon as={RiGithubFill} fontSize="25px" mr="2"/>
+          Sign in with github
         </Button>
       </Flex>
     </Flex>
+  ) : 
+  (
+    <Flex
+    w="100vw"
+    h="100vh"
+    align="center"
+    justify="center"
+  >
+    <Flex
+      flexDir="column"
+      w="100%"
+      maxWidth={360}
+      bg="gray.800"
+      p="8"
+      borderRadius={8}
+      gap="4"
+    >
+      <Flex direction="column" align="center" justify="center" gap="2" mb="2">
+        <Avatar size="lg" name={session.user.name} src={session.user.image}/>
+        <Text fontSize="lg" fontWeight="bold">{session.user.name}</Text>
+      </Flex>
+      <Link href="/dashboard">
+        <Button
+          type="submit"
+          colorScheme="pink"
+          size="lg"
+          display="flex"
+          alignItems="center"
+        >
+          Dashboard
+        </Button>
+      </Link>  
+      <Button
+        type="submit"
+        colorScheme="pink"
+        size="lg"
+        display="flex"
+        alignItems="center"
+        onClick={() => signOut()}
+      >
+        Sign out
+      </Button>
+    </Flex>
+  </Flex>
   )
 }

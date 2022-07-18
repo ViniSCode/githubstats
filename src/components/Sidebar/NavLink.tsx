@@ -5,7 +5,8 @@ import { ActiveLink } from "../ActiveLink";
 interface NavLinkProps extends ChakraLinkProps{
   icon: ElementType;
   children: string;
-  href: string;
+  href?: string;
+  onclick?: () => void;
 }
 
 export function NavLink ({icon, href, children, ...rest}: NavLinkProps) {
