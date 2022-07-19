@@ -1,11 +1,13 @@
-import { Box, Flex, HStack, Icon, Image, Spinner, Text, VStack } from '@chakra-ui/react';
+import { Box, Button, Flex, HStack, Icon, Image, Spinner, Text, VStack } from '@chakra-ui/react';
 import { Header } from "../components/Header";
 import { Sidebar } from '../components/Sidebar';
 import { BiBuilding } from 'react-icons/bi'
 import { HiOutlineLocationMarker } from 'react-icons/hi'
 import { StarredRepo } from '../components/starredRepo';
 import { useEffect, useState } from 'react';
-import { getSession, useSession } from 'next-auth/react';
+import { getSession } from 'next-auth/react';
+import { RiArrowLeftFill } from 'react-icons/ri';
+import { useRouter } from 'next/router';
 
 interface UserGithubData {
   // avatar: string;
@@ -13,6 +15,8 @@ interface UserGithubData {
   company?: string; 
   login: string;
   name: string;
+  location?: string;
+  avatar_url: string;
 }
 
 type UserSession =  {
@@ -22,28 +26,39 @@ type UserSession =  {
 }
 
 export default function  Dashboard () {
+    const router = useRouter();
     // next-auth does not provide a github username or id by default, 
     const [userGithubData, setUserGithubData] = useState<UserGithubData>();
+    const [isLoading, setIsLoading] = useState(true);
+    const [isError, setIsError] = useState(false);
 
+   
     useEffect(() => {
       const fetchUserData = async () => {
         const {user} = await getSession();
   
         const userImageUrl = user.image.split('/').pop();
         const userId = userImageUrl.split('?')[0];
-  
-        fetch(`https://api.github.com/user/${userId}`)
-        .then(response => response.json())
-        .then(data => setUserGithubData(data))
-        .catch(err => console.log(err))
-      
+
+        try {
+          const response = await fetch(`https://api.github.com/user/${userId}`)
+          const data = await response.json();
+          console.log(data)
+          if (!response.ok) {
+            throw new Error("Error Status " + response.status)
+          }
+          setUserGithubData(data);
+          setIsLoading(false)
+        } 
+        catch (err) {
+          console.log(err.message)
+          setIsError(true);
+        }
       }
       fetchUserData();
-      
     }, [])
-    
 
-  return userGithubData ? (
+  return !isLoading && !isError ? (
     <Flex direction="column" h="100vh" pb="4">
       <Header />
 
@@ -62,7 +77,7 @@ export default function  Dashboard () {
                 width="100%"
                 height="100%"
               >
-                <Image src='https://github.com/viniscode.png' w="100%" maxWidth="380px" borderRadius="full" alt='viniscode'/>
+                <Image src={userGithubData.avatar_url} w="100%" maxWidth="380px" borderRadius="full" alt={userGithubData.name}/>
                 <Box alignSelf="self-start" mt="3">
                   <Text fontSize={["22px", "32px"]} alignSelf="self-start">ViniSCode</Text>
                   <Text fontSize={["18px", "19px"]} color="pink.500"  alignSelf="self-start">{userGithubData.login}</Text>
@@ -96,12 +111,21 @@ export default function  Dashboard () {
         </Flex>
       </Flex>
     </Flex>
+  ):  (isLoading  && !isError) ? (
+    <Flex align='center' direction="column" justify='center' height="100vh" gap='2rem'>
+      <Text textAlign='center' fontSize="xl">
+      </Text>
+        <Spinner size="lg" />
+    </Flex>
   ): (
     <Flex align='center' direction="column" justify='center' height="100vh" gap='2rem'>
       <Text textAlign='center' fontSize="xl">
         Something went wrong...
       </Text>
-        <Spinner size="lg" />
+
+      <Button onClick={() => router.push('/')} colorScheme='red' leftIcon={<RiArrowLeftFill fontSize="20px"/>}>
+        Go back
+      </Button>
     </Flex>
   )
 } 
