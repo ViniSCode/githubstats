@@ -1,12 +1,20 @@
 import { useContext } from "react";
-import { GithubDataContext } from "../Context/GithubDataContext";
+import { GithubUserContext } from "../Context/GithubUserContext";
 
 export function useGithubData () {
-  const { isLoading, userData, isError } = useContext(GithubDataContext);
+  const { userData, userGithubId } = useContext(GithubUserContext);
+  
+  return {
+    userData,
+    userGithubId,
+  }
+}
+
+export function useGithubStarredRepos () {
+  const { userData, userGithubId } = useContext(GithubUserContext);
 
   return {
-    isLoading,
     userData,
-    isError,
+    userGithubId,
   }
 }

@@ -2,7 +2,7 @@ import { Box, Button, Stack } from "@chakra-ui/react";
 import { signOut } from "next-auth/react";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { RiDashboardLine, RiFolderLine, RiGitMergeLine, RiInputMethodLine, RiLogoutBoxLine, RiLogoutBoxRLine, RiLogoutCircleLine } from "react-icons/ri";
+import { RiDashboardLine, RiFolderLine, RiGitMergeLine, RiInputMethodLine, RiLogoutBoxLine, RiLogoutBoxRLine, RiLogoutCircleLine, RiStarFill, RiStarLine } from "react-icons/ri";
 import { NavLink } from "./NavLink";
 import { NavSection } from "./NavSection";
 
@@ -17,6 +17,7 @@ export function SidebarNav () {
     <NavSection title="GERAL">
       <NavLink icon={RiDashboardLine} href="/dashboard">Overview</NavLink>
       <NavLink icon={RiFolderLine} href="/repos">Repositories</NavLink>
+      <NavLink icon={RiStarLine} href="/starred">Starred</NavLink>
     </NavSection>
     <NavSection title="PROFILE">
       <NavLink icon={RiInputMethodLine} href="/following">Following</NavLink>

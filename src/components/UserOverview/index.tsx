@@ -14,6 +14,7 @@ interface UserOverviewProps {
 }
 
 export function UserOverview ({user}: UserOverviewProps) {
+
   return (
     <Box p="6" bg="gray.800" borderRadius="30px" pb="4" minWidth={{sm:'unset', md: 400, lg: 400, xl: 400}} maxWidth={480} minHeight={{sm: 'unset', md:"610px", lg:"610px", xl: "610px"}}>
     <Flex

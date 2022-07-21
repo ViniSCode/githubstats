@@ -1,19 +1,20 @@
-import { Box, Button, Flex, HStack, Icon, Image, Spinner, Text, VStack } from '@chakra-ui/react';
+import { Box, Button, Flex, Spinner, Text, VStack } from '@chakra-ui/react';
+import { GetServerSideProps } from 'next';
+import { getSession } from 'next-auth/react';
+import { useRouter } from 'next/router';
+import { RiArrowLeftFill } from 'react-icons/ri';
 import { Header } from "../components/Header";
 import { Sidebar } from '../components/Sidebar';
-
 import { StarredRepo } from '../components/starredRepo';
-import { getSession } from 'next-auth/react';
-import { RiArrowLeftFill } from 'react-icons/ri';
-import { useRouter } from 'next/router';
-import { GetServerSideProps } from 'next';
-import { useGithubData } from '../hooks/useGithubData';
 import { UserOverview } from '../components/UserOverview';
+import { useAppContext } from '../hooks/useAppContext';
+import { useGithubData } from '../hooks/useGithubData';
 
 export default function  Dashboard () {
     const router = useRouter();
-    const { isLoading, isError, userData } = useGithubData();
-   
+    const { isError, isLoading } = useAppContext();
+    const { userData } = useGithubData();
+
   return !isLoading && !isError ? (
     <Flex direction="column" h="100vh" pb="4">
       <Header />
@@ -25,6 +26,7 @@ export default function  Dashboard () {
           <Box mb="4">
             <UserOverview user={userData}/>
           </Box>
+
           <Box borderRadius="8" pb="4" w="100%">
             <VStack spacing="4" display="flex">
               {/* If user does not have starred repos, show the last 6 public repos */}

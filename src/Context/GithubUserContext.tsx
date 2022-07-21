@@ -1,7 +1,8 @@
 import { getSession, useSession } from "next-auth/react";
 import { createContext, ReactNode, useEffect, useState } from "react";
+import { useAppContext } from "../hooks/useAppContext";
 
-interface UserGithubData {
+interface UserData {
   bio: string;
   company?: string; 
   login: string;
@@ -10,23 +11,23 @@ interface UserGithubData {
   avatar_url: string;
 }
 
-interface GithubDataContext {
-  userData: UserGithubData;
-  isLoading: boolean;
-  isError: boolean;
+interface GithubUserContextData {
+  userData: UserData;
+  userGithubId: string;
 }
 
-interface GithubProviderProps {
+interface GithubUserProviderProps {
   children: ReactNode;
 }
 
-export const GithubDataContext = createContext<GithubDataContext>({} as GithubDataContext);
+export const GithubUserContext = createContext<GithubUserContextData>({} as GithubUserContextData);
 
-export function GithubDataProvider ({children}: GithubProviderProps) {
-  const [userData, setUserData] = useState<UserGithubData>();
-  const [isLoading, setIsLoading] = useState(true);
-  const [isError, setIsError] = useState(false);
+export function GithubUserProvider ({children}: GithubUserProviderProps) {
+  const { handleSetIsLoading, handleSetIsError } = useAppContext();
   const {data: session} = useSession();
+
+  const [userData, setUserData] = useState<UserData>();
+  const [userGithubId, setUserGithubId] = useState('');
 
     useEffect(() => {
       const fetchUserData = async () => {
@@ -40,16 +41,18 @@ export function GithubDataProvider ({children}: GithubProviderProps) {
           try {
             const response = await fetch(`https://api.github.com/user/${userId}`)
             const data = await response.json();
+            console.log(data);
             
             if (!response.ok) {
               throw new Error("Error Status " + response.status)
             }
+            setUserGithubId(userId);
             setUserData(data);
-            setIsLoading(false)
+            handleSetIsLoading(false)
           } 
           catch (err) {
             console.log(err.message)
-            setIsError(true);
+            handleSetIsError(true);
           }
         }
       }
@@ -58,8 +61,8 @@ export function GithubDataProvider ({children}: GithubProviderProps) {
     }, [])  
 
   return (
-  <GithubDataContext.Provider value={{userData, isLoading, isError}}>
+  <GithubUserContext.Provider value={{userData, userGithubId}}>
     {children}
-  </GithubDataContext.Provider>
+  </GithubUserContext.Provider>
   )
 }

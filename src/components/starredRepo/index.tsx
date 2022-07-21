@@ -17,10 +17,6 @@ export function StarredRepo () {
         <Text fontSize="14px" color="gray.200">Typescript</Text>
        </Box>
         <Box display="flex" alignItems="center">
-         <Icon mr="1" as={IoGitCommitOutline} color="green.500" fontSize="25px"/>
-         <Text fontSize="14px" color="gray.200">23</Text>
-        </Box>
-        <Box display="flex" alignItems="center">
           <Icon mr="1.5" as={AiOutlineStar} color="yellow.500" fontSize="20px"/>
           <Text fontSize="14px" color="gray.200">2</Text>
         </Box>

@@ -3,7 +3,8 @@ import { AppProps } from 'next/app';
 import { SidebarDrawerProvider } from '../Context/SidebarDrawerContext';
 import { theme } from '../styles/theme';
 import { SessionProvider as NextAuthProvider } from "next-auth/react"
-import { GithubDataProvider } from '../Context/GithubDataContext';
+import { GithubUserProvider } from '../Context/GithubUserContext';
+import { AppProvider } from '../Context/AppContext';
 
 function MyApp({ 
   Component,
@@ -11,13 +12,15 @@ function MyApp({
 
   return (
     <NextAuthProvider session={session}>
-      <GithubDataProvider>
-        <ChakraProvider theme={theme}>
-          <SidebarDrawerProvider>
-            <Component {...pageProps} />
-          </SidebarDrawerProvider>
-        </ChakraProvider>
-        </GithubDataProvider>
+      <AppProvider>
+        <GithubUserProvider>
+          <ChakraProvider theme={theme}>
+            <SidebarDrawerProvider>
+              <Component {...pageProps} />
+            </SidebarDrawerProvider>
+          </ChakraProvider>
+        </GithubUserProvider>
+      </AppProvider>
     </NextAuthProvider>
   )
 }

@@ -1,5 +1,4 @@
 import { Avatar, Box, Flex, Text } from "@chakra-ui/react";
-import { useSession } from "next-auth/react";
 import { useGithubData } from "../../hooks/useGithubData";
 
 interface ProfileProps {
@@ -7,9 +6,9 @@ interface ProfileProps {
 }
 
 export function Profile ({ showProfileData = true }: ProfileProps) {
-  const { isLoading, isError, userData } = useGithubData();
+  const { userData } = useGithubData();
 
-  return (
+  return userData && (
     <Flex align="center">
       { showProfileData && (
         <Box mr="4" textAlign="right">
