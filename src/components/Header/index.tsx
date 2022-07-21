@@ -1,4 +1,5 @@
 import { Flex, Icon, IconButton, useBreakpointValue } from '@chakra-ui/react';
+import { useSession } from 'next-auth/react';
 import { RiMenuLine } from 'react-icons/ri';
 import { useSidebarDrawer } from '../../Context/SidebarDrawerContext';
 import { Logo } from './Logo';

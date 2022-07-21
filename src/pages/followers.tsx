@@ -3,6 +3,8 @@ import { Header } from "../components/Header";
 import { Sidebar } from '../components/Sidebar';
 import { Pagination } from '../components/Pagination';
 import { User } from '../components/User';
+import { getSession } from 'next-auth/react';
+import { GetServerSideProps } from 'next';
 
 export default function  Repos () {
   return (
@@ -38,4 +40,22 @@ export default function  Repos () {
       </Flex>
     </Flex>
   );
+}
+
+export const getServerSideProps: GetServerSideProps = async (context) => {
+  const session = await getSession(context)
+
+  if (!session) {
+    console.log('you cannot access this page if not logged in')
+    return {
+      redirect: {
+        destination: '/',
+        permanent: false,
+      },
+    }
+  } 
+
+  return {
+    props: { session }
+  }
 }

@@ -5,7 +5,7 @@ import { AiOutlineStar, AiFillGithub } from 'react-icons/ai'
 
 export function StarredRepo () {
   return (
-    <Box bg="gray.800" p="3" borderRadius="md" w="100%" maxWidth={{sm: "480px",md: "640px", lg: "640px", xl: "640px"}}>
+    <Box bg="gray.800" p="3" borderRadius="md" w="100%" maxWidth={{sm: "480px",md: "480px", lg: "640px", xl: "640px"}}>
       <Flex alignItems="center" justify="space-between">
         <Text fontSize="19px" color="pink.500">DevBlog</Text>
         <Icon as={AiFillGithub} fontSize="25px" color="gray.200"/>

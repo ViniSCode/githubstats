@@ -27,7 +27,7 @@ export function ActiveLink ({
     isActive = true;
   }
   
-  return (
+  return ( 
     <Link {...rest}>
       { cloneElement(children, {
         color: isActive ? 'pink.400' : 'gray.50'

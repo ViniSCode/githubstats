@@ -1,7 +1,8 @@
 import { Avatar, Button, Flex, Icon, Text } from '@chakra-ui/react';
 import { RiGithubFill } from 'react-icons/ri';
-import { useSession, signIn, signOut } from "next-auth/react"
+import { useSession, signIn, signOut, getSession } from "next-auth/react"
 import Link from 'next/link'
+import { GetServerSideProps } from 'next';
 
 export default function SignIn() {
   const { data: session } = useSession();
@@ -73,4 +74,21 @@ export default function SignIn() {
     </Flex>
   </Flex>
   )
+}
+
+export const getServerSideProps: GetServerSideProps = async (context) => {
+  const session = await getSession(context)
+
+  if (session) {
+    return {
+      redirect: {
+        destination: '/dashboard',
+        permanent: false,
+      },
+    }
+  }
+
+  return {
+    props: { session }
+  }
 }

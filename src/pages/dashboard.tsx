@@ -4,60 +4,16 @@ import { Sidebar } from '../components/Sidebar';
 import { BiBuilding } from 'react-icons/bi'
 import { HiOutlineLocationMarker } from 'react-icons/hi'
 import { StarredRepo } from '../components/starredRepo';
-import { useEffect, useState } from 'react';
 import { getSession } from 'next-auth/react';
 import { RiArrowLeftFill } from 'react-icons/ri';
 import { useRouter } from 'next/router';
-
-interface UserGithubData {
-  // avatar: string;
-  bio: string;
-  company?: string; 
-  login: string;
-  name: string;
-  location?: string;
-  avatar_url: string;
-}
-
-type UserSession =  {
-  name?: string;
-  email?: string;
-  image?: string;
-}
+import { GetServerSideProps } from 'next';
+import { useGithubData } from '../hooks/useGithubData';
 
 export default function  Dashboard () {
     const router = useRouter();
-    // next-auth does not provide a github username or id by default, 
-    const [userGithubData, setUserGithubData] = useState<UserGithubData>();
-    const [isLoading, setIsLoading] = useState(true);
-    const [isError, setIsError] = useState(false);
-
+    const { isLoading, isError, userData } = useGithubData();
    
-    useEffect(() => {
-      const fetchUserData = async () => {
-        const {user} = await getSession();
-  
-        const userImageUrl = user.image.split('/').pop();
-        const userId = userImageUrl.split('?')[0];
-
-        try {
-          const response = await fetch(`https://api.github.com/user/${userId}`)
-          const data = await response.json();
-          console.log(data)
-          if (!response.ok) {
-            throw new Error("Error Status " + response.status)
-          }
-          setUserGithubData(data);
-          setIsLoading(false)
-        } 
-        catch (err) {
-          console.log(err.message)
-          setIsError(true);
-        }
-      }
-      fetchUserData();
-    }, [])
-
   return !isLoading && !isError ? (
     <Flex direction="column" h="100vh" pb="4">
       <Header />
@@ -77,13 +33,13 @@ export default function  Dashboard () {
                 width="100%"
                 height="100%"
               >
-                <Image src={userGithubData.avatar_url} w="100%" maxWidth="380px" borderRadius="full" alt={userGithubData.name}/>
+                <Image src={userData.avatar_url} w="100%" maxWidth="380px" borderRadius="full" alt={userData.name}/>
                 <Box alignSelf="self-start" mt="3">
                   <Text fontSize={["22px", "32px"]} alignSelf="self-start">ViniSCode</Text>
-                  <Text fontSize={["18px", "19px"]} color="pink.500"  alignSelf="self-start">{userGithubData.login}</Text>
+                  <Text fontSize={["18px", "19px"]} color="pink.500"  alignSelf="self-start">{userData.login}</Text>
                 </Box>
 
-                <Text mt="4" fontSize="1xl" noOfLines={2} alignSelf="self-start">{userGithubData.bio}</Text>
+                <Text mt="4" fontSize="1xl" noOfLines={2} alignSelf="self-start">{userData.bio}</Text>
                 <HStack spacing="3" mt="3" alignSelf="self-start" alignItems="c                 enter">
                   <Box display="flex" gap="0.5">
                     <Icon as={HiOutlineLocationMarker} fontSize="17px" color="gray.200"/>
@@ -97,7 +53,7 @@ export default function  Dashboard () {
               </Flex> 
             </Box>
           </Box>
-          <Box borderRadius="8" pb="4" width="100%">
+          <Box borderRadius="8" pb="4" w="100%">
             <VStack spacing="4" display="flex">
               {/* If user does not have starred repos, show the last 6 public repos */}
               {/* Change to last repos instead last starred repos */}
@@ -129,3 +85,21 @@ export default function  Dashboard () {
     </Flex>
   )
 } 
+
+export const getServerSideProps: GetServerSideProps = async (context) => {
+  const session = await getSession(context)
+
+  if (!session) {
+    console.log('you cannot access this page if not logged in')
+    return {
+      redirect: {
+        destination: '/',
+        permanent: false,
+      },
+    }
+  } 
+
+  return {
+    props: { session }
+  }
+}
