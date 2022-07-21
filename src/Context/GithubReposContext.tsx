@@ -1,6 +1,6 @@
 import { createContext, ReactNode, useEffect, useState } from "react";
 import { useAppContext } from "../hooks/useAppContext";
-import { useGithubUserData } from "../hooks/useGithubData";
+import { useGithubData } from "../hooks/useGithubData";
 
 type StarredRepos = {
   name: string;
@@ -23,14 +23,13 @@ export const GithubReposContext = createContext<GithubReposContextData>({} as Gi
 export function GithubReposProvider ({children}: GithubReposProviderProps) {
   const { handleSetIsLoading, handleSetIsError } = useAppContext();
   const [starredRepos, setStarredRepos] = useState<StarredRepos>();
-  const { userGithubId } = useGithubUserData();
-
-    useEffect(() => {
-      const fetchUserData = async () => {
-          try {
-            const response = await fetch(`https://api.github.com/user/${userGithubId}/starred`)
+  const { userGithubId } = useGithubData();
+  useEffect(() => {
+    const fetchUserData = async () => {
+      try {
+            const response = await fetch(`https://api.github.com/user/72752044/starred`)
             const data = await response.json();
-            console.log(data)
+            
             if (!response.ok) {
               throw new Error("Error Status " + response.status)
             }

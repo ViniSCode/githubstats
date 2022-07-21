@@ -1,4 +1,5 @@
 import { useContext } from "react";
+import { GithubReposContext } from "../Context/GithubReposContext";
 import { GithubUserContext } from "../Context/GithubUserContext";
 
 export function useGithubData () {
@@ -11,10 +12,9 @@ export function useGithubData () {
 }
 
 export function useGithubStarredRepos () {
-  const { userData, userGithubId } = useContext(GithubUserContext);
+  const { starredRepos } = useContext(GithubReposContext);
 
   return {
-    userData,
-    userGithubId,
+    starredRepos
   }
 }

@@ -41,12 +41,12 @@ export function GithubUserProvider ({children}: GithubUserProviderProps) {
           try {
             const response = await fetch(`https://api.github.com/user/${userId}`)
             const data = await response.json();
-            console.log(data);
+            setUserGithubId(userId);
+            
             
             if (!response.ok) {
               throw new Error("Error Status " + response.status)
             }
-            setUserGithubId(userId);
             setUserData(data);
             handleSetIsLoading(false)
           } 
