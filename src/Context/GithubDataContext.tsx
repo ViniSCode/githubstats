@@ -2,7 +2,6 @@ import { getSession, useSession } from "next-auth/react";
 import { createContext, ReactNode, useEffect, useState } from "react";
 
 interface UserGithubData {
-  // avatar: string;
   bio: string;
   company?: string; 
   login: string;

@@ -8,7 +8,7 @@ export function StarredRepo () {
     <Box bg="gray.800" p="3" borderRadius="md" w="100%" maxWidth={{sm: "480px",md: "480px", lg: "640px", xl: "640px"}}>
       <Flex alignItems="center" justify="space-between">
         <Text fontSize="19px" color="pink.500">DevBlog</Text>
-        <Icon as={AiFillGithub} fontSize="25px" color="gray.200"/>
+        <Icon as={AiFillGithub} fontSize="25px" color="gray.500"/>
       </Flex>
       <Text fontSize="16px" noOfLines={1}>App created using ReactJS, Firebase </Text>
       <HStack display="flex" align="center" mt="2" spacing="4">

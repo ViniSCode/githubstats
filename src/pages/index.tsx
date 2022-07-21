@@ -76,6 +76,10 @@ export default function SignIn() {
   )
 }
 
+// if user is logged in, 
+// the getServerSideProps will automatically redirect user to the dashboard page
+// users must be logged in to access the dashboard
+
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const session = await getSession(context)
 
