@@ -8,7 +8,7 @@ import { Pagination } from '../components/Pagination';
 import { Repo } from '../components/Repo';
 import { Sidebar } from '../components/Sidebar';
 import { useAppContext } from '../hooks/useAppContext';
-import { useGithubRepos } from '../hooks/useGithubData';
+import { useRepos } from '../hooks/useGithubData';
 
 export default function Repos () {
   const router = useRouter();
@@ -17,7 +17,7 @@ export default function Repos () {
   let repos2;
 
   const { isError, isLoading } = useAppContext();
-  const { repos } = useGithubRepos();
+  const { repos } = useRepos();
 
     if (repos) {
       slicedRepos = repos.slice(0, 10)

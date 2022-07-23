@@ -4,17 +4,17 @@ import { getSession } from 'next-auth/react';
 import { useRouter } from 'next/router';
 import { RiArrowLeftFill } from 'react-icons/ri';
 import { Header } from "../components/Header";
+import { Repo } from '../components/Repo';
 import { Sidebar } from '../components/Sidebar';
-import { StarredRepo } from '../components/starredRepo';
 import { UserOverview } from '../components/UserOverview';
 import { useAppContext } from '../hooks/useAppContext';
-import { useGithubData, useGithubStarredRepos } from '../hooks/useGithubData';
+import { useGithubData, useStarredRepos } from '../hooks/useGithubData';
 
 export default function  Dashboard () {
     const router = useRouter();
     const { isError, isLoading } = useAppContext();
     const { userData } = useGithubData();
-    const { starredRepos } = useGithubStarredRepos();
+    const { starredRepos } = useStarredRepos();
     
     let slicedRepos;
   
@@ -24,7 +24,7 @@ export default function  Dashboard () {
       
 
 
-  return !isLoading && !isError ? (
+  return !isLoading && !isError && starredRepos ? (
     <Flex direction="column" h="100vh" pb="4">
       <Header />
 
@@ -43,7 +43,7 @@ export default function  Dashboard () {
               {
                 slicedRepos.map(repo1 => {
                   return(
-                    <StarredRepo
+                    <Repo
                       key={repo1.html_url}
                       name={repo1.name}
                       description={repo1.description}

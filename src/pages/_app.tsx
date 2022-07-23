@@ -2,10 +2,10 @@ import { ChakraProvider } from '@chakra-ui/react';
 import { SessionProvider as NextAuthProvider } from "next-auth/react";
 import { AppProps } from 'next/app';
 import { AppProvider } from '../Context/AppContext';
-import { GithubReposProvider } from '../Context/GithubReposContext';
-import { GithubStarredReposProvider } from '../Context/GithubStarredReposContext';
-import { GithubUserProvider } from '../Context/GithubUserContext';
+import { ReposProvider } from '../Context/ReposContext';
 import { SidebarDrawerProvider } from '../Context/SidebarDrawerContext';
+import { StarredReposProvider } from '../Context/StarredReposContext';
+import { UserProvider } from '../Context/UserContext';
 import { theme } from '../styles/theme';
 
 function MyApp({ 
@@ -15,17 +15,17 @@ function MyApp({
   return (
     <NextAuthProvider session={session}>
       <AppProvider>
-          <GithubUserProvider>
-            <GithubReposProvider>
-            <GithubStarredReposProvider>
+          <UserProvider>
+            <ReposProvider>
+            <StarredReposProvider>
               <ChakraProvider theme={theme}>
                 <SidebarDrawerProvider>
                   <Component {...pageProps} />
                 </SidebarDrawerProvider>
               </ChakraProvider>
-            </GithubStarredReposProvider>
-            </GithubReposProvider>
-        </GithubUserProvider>
+            </StarredReposProvider>
+            </ReposProvider>
+        </UserProvider>
       </AppProvider>
     </NextAuthProvider>
   )

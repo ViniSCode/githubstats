@@ -2,7 +2,7 @@ import { useSession } from "next-auth/react";
 import { createContext, ReactNode, useEffect, useState } from "react";
 import { useAppContext } from "../hooks/useAppContext";
 
-interface Repos{
+interface StarredRepos{
   name: string;
   description?: string;
   html_url: string;
@@ -10,20 +10,20 @@ interface Repos{
   stargazers_count?: number;
 }
 
-interface GithubReposContextData {
-  repos: Repos[];
+interface StarredReposContextData {
+  starredRepos: StarredRepos[];
 }
 
-interface GithubReposProviderProps {
+interface StarredReposProviderProps {
   children: ReactNode;
 }
 
-export const GithubReposContext = createContext<GithubReposContextData>({} as GithubReposContextData);
+export const StarredReposContext = createContext<StarredReposContextData>({} as StarredReposContextData);
 
-export function GithubReposProvider ({children}: GithubReposProviderProps) {
+export function StarredReposProvider ({children}: StarredReposProviderProps) {
 
   const { handleSetIsLoading, handleSetIsError } = useAppContext();
-  const [repos, setRepos] = useState<Repos[]>();
+  const [starredRepos, setStarredRepos] = useState<StarredRepos[]>();
   const {data: session} = useSession();
 
   useEffect(() => {
@@ -31,14 +31,14 @@ export function GithubReposProvider ({children}: GithubReposProviderProps) {
       if (session) {
         try {
               const userId = session.user.image.split('/').pop().split('?')[0];
-              const response = await fetch(`https://api.github.com/user/${userId}/repos`)
+              const response = await fetch(`https://api.github.com/user/${userId}/starred`)
               const data = await response.json();
               
               if (!response.ok) {
                 throw new Error("Error Status " + response.status)
               }
               
-              setRepos(data);
+              setStarredRepos(data);
               handleSetIsLoading(false)
             } 
             catch (err) {
@@ -51,8 +51,8 @@ export function GithubReposProvider ({children}: GithubReposProviderProps) {
     }, [])  
 
   return (
-  <GithubReposContext.Provider value={{repos}}>
+  <StarredReposContext.Provider value={{ starredRepos }}>
     {children}
-  </GithubReposContext.Provider>
+  </StarredReposContext.Provider>
   )
 }

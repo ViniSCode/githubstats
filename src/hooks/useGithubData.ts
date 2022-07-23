@@ -1,10 +1,10 @@
 import { useContext } from "react";
-import { GithubReposContext } from "../Context/GithubReposContext";
-import { GithubStarredReposContext } from "../Context/GithubStarredReposContext";
-import { GithubUserContext } from "../Context/GithubUserContext";
+import { ReposContext } from "../Context/ReposContext";
+import { StarredReposContext } from "../Context/StarredReposContext";
+import { UserContext } from "../Context/UserContext";
 
 export function useGithubData () {
-  const { userData, userGithubId } = useContext(GithubUserContext);
+  const { userData, userGithubId } = useContext(UserContext);
   
   return {
     userData,
@@ -12,16 +12,16 @@ export function useGithubData () {
   }
 }
 
-export function useGithubRepos () {
-  const { repos } = useContext(GithubReposContext);
+export function useRepos () {
+  const { repos } = useContext(ReposContext);
 
   return {
     repos
   }
 }
 
-export function useGithubStarredRepos () {
-  const { starredRepos } = useContext(GithubStarredReposContext);
+export function useStarredRepos () {
+  const { starredRepos } = useContext(StarredReposContext);
 
   return {
     starredRepos

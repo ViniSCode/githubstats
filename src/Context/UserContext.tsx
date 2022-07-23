@@ -11,18 +11,18 @@ interface UserData {
   avatar_url: string;
 }
 
-interface GithubUserContextData {
+interface UserContextData {
   userData: UserData;
   userGithubId: string;
 }
 
-interface GithubUserProviderProps {
+interface UserProviderProps {
   children: ReactNode;
 }
 
-export const GithubUserContext = createContext<GithubUserContextData>({} as GithubUserContextData);
+export const UserContext = createContext<UserContextData>({} as UserContextData);
 
-export function GithubUserProvider ({children}: GithubUserProviderProps) {
+export function UserProvider ({children}: UserProviderProps) {
   const { handleSetIsLoading, handleSetIsError } = useAppContext();
   const {data: session} = useSession();
 
@@ -58,8 +58,8 @@ export function GithubUserProvider ({children}: GithubUserProviderProps) {
     }, [])  
 
   return (
-  <GithubUserContext.Provider value={{userData, userGithubId}}>
+  <UserContext.Provider value={{userData, userGithubId}}>
     {children}
-  </GithubUserContext.Provider>
+  </UserContext.Provider>
   )
 }

@@ -8,7 +8,7 @@ import { Pagination } from '../components/Pagination';
 import { Repo } from '../components/Repo';
 import { Sidebar } from '../components/Sidebar';
 import { useAppContext } from '../hooks/useAppContext';
-import { useGithubStarredRepos } from '../hooks/useGithubData';
+import { useStarredRepos } from '../hooks/useGithubData';
 
 export default function Starred () {
   const router = useRouter();
@@ -17,7 +17,7 @@ export default function Starred () {
   let repos2;
 
   const { isError, isLoading } = useAppContext();
-  const { starredRepos } = useGithubStarredRepos();
+  const { starredRepos } = useStarredRepos();
 
     if (starredRepos) {
       slicedRepos = starredRepos.slice(0, 10)
