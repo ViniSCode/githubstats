@@ -8,12 +8,21 @@ import { Sidebar } from '../components/Sidebar';
 import { StarredRepo } from '../components/starredRepo';
 import { UserOverview } from '../components/UserOverview';
 import { useAppContext } from '../hooks/useAppContext';
-import { useGithubData } from '../hooks/useGithubData';
+import { useGithubData, useGithubStarredRepos } from '../hooks/useGithubData';
 
 export default function  Dashboard () {
     const router = useRouter();
     const { isError, isLoading } = useAppContext();
     const { userData } = useGithubData();
+    const { starredRepos } = useGithubStarredRepos();
+    
+    let slicedRepos;
+  
+      if (starredRepos) {
+        slicedRepos = starredRepos.slice(0, 5)
+      }
+      
+
 
   return !isLoading && !isError ? (
     <Flex direction="column" h="100vh" pb="4">
@@ -31,11 +40,20 @@ export default function  Dashboard () {
             <VStack spacing="4" display="flex">
               {/* If user does not have starred repos, show the last 6 public repos */}
               {/* Change to last repos instead last starred repos */}
-              <StarredRepo />
-              <StarredRepo />
-              <StarredRepo />
-              <StarredRepo />
-              <StarredRepo />
+              {
+                slicedRepos.map(repo1 => {
+                  return(
+                    <StarredRepo
+                      key={repo1.html_url}
+                      name={repo1.name}
+                      description={repo1.description}
+                      html_url={repo1.html_url}
+                      language={repo1.language}
+                      stargazers_count={repo1.stargazers_count}
+                    />
+                  )
+                })
+              }
             </VStack>
           </Box>
         </Flex>

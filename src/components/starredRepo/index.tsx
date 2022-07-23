@@ -1,25 +1,49 @@
 import { Box, Flex, HStack, Icon, Text } from "@chakra-ui/react";
-import { BsCircleFill } from 'react-icons/bs'
-import { IoGitCommitOutline } from 'react-icons/io5'
-import { AiOutlineStar, AiFillGithub } from 'react-icons/ai'
+import { AiFillGithub, AiOutlineStar } from 'react-icons/ai';
+import { BsCircleFill } from 'react-icons/bs';
 
-export function StarredRepo () {
+interface StarredRepo {
+  key: string;
+  name: string;
+  description: string;
+  html_url: string;
+  language: string;
+  stargazers_count: number;
+}
+
+export function StarredRepo ({ name, description, html_url, language, stargazers_count }: StarredRepo) {
   return (
-    <Box bg="gray.800" p="3" borderRadius="md" w="100%" maxWidth={{sm: "480px",md: "480px", lg: "640px", xl: "640px"}}>
+    <Box bg="gray.800" p="3" borderRadius="md" w="100%" maxWidth="100%">
       <Flex alignItems="center" justify="space-between">
-        <Text fontSize="19px" color="pink.500">DevBlog</Text>
-        <Icon as={AiFillGithub} fontSize="25px" color="gray.500"/>
+        <Text fontSize="19px" color="pink.500" noOfLines={1}>{name}</Text>
+        <Icon as={AiFillGithub} fontSize="25px" color="gray.200"/>
       </Flex>
-      <Text fontSize="16px" noOfLines={1}>App created using ReactJS, Firebase </Text>
+        {
+          description ?(
+          <Text fontSize="16px" noOfLines={1}>
+             {description}
+          </Text>
+          ) : (
+            <Text fontSize="16px" noOfLines={1} color="gray.400">
+             No Description
+            </Text>
+          )
+        }
       <HStack display="flex" align="center" mt="2" spacing="4">
        <Box display="flex" alignItems="center">
-        <Icon mr="1.5" as={BsCircleFill} color="blue.500" fontSize="14px"/>
-        <Text fontSize="14px" color="gray.200">Typescript</Text>
+        <Icon mr="1.5" as={BsCircleFill} color="blue.500" fontSize="13px"/>
+        <Text fontSize="14px" color="gray.200">{language}</Text>
        </Box>
-        <Box display="flex" alignItems="center">
-          <Icon mr="1.5" as={AiOutlineStar} color="yellow.500" fontSize="20px"/>
-          <Text fontSize="14px" color="gray.200">2</Text>
-        </Box>
+       {
+        stargazers_count && (
+          <Box display="flex" alignItems="center">
+            <Icon mr="1.5" as={AiOutlineStar} color="yellow.500" fontSize="18px"/>
+            <Text fontSize="13px" color="gray.200">
+              {stargazers_count}
+            </Text>
+          </Box>
+        )
+       }
       </HStack>
     </Box>
   );
