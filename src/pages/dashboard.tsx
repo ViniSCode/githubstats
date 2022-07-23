@@ -31,7 +31,7 @@ export default function  Dashboard () {
       <Flex w="100%" my="6" maxWidth={1480} mx="auto" px="6" mt="8">
         <Sidebar />
 
-        <Flex flex="1" gap="4" alignItems="flex-start" justifyContent={{ base: 'center', md: 'center', lg: 'space-between', xl: 'space-between' }} flexWrap={{ base: 'wrap', md: 'initial', lg: 'initial', xl: 'initial' }}>
+        <Flex flex="1" gap="4rem" alignItems="flex-start" justifyContent={{ base: 'center', md: 'center', lg: 'space-between', xl: 'space-between' }} flexWrap={{ base: 'wrap', md: 'initial', lg: 'initial', xl: 'initial' }}>
           <Box mb="4">
             <UserOverview user={userData}/>
           </Box>

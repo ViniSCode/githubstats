@@ -18,6 +18,7 @@ export function SearchBox () {
     position="relative" 
     bg="gray.800"
     borderRadius="full"
+    boxShadow="md" _hover={{boxShadow: 'none'}} transition="box-shadow 200ms linear"
   >
     <Input
       color="gray.50"

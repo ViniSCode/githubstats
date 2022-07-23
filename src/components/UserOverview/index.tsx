@@ -15,7 +15,7 @@ interface UserOverviewProps {
 
 export function UserOverview ({user} :UserOverviewProps) {
   return user ? (
-    <Box p="6" bg="gray.800" borderRadius="30px" pb="4" minWidth={{sm:'unset', md: 400, lg: 400, xl: 400}} maxWidth={480} minHeight={{sm: 'unset', md:"610px", lg:"610px", xl: "610px"}}>
+    <Box p="6" bg="gray.800" borderRadius="30px" pb="4" minWidth={{sm:'unset', md: 400, lg: 400, xl: 400}} maxWidth={480} minHeight={{sm: 'unset', md:"610px", lg:"610px", xl: "610px"}} boxShadow="md" _hover={{boxShadow: 'none'}} transition="box-shadow 200ms linear">
     <Flex
         flexDirection="column"
         bg="gray.800"
@@ -26,7 +26,7 @@ export function UserOverview ({user} :UserOverviewProps) {
         height="100%"
       >
         
-        <Image src={user.avatar_url} w="100%" maxWidth="380px" borderRadius="full" alt={user.name}/>
+        <Image src="https://github.com/diego3g.png" w="100%" maxWidth="380px" borderRadius="full" alt={user.name}/>
         <Box alignSelf="self-start" mt="3">
           <Text fontSize={["22px", "32px"]} alignSelf="self-start">{user.name}</Text>
           <Text fontSize={["18px", "19px"]} color="pink.500"  alignSelf="self-start">{user.login}</Text>
