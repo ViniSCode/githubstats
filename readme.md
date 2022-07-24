@@ -13,6 +13,7 @@
 - [x] Github API
 - [x] Github Auth
 - [x] Chakra UI
+- [x] react-paginate
 
 ## ToDo
 - [x] "Dashboard" Page (Overview)
@@ -23,6 +24,7 @@
 - [x] Github API
 - [x] Search User
 - [x] Header Component
+- [x] Pagination using react-paginate
 
 ## Rules
 - [] User can't access dashboard page if not logged in
