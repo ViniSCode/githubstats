@@ -18,7 +18,7 @@ export function Profile ({ showProfileData = true }: ProfileProps) {
             </Text>
         </Box> )
       }
-      <Avatar size="md" name="Diego Fernandes" src={userData.avatar_url}/>
+      <Avatar size="md" name={userData.name} src={userData.avatar_url}/>
     </Flex>
   );
 }

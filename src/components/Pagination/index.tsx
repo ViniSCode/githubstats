@@ -1,34 +1,67 @@
-import { Box, Button, Flex, Stack, Text } from "@chakra-ui/react";
-import { PaginationItem } from './PaginationItem';
+import { Flex, Spinner } from '@chakra-ui/react';
+import { useEffect, useState } from 'react';
+import ReactPaginate from 'react-paginate';
+import { PageItems } from './PageItems';
+import styles from './test.module.css';
 
-export function Pagination () {
-  return (
-   <Stack
-      direction={["column", "row"]}
-      mt="8"
-      justify="space-between"
-      align="center"
-      spacing="6"
-    >
-      <Stack direction="row" spacing="2">
-        <PaginationItem number={1} isCurrent/>
-        <PaginationItem number={2} />
-        <PaginationItem number={3} />
-        <Flex
-          alignItems="center"
-          justify="center"
-          fontSize="xs"
-          pl="2"
-          pr="2"
-          borderRadius="0.375rem"
-          bg="gray.700"
-        >
-          ...
-        </Flex>
-        <PaginationItem number={8} />
-        <PaginationItem number={9} />
-        <PaginationItem number={10} />
-      </Stack>
-    </Stack>
-  );
+interface Items {
+  name: string;
+  description: string;
+  html_url: string;
+  language: string;
+  stargazers_count: number;  
 }
+
+export function PaginatedItems({ itemsPerPage, repos }) {
+
+  const [currentItems, setCurrentItems] = useState<Items[]>();
+  const [pageCount, setPageCount] = useState(0);
+  const [itemOffset, setItemOffset] = useState(0);
+
+  const items = repos;
+
+    useEffect(() => {
+      const endOffset = itemOffset + itemsPerPage;  
+      setCurrentItems(items.slice(itemOffset, endOffset));
+  
+      setPageCount(Math.ceil(items.length / itemsPerPage));
+    }, [itemOffset, itemsPerPage]);
+  
+    // Invoke when user click to request another page.
+    const handlePageClick = (event) => {
+      const newOffset = (event.selected * itemsPerPage) % items.length;
+      setItemOffset(newOffset);
+    };  
+
+    return currentItems ? (
+      <Flex mb="6rem" flex="1" pb="20" gap="4" alignItems="baseline"justifyContent={{xl: "space-between", lg: "space-between", md: "space-between", sm: "center"}} flexWrap={{ base: 'wrap', md: 'initial', lg: 'initial', xl: 'initial' }} pos="relative">
+        <PageItems currentItems={currentItems} />
+        <ReactPaginate
+          breakLabel="..."
+          nextLabel="next"
+          onPageChange={handlePageClick}
+          pageRangeDisplayed={5}
+          pageCount={pageCount}
+          
+          previousLabel="prev"
+          renderOnZeroPageCount={null}
+      
+          breakClassName={styles.item}
+          breakLinkClassName={styles.item}
+          containerClassName={styles.pagination}
+          pageClassName={styles.item}
+          pageLinkClassName={styles.link}
+          previousClassName={styles.prev}
+          previousLinkClassName={styles.prevLink}
+          nextClassName={styles.next}
+          nextLinkClassName={styles.nextLink}
+          activeClassName={styles.active}
+          disabledClassName={styles.disabled}
+        />
+      </Flex>
+    ): (
+      <Flex align='center' direction="column" justify='center' height="100vh" gap='2rem'>
+          <Spinner size="lg" />
+      </Flex>
+    )
+  }

@@ -12,6 +12,7 @@ interface StarredRepos{
 
 interface StarredReposContextData {
   starredRepos: StarredRepos[];
+  starredTotalCount: number;
 }
 
 interface StarredReposProviderProps {
@@ -24,6 +25,7 @@ export function StarredReposProvider ({children}: StarredReposProviderProps) {
 
   const { handleSetIsLoading, handleSetIsError } = useAppContext();
   const [starredRepos, setStarredRepos] = useState<StarredRepos[]>();
+  const [starredTotalCount, setStarredTotalCount] = useState(null);
   const {data: session} = useSession();
 
   useEffect(() => {
@@ -51,7 +53,7 @@ export function StarredReposProvider ({children}: StarredReposProviderProps) {
     }, [])  
 
   return (
-  <StarredReposContext.Provider value={{ starredRepos }}>
+  <StarredReposContext.Provider value={{ starredRepos, starredTotalCount }}>
     {children}
   </StarredReposContext.Provider>
   )

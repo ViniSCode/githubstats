@@ -13,17 +13,19 @@ export function useGithubData () {
 }
 
 export function useRepos () {
-  const { repos } = useContext(ReposContext);
+  const { repos, reposTotalCount } = useContext(ReposContext);
 
   return {
-    repos
+    repos,
+    reposTotalCount,
   }
 }
 
 export function useStarredRepos () {
-  const { starredRepos } = useContext(StarredReposContext);
+  const { starredRepos, starredTotalCount} = useContext(StarredReposContext);
 
   return {
-    starredRepos
+    starredRepos,
+    starredTotalCount,
   }
 }

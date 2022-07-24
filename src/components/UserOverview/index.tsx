@@ -26,7 +26,7 @@ export function UserOverview ({user} :UserOverviewProps) {
         height="100%"
       >
         
-        <Image src="https://github.com/diego3g.png" w="100%" maxWidth="380px" borderRadius="full" alt={user.name}/>
+        <Image src={user.avatar_url} w="100%" maxWidth="380px" borderRadius="full" alt={user.name}/>
         <Box alignSelf="self-start" mt="3">
           <Text fontSize={["22px", "32px"]} alignSelf="self-start">{user.name}</Text>
           <Text fontSize={["18px", "19px"]} color="pink.500"  alignSelf="self-start">{user.login}</Text>

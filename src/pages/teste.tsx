@@ -9,11 +9,13 @@ import { Sidebar } from '../components/Sidebar';
 import { useAppContext } from '../hooks/useAppContext';
 import { useRepos } from '../hooks/useGithubData';
 
-export default function Repos () {
+export default function Starred () {
   const router = useRouter();
+  let slicedRepos;
+
   const { isError, isLoading } = useAppContext();
   const { repos } = useRepos();
-
+    
   return !isLoading && !isError && repos ? (
     <Flex direction="column" h="100vh" pb="4">
       <Header />

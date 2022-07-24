@@ -12,6 +12,7 @@ interface Repos{
 
 interface ReposContextData {
   repos: Repos[];
+  reposTotalCount: number;
 }
 
 interface ReposProviderProps {
@@ -24,6 +25,7 @@ export function ReposProvider ({children}: ReposProviderProps) {
 
   const { handleSetIsLoading, handleSetIsError } = useAppContext();
   const [repos, setRepos] = useState<Repos[]>();
+  const [reposTotalCount, setReposTotalCount] = useState(null);
   const {data: session} = useSession();
 
   useEffect(() => {
@@ -39,6 +41,7 @@ export function ReposProvider ({children}: ReposProviderProps) {
               }
               
               setRepos(data);
+              setReposTotalCount(data.length);
               handleSetIsLoading(false)
             } 
             catch (err) {
@@ -51,7 +54,7 @@ export function ReposProvider ({children}: ReposProviderProps) {
     }, [])  
 
   return (
-  <ReposContext.Provider value={{repos}}>
+  <ReposContext.Provider value={{repos, reposTotalCount}}>
     {children}
   </ReposContext.Provider>
   )

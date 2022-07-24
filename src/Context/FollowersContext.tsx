@@ -4,9 +4,10 @@ import { useAppContext } from "../hooks/useAppContext";
 
 interface StarredRepos{
   name: string;
-  description?: string;
+  login: string;
+  avatar_url: string;
   html_url: string;
-  language: string;
+  organizations_url?: string;
   stargazers_count?: number;
 }
 
@@ -31,7 +32,7 @@ export function GithubStarredReposProvider ({children}: GithubStarredReposProvid
       if (session) {
         try {
               const userId = session.user.image.split('/').pop().split('?')[0];
-              const response = await fetch(`https://api.github.com/user/${userId}/starred`)
+              const response = await fetch(`https://api.github.com/user/${userId}/followers`)
               const data = await response.json();
               
               if (!response.ok) {

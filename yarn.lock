@@ -2716,6 +2716,11 @@ react-apexcharts@^1.4.0:
   dependencies:
     prop-types "^15.5.7"
 
+react-chakra-pagination@^1.0.1:
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/react-chakra-pagination/-/react-chakra-pagination-1.0.1.tgz#3bbcae50589fe8dc4aed0032f5ad565db0e55f76"
+  integrity sha512-S/ldhbvYBXpmOuurNm4s9KmOa7A2i+PInE1GVwTauS3BDkAePp1TfpWhScq/V2f3Mq57uFEFlkVMWTTsukc+6A==
+
 react-clientside-effect@^1.2.6:
   version "1.2.6"
   resolved "https://registry.yarnpkg.com/react-clientside-effect/-/react-clientside-effect-1.2.6.tgz#29f9b14e944a376b03fb650eed2a754dd128ea3a"
@@ -2762,6 +2767,13 @@ react-is@^16.13.1, react-is@^16.7.0:
   version "16.13.1"
   resolved "https://registry.yarnpkg.com/react-is/-/react-is-16.13.1.tgz#789729a4dc36de2999dc156dd6c1d9c18cea56a4"
   integrity sha512-24e6ynE2H+OKt4kqsOvNd8kBpV65zoxbA4BVsEOB3ARVWQki/DHzaUoC5KuON/BiccDaCCTZBuOcfZs70kR8bQ==
+
+react-paginate@^8.1.3:
+  version "8.1.3"
+  resolved "https://registry.yarnpkg.com/react-paginate/-/react-paginate-8.1.3.tgz#cd6f3cb8a56b47617a61a6a52e3d7c662ad9b91b"
+  integrity sha512-zBp80DBRcaeBnAeHUfbGKD0XHfbGNUolQ+S60Ymfs8o7rusYaJYZMAt1j93ADDNLlzRmJ0tMF/NeTlcdKf7dlQ==
+  dependencies:
+    prop-types "^15.6.1"
 
 react-remove-scroll-bar@^2.3.3:
   version "2.3.3"

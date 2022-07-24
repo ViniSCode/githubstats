@@ -1,10 +1,9 @@
-import { Box, Flex, HStack, Icon, Image, Text, VStack } from '@chakra-ui/react';
-import { Header } from "../components/Header";
-import { Sidebar } from '../components/Sidebar';
-import { Pagination } from '../components/Pagination';
-import { User } from '../components/User';
+import { Box, Flex, VStack } from '@chakra-ui/react';
 import { GetServerSideProps } from 'next';
 import { getSession } from 'next-auth/react';
+import { Header } from "../components/Header";
+import { Sidebar } from '../components/Sidebar';
+import { User } from '../components/User';
 
 export default function  Repos () {
   return (
@@ -34,7 +33,6 @@ export default function  Repos () {
             </VStack>
           </Box>
           <Flex alignItems="center" justify="center" pos="absolute" left="0" right="0" bottom="0">
-            <Pagination />
           </Flex>
         </Flex>
       </Flex>

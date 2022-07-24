@@ -4,7 +4,7 @@ import { AiFillGithub, AiOutlineStar } from 'react-icons/ai';
 import { BsCircleFill } from 'react-icons/bs';
 import { language_colors } from "../../../languageColors";
 
-interface Repo {
+interface OverviewRepo {
   key: string;
   name: string;
   description: string;
@@ -13,7 +13,7 @@ interface Repo {
   stargazers_count: number;
 }
 
-export function Repo ({ name, description, html_url, language, stargazers_count }: Repo) {
+export function OverviewRepo ({ name, description, html_url, language, stargazers_count }: OverviewRepo) {
     let langColor;
     let ifNoLanguage;
     if (language) {
@@ -24,12 +24,12 @@ export function Repo ({ name, description, html_url, language, stargazers_count 
     <Link href={html_url}>
       <Box bg="gray.800" p="4" borderRadius="md" w="100%" maxWidth="100%" cursor="pointer" boxShadow="md" _hover={{boxShadow: 'none'}} transition="box-shadow 200ms linear">
         <Flex alignItems="center" justify="space-between">
-          <Text fontSize="19px" color="pink.500" noOfLines={1}>{name}</Text>
+          <Text fontSize="18px" color="pink.500" noOfLines={1}>{name}</Text>
           <Icon as={AiFillGithub} fontSize="25px" color="gray.200"/>
         </Flex>
           {
             description ?(
-            <Text fontSize="16px" noOfLines={1}>
+            <Text fontSize="14px" noOfLines={1}>
               {description}
             </Text>
             ) : (
