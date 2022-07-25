@@ -1,7 +1,7 @@
-import { Avatar, Box, Flex, HStack, Icon, Text } from "@chakra-ui/react";
-import { BsCircleFill } from 'react-icons/bs'
-import { IoGitCommitOutline } from 'react-icons/io5'
-import { AiOutlineStar } from 'react-icons/ai'
+import { Box, Flex, HStack, Icon, Text } from "@chakra-ui/react";
+import { AiOutlineStar } from 'react-icons/ai';
+import { BsCircleFill } from 'react-icons/bs';
+import { IoGitCommitOutline } from 'react-icons/io5';
 import { UserAvatar } from "./UserAvatar";
 
 interface UserProps {

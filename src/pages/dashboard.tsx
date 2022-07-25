@@ -4,7 +4,7 @@ import { getSession } from 'next-auth/react';
 import { useRouter } from 'next/router';
 import { RiArrowLeftFill } from 'react-icons/ri';
 import { Header } from "../components/Header";
-import { OverviewRepo } from '../components/OverviewRepo';
+import { RepoOverview } from '../components/RepoOverview';
 import { Sidebar } from '../components/Sidebar';
 import { UserOverview } from '../components/UserOverview';
 import { useAppContext } from '../hooks/useAppContext';
@@ -43,7 +43,7 @@ export default function  Dashboard () {
               {
                 slicedRepos.map(repo1 => {
                   return(
-                    <OverviewRepo
+                    <RepoOverview
                       key={repo1.html_url}
                       name={repo1.name}
                       description={repo1.description}

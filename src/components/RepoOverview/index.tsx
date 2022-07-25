@@ -4,7 +4,7 @@ import { AiFillGithub, AiOutlineStar } from 'react-icons/ai';
 import { BsCircleFill } from 'react-icons/bs';
 import { language_colors } from "../../../languageColors";
 
-interface OverviewRepo {
+interface RepoOverview {
   key: string;
   name: string;
   description: string;
@@ -13,7 +13,7 @@ interface OverviewRepo {
   stargazers_count: number;
 }
 
-export function OverviewRepo ({ name, description, html_url, language, stargazers_count }: OverviewRepo) {
+export function RepoOverview ({ name, description, html_url, language, stargazers_count }: RepoOverview) {
     let langColor;
     let ifNoLanguage;
     if (language) {

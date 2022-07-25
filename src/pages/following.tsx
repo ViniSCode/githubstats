@@ -5,7 +5,7 @@ import { Header } from "../components/Header";
 import { Sidebar } from '../components/Sidebar';
 import { User } from '../components/User';
 
-export default function  Repos () {
+export default function  Following () {
   return (
     <Flex direction="column" h="100vh" pb="4">
       <Header />
@@ -14,22 +14,22 @@ export default function  Repos () {
         <Sidebar />
 
         <Flex mb="6rem" flex="1" pb="20" gap="4" alignItems="center" justifyContent={{xl: "space-between", lg: "space-between", md: "space-between", sm: "center"}} flexWrap={{ base: 'wrap', md: 'initial', lg: 'initial', xl: 'initial' }} pos="relative">
-          <Box borderRadius="8" pb="4">
+          <Box borderRadius="8" pb="4" w="100%">
             <VStack spacing="4" display="flex">
-              <User avatar="https://github.com/viniscode.png" name="Vinícius Rodrigues" username="viniscode"/>
               <User avatar="https://github.com/diego3g.png" name="Diego Fernandes" username="diego3g"/>
               <User avatar="https://github.com/maykbrito.png" name="Mayk Brito" username="maykbrito"/>
-              <User avatar="https://github.com/filipedeschamps.png" name="Filipe Deschamps" username="filipedeschamps"/>
               <User avatar="https://github.com/jakeliny.png" name="Jakeliny" username="jakeliny"/>
+              <User avatar="https://github.com/viniscode.png" name="Vinícius Rodrigues" username="viniscode"/>
+              <User avatar="https://github.com/filipedeschamps.png" name="Filipe Deschamps" username="filipedeschamps"/>
             </VStack>
           </Box>
-          <Box borderRadius="8" pb="4">
+          <Box borderRadius="8" pb="4" w="100%">
             <VStack spacing="4" display="flex">
+              <User avatar="https://github.com/viniscode" name="Vinícius Rodrigues" username="viniscode"/>
+              <User avatar="https://github.com/diego3g" name="Diego Fernandes" username="diego3g"/>
+              <User avatar="https://github.com/filipedeschamps" name="Filipe Deschamps" username="filipedeschamps"/>
               <User avatar="https://github.com/jakeliny" name="Jakeliny" username="jakeliny"/>
               <User avatar="https://github.com/maykbrito" name="Mayk Brito" username="maykbrito"/>
-              <User avatar="https://github.com/filipedeschamps" name="Filipe Deschamps" username="filipedeschamps"/>
-              <User avatar="https://github.com/diego3g" name="Diego Fernandes" username="diego3g"/>
-              <User avatar="https://github.com/viniscode" name="Vinícius Rodrigues" username="viniscode"/>
             </VStack>
           </Box>
           <Flex alignItems="center" justify="center" pos="absolute" left="0" right="0" bottom="0">
@@ -39,7 +39,6 @@ export default function  Repos () {
     </Flex>
   );
 }
-
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const session = await getSession(context)

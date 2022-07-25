@@ -16,6 +16,7 @@ interface Repo {
 export function Repo ({ name, description, html_url, language, stargazers_count }: Repo) {
     let langColor;
     let ifNoLanguage;
+  
     if (language) {
       langColor = language_colors[language].color;
     }
