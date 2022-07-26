@@ -6,19 +6,38 @@ import styles from './test.module.css';
 
 interface Items {
   name: string;
-  description: string;
+  description?: string;
   html_url: string;
   language: string;
-  stargazers_count: number;  
+  stargazers_count?: number;
 }
 
-export function PaginatedItems({ itemsPerPage, repos }) {
+interface PaginationProps {
+  isRepo?: boolean;
+  itemsPerPage: number;
+  repos?: Items[];
+  followers?: Followers[]
+}
+
+interface Followers{
+  name: string;
+  login: string;
+  avatar_url: string;
+  html_url: string;
+}
+
+export function Pagination({ itemsPerPage, repos, followers, isRepo = false }: PaginationProps) {
 
   const [currentItems, setCurrentItems] = useState<Items[]>();
   const [pageCount, setPageCount] = useState(0);
   const [itemOffset, setItemOffset] = useState(0);
+  let items;
 
-  const items = repos;
+  if (isRepo) {
+    items = repos;
+  } else {
+    items = followers;
+  }
 
     useEffect(() => {
       const endOffset = itemOffset + itemsPerPage;  
@@ -35,7 +54,7 @@ export function PaginatedItems({ itemsPerPage, repos }) {
 
     return currentItems ? (
       <Flex mb="6rem" flex="1" pb="20" gap="4" alignItems="baseline"justifyContent={{xl: "space-between", lg: "space-between", md: "space-between", sm: "center"}} flexWrap={{ base: 'wrap', md: 'initial', lg: 'initial', xl: 'initial' }} pos="relative">
-        <PageItems currentItems={currentItems} />
+        <PageItems currentItems={currentItems} isRepo={isRepo}/>
         <ReactPaginate
           breakLabel="..."
           nextLabel="next"

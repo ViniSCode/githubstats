@@ -4,7 +4,7 @@ import { getSession } from 'next-auth/react';
 import { useRouter } from 'next/router';
 import { RiArrowLeftFill } from 'react-icons/ri';
 import { Header } from "../components/Header";
-import { PaginatedItems } from '../components/Pagination';
+import { Pagination } from '../components/Pagination';
 import { Sidebar } from '../components/Sidebar';
 import { useAppContext } from '../hooks/useAppContext';
 import { useRepos } from '../hooks/useGithubData';
@@ -19,7 +19,7 @@ export default function Repos () {
       <Header />
       <Flex w="100%" my="6" maxWidth={1480} mx="auto" px="6" mt="8">
         <Sidebar />
-        <PaginatedItems itemsPerPage={10} repos={repos}/>
+        <Pagination itemsPerPage={10} repos={repos} isRepo/>
       </Flex>
     </Flex>
   ):  (isLoading  && !isError) ? (

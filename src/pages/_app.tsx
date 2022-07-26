@@ -18,11 +18,11 @@ function MyApp({
           <UserProvider>
             <ReposProvider>
             <StarredReposProvider>
-              <ChakraProvider theme={theme}>
-                <SidebarDrawerProvider>
-                  <Component {...pageProps} />
-                </SidebarDrawerProvider>
-              </ChakraProvider>
+                <ChakraProvider theme={theme}>
+                  <SidebarDrawerProvider>
+                    <Component {...pageProps} />
+                  </SidebarDrawerProvider>
+                </ChakraProvider>
             </StarredReposProvider>
             </ReposProvider>
         </UserProvider>

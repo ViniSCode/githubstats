@@ -2,7 +2,7 @@ import { useSession } from "next-auth/react";
 import { createContext, ReactNode, useEffect, useState } from "react";
 import { useAppContext } from "../hooks/useAppContext";
 
-interface Repos{
+interface Repo{
   name: string;
   description?: string;
   html_url: string;
@@ -11,7 +11,7 @@ interface Repos{
 }
 
 interface ReposContextData {
-  repos: Repos[];
+  repos: Repo[];
   reposTotalCount: number;
 }
 
@@ -24,7 +24,7 @@ export const ReposContext = createContext<ReposContextData>({} as ReposContextDa
 export function ReposProvider ({children}: ReposProviderProps) {
 
   const { handleSetIsLoading, handleSetIsError } = useAppContext();
-  const [repos, setRepos] = useState<Repos[]>();
+  const [repos, setRepos] = useState<Repo[]>();
   const [reposTotalCount, setReposTotalCount] = useState(null);
   const {data: session} = useSession();
 
