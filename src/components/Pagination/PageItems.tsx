@@ -11,7 +11,6 @@ interface Repo {
 }
 
 interface Follower {
-  name: string;
   login: string;
   avatar_url: string;
   html_url: string;
@@ -75,7 +74,6 @@ export function PageItems ({ currentItems, isRepo}) {
               itemsLeft.map((item: Follower) => (
                 <User 
                   key={item.login} 
-                  name={item.name}
                   login={item.login}
                   avatar_url={item.avatar_url}
                 />
@@ -89,7 +87,6 @@ export function PageItems ({ currentItems, isRepo}) {
               itemsRight.map((item: Follower) => (
                 <User 
                 key={item.login} 
-                name={item.name}
                 login={item.login}
                 avatar_url={item.avatar_url}
                 />

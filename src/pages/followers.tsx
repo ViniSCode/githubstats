@@ -27,7 +27,7 @@ export default function  Followers () {
       if (session) {
         try {
               const userId = session.user.image.split('/').pop().split('?')[0];
-              const response = await fetch(`https://api.github.com/user/${userId}/followers`)
+              const response = await fetch(`https://api.github.com/users/diego3g/followers?per_page=100`)
               const data = await response.json();
               
               if (!response.ok) {

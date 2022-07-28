@@ -25,9 +25,13 @@
 - [x] Search User
 - [x] Header Component
 - [x] Pagination using react-paginate
+- [x] list all user followers / following
+z- [x] list all user repos
+z- [x] list all user starred repos
+
 
 ## Rules
-- [] User can't access dashboard page if not logged in
+- [x] User can't access dashboard page if not logged in
 - [] User can search for a user and access their github stats
 
 # Layout Images
