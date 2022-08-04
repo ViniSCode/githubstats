@@ -1,3 +1,5 @@
+import { ApolloClient, createHttpLink, gql, InMemoryCache } from '@apollo/client';
+import { setContext } from '@apollo/client/link/context';
 import { Box, Button, Flex, Spinner, Text, VStack } from '@chakra-ui/react';
 import { GetServerSideProps } from 'next';
 import { getSession } from 'next-auth/react';
@@ -10,18 +12,17 @@ import { UserOverview } from '../components/UserOverview';
 import { useAppContext } from '../hooks/useAppContext';
 import { useGithubData, useStarredRepos } from '../hooks/useGithubData';
 
-export default function  Dashboard () {
+export default function  Dashboard ({data, session}) {
     const router = useRouter();
     const { isError, isLoading } = useAppContext();
     const { userData } = useGithubData();
     const { starredRepos } = useStarredRepos();
     
     let slicedRepos;
-  
-      if (starredRepos) {
-        slicedRepos = starredRepos.slice(0, 5)
-      }
-      
+
+    if (starredRepos) {
+      slicedRepos = starredRepos.slice(0, 5)
+    }
 
 
   return !isLoading && !isError && starredRepos ? (
@@ -93,7 +94,41 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     }
   } 
 
+  const httpLink = createHttpLink({
+    uri: 'https://api.github.com/graphql',
+  });
+
+  const authLink = setContext((_, { headers }) => {
+    // get the authentication token from .env file
+    // return the headers to the context so httpLink can read them
+    return {
+      headers: {
+        ...headers,
+        authorization: `Bearer ${process.env.GITHUB_ACCESS_TOKEN}`,
+      }
+    }
+  });
+
+  const client = new ApolloClient({
+    link: authLink.concat(httpLink),
+    cache: new InMemoryCache()
+  });
+
+  const { data } = await client.query({
+    query: gql`
+      {
+        user(login: "viniscode") {
+          name, 
+          login,
+          bio,
+          company,
+          location,
+        }
+      }
+    `
+  })
+
   return {
-    props: { session }
+    props: { session, data }
   }
 }

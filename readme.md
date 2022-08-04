@@ -6,6 +6,7 @@
 - [x] Learn Chakra UI 
 - [x] Learn Next Auth
 - [x] Learn more about Typescript
+- [x] Learn GraphQL
 
 ## Technologies 
 - [x] Next.JS

@@ -27,6 +27,7 @@ export default function  Following () {
       if (session) {
         try {
               const userId = session.user.image.split('/').pop().split('?')[0];
+              console.log(session)
               const response = await fetch(`https://api.github.com/user/${userId}/following`)
               const data = await response.json();
               

@@ -13,6 +13,7 @@ interface RepoOverview {
   stargazers_count: number;
 }
 
+
 export function RepoOverview ({ name, description, html_url, language, stargazers_count }: RepoOverview) {
     let langColor;
     let ifNoLanguage;
