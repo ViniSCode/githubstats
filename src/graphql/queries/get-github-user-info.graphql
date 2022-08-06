@@ -1,0 +1,9 @@
+query GetGithubUserInfo($user: String!) {
+  user(login: $user){
+    login
+    name
+    bio
+    company
+    avatarUrl
+	}
+}
