@@ -1,31 +1,50 @@
-import { ApolloClient, createHttpLink, gql, InMemoryCache } from '@apollo/client';
-import { setContext } from '@apollo/client/link/context';
+import { gql } from '@apollo/client';
 import { Box, Button, Flex, Spinner, Text, VStack } from '@chakra-ui/react';
 import { GetServerSideProps } from 'next';
 import { getSession } from 'next-auth/react';
 import { useRouter } from 'next/router';
+import { useEffect, useState } from 'react';
 import { RiArrowLeftFill } from 'react-icons/ri';
 import { Header } from "../components/Header";
 import { RepoOverview } from '../components/RepoOverview';
 import { Sidebar } from '../components/Sidebar';
 import { UserOverview } from '../components/UserOverview';
 import { useAppContext } from '../hooks/useAppContext';
-import { useGithubData, useStarredRepos } from '../hooks/useGithubData';
+import { client } from '../lib/apollo';
+
+interface Repos {
+  name: string;
+  description: string;
+  primaryLanguage: { 
+    color: string;
+    name: string;
+  }
+  url: string;
+  stargazerCount: number;
+}
 
 export default function  Dashboard ({data, session}) {
     const router = useRouter();
     const { isError, isLoading } = useAppContext();
-    const { userData } = useGithubData();
-    const { starredRepos } = useStarredRepos();
     
-    let slicedRepos;
+    const [repos, setRepos] = useState<Repos[]>();
+    // get user data from props;
+    const userData = data.user; 
+    // get repos (obj);
+    const githubRepos = data.user.repositories.edges;
 
-    if (starredRepos) {
-      slicedRepos = starredRepos.slice(0, 5)
-    }
+    // format repos 
+    useEffect(() => {
+      if (githubRepos) {
+        const formattedRepos = githubRepos.map(repo => {
+          return repo.node;
+        })
+  
+        setRepos(formattedRepos);
+      }
+    }, [githubRepos])
 
-
-  return !isLoading && !isError && starredRepos ? (
+  return !isLoading && !isError && repos ? (
     <Flex direction="column" h="100vh" pb="4">
       <Header />
 
@@ -42,15 +61,15 @@ export default function  Dashboard ({data, session}) {
               {/* If user does not have starred repos, show the last 6 public repos */}
               {/* Change to last repos instead last starred repos */}
               {
-                slicedRepos.map(repo1 => {
+                repos.map(repo1 => {
                   return(
                     <RepoOverview
-                      key={repo1.html_url}
+                      key={repo1.name}
                       name={repo1.name}
                       description={repo1.description}
-                      html_url={repo1.html_url}
-                      language={repo1.language}
-                      stargazers_count={repo1.stargazers_count}
+                      html_url={repo1.url}
+                      language={repo1.primaryLanguage}
+                      stargazers_count={repo1.stargazerCount}
                     />
                   )
                 })
@@ -80,9 +99,9 @@ export default function  Dashboard ({data, session}) {
 } 
 
 // If user isn't logged in, the getServerSideProps function will redirect the user to the login page.
-
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const session = await getSession(context)
+  // const {userGithubId} = useGithubData();
 
   if (!session) {
     console.log('you cannot access this page if not logged in')
@@ -94,35 +113,28 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     }
   } 
 
-  const httpLink = createHttpLink({
-    uri: 'https://api.github.com/graphql',
-  });
-
-  const authLink = setContext((_, { headers }) => {
-    // get the authentication token from .env file
-    // return the headers to the context so httpLink can read them
-    return {
-      headers: {
-        ...headers,
-        authorization: `Bearer ${process.env.GITHUB_ACCESS_TOKEN}`,
-      }
-    }
-  });
-
-  const client = new ApolloClient({
-    link: authLink.concat(httpLink),
-    cache: new InMemoryCache()
-  });
-
-  const { data } = await client.query({
+  const {data, errors} = await client.query({ 
     query: gql`
-      {
-        user(login: "viniscode") {
-          name, 
-          login,
-          bio,
-          company,
-          location,
+      query { 
+        user(login: "viniscode"){
+          login
+          name
+          avatarUrl
+          bio
+          repositories(last: 5) {
+            edges {
+              node {
+                name
+                description
+                primaryLanguage {
+                  name,
+                  color
+                }
+                stargazerCount
+                url
+              }
+            }
+          }
         }
       }
     `

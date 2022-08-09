@@ -2,7 +2,6 @@ import { Flex, Icon, IconButton, useBreakpointValue } from '@chakra-ui/react';
 import { RiMenuLine } from 'react-icons/ri';
 import { useSidebarDrawer } from '../../Context/SidebarDrawerContext';
 import { Logo } from './Logo';
-import { Profile } from './Profile';
 import { SearchBox } from './SearchBox';
 
 export function Header () {
@@ -40,7 +39,7 @@ export function Header () {
       {isWideVersion && <SearchBox />}
     
       <Flex align="center" ml="auto">
-        <Profile showProfileData={isWideVersion}/>
+        {/* <Profile showProfileData={isWideVersion}/> */}
       </Flex>
     </Flex>
   );

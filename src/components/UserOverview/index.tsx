@@ -9,7 +9,7 @@ interface UserOverviewProps {
     login: string;
     name: string;
     location?: string;
-    avatar_url: string;
+    avatarUrl: string;
   }
 }
 
@@ -26,14 +26,14 @@ export function UserOverview ({user} :UserOverviewProps) {
         height="100%"
       >
         
-        <Image src={user.avatar_url} w="100%" maxWidth="380px" borderRadius="full" alt={user.name}/>
+        <Image src={user.avatarUrl} w="100%" maxWidth="380px" borderRadius="full" alt={user.name}/>
         <Box alignSelf="self-start" mt="3">
           <Text fontSize={["22px", "32px"]} alignSelf="self-start">{user.name}</Text>
           <Text fontSize={["18px", "19px"]} color="pink.500"  alignSelf="self-start">{user.login}</Text>
         </Box>
 
         <Text mt="4" fontSize="1xl" noOfLines={2} alignSelf="self-start">{user.bio}</Text>
-        <HStack spacing="3" mt="3" alignSelf="self-start" alignItems="c                 enter">
+        <HStack spacing="3" mt="3" alignSelf="self-start" alignItems="center">
           <Box display="flex" gap="0.5">
             <Icon as={HiOutlineLocationMarker} fontSize="17px" color="gray.200"/>
             <Text color="gray.200" fontSize="14px">Brazil, RS</Text>

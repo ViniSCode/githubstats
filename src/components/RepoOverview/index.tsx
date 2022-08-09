@@ -2,23 +2,25 @@ import { Box, Flex, HStack, Icon, Text } from "@chakra-ui/react";
 import Link from "next/link";
 import { AiFillGithub, AiOutlineStar } from 'react-icons/ai';
 import { BsCircleFill } from 'react-icons/bs';
-import { language_colors } from "../../../languageColors";
 
 interface RepoOverview {
   key: string;
   name: string;
   description: string;
   html_url: string;
-  language: string;
+  language: {
+    color: string;
+    name: string;
+  };
   stargazers_count: number;
 }
 
 
 export function RepoOverview ({ name, description, html_url, language, stargazers_count }: RepoOverview) {
     let langColor;
-    let ifNoLanguage;
+
     if (language) {
-      langColor = language_colors[language].color;
+      langColor = language.color
     }
 
   return (
@@ -42,7 +44,7 @@ export function RepoOverview ({ name, description, html_url, language, stargazer
         <HStack display="flex" align="center" mt="2" spacing="4">
         <Box display="flex" alignItems="center">
           <Icon mr="1.5" as={BsCircleFill} sx={{color: `${langColor}`}} fontSize="13px"/>
-          <Text fontSize="14px" color="#ffffff">{language ? language : "None"}</Text>
+          <Text fontSize="14px" color="#ffffff">{language ? language.name : "None"}</Text>
         </Box>
         {
           stargazers_count && (
