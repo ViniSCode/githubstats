@@ -6,6 +6,7 @@ import { AppProvider } from '../Context/AppContext';
 import { ReposProvider } from '../Context/ReposContext';
 import { SidebarDrawerProvider } from '../Context/SidebarDrawerContext';
 import { StarredReposProvider } from '../Context/StarredReposContext';
+import { UserGithubSessionProvider } from '../Context/UserGithubSessionContext';
 import { client } from '../lib/apollo';
 import { theme } from '../styles/theme';
 
@@ -17,7 +18,8 @@ function MyApp({
     <NextAuthProvider session={session}>
       <ApolloProvider client={client}>
         <AppProvider>
-              <ReposProvider>
+          <UserGithubSessionProvider>
+            <ReposProvider>
               <StarredReposProvider>
                   <ChakraProvider theme={theme}>
                     <SidebarDrawerProvider>
@@ -25,7 +27,8 @@ function MyApp({
                     </SidebarDrawerProvider>
                   </ChakraProvider>
               </StarredReposProvider>
-              </ReposProvider>
+            </ReposProvider>
+          </UserGithubSessionProvider>
         </AppProvider>
       </ApolloProvider>
     </NextAuthProvider>

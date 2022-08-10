@@ -1,20 +1,18 @@
 overwrite: true
-
-schema: https://api.github.com/graphql
-
+schema:
+  - https://api.github.com/graphql:
+      headers:
+        Authorization: "bearer ${GITHUB_ACCESS_TOKEN}"
 documents: './src/graphql/**/*.graphql'
-
 generates:
-  ./src/generated/graphql.tsx:
+  ./src/graphql/generated/schema.ts:
     plugins:
-      - typescript
-      - typescript-operations
-      - typescript-react-apollo
+      - "typescript"
+      - "typescript-operations"
+      - "typescript-react-apollo"
     config: 
       withHooks: true
-      withHOC: false
-      withComponent: false
 
-hooks: 
-  afterAllFileWrite:
-    - eslint --fix
+  # ./graphql.schema.json:
+    # plugins:
+    #   - "introspection"

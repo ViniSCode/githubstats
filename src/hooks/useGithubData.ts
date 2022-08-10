@@ -1,6 +1,7 @@
 import { useContext } from "react";
 import { ReposContext } from "../Context/ReposContext";
 import { StarredReposContext } from "../Context/StarredReposContext";
+import { UserGithubSessionContext } from "../Context/UserGithubSessionContext";
 
 export function useRepos () {
   const { repos, reposTotalCount } = useContext(ReposContext);
@@ -8,6 +9,14 @@ export function useRepos () {
   return {
     repos,
     reposTotalCount,
+  }
+}
+
+export function useUserGithubId () {
+  const { githubUserId } = useContext(UserGithubSessionContext);
+
+  return { 
+    githubUserId
   }
 }
 

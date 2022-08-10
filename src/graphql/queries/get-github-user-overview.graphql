@@ -1,0 +1,22 @@
+query GetGithubUserOverview ($userId: String!) { 
+  user(login: $userId){
+    login
+    name
+    avatarUrl
+    bio
+    repositories(last: 5) {
+      edges {
+        node {
+          name
+          description
+          primaryLanguage {
+            name,
+            color
+          }
+          stargazerCount
+          url
+        }
+      }
+    }
+  }
+}

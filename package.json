@@ -7,7 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "codegen": "graphql-codegen --config codegen.yml"
+    "codegen": "graphql-codegen --require dotenv/config --config codegen.yml dotenv_config_path=.env.local"
   },
   "dependencies": {
     "@apollo/client": "^3.6.9",
@@ -15,8 +15,6 @@
     "@chakra-ui/react": "^2.2.1",
     "@emotion/react": "^11.9.0",
     "@emotion/styled": "^11.8.1",
-    "@graphql-codegen/typescript-operations": "2.4.2",
-    "@graphql-codegen/typescript-react-apollo": "3.2.16",
     "@hookform/resolvers": "^2.9.1",
     "apexcharts": "^3.35.3",
     "framer-motion": "^6.3.11",
@@ -33,13 +31,16 @@
     "yup": "^0.32.11"
   },
   "devDependencies": {
-    "@graphql-codegen/cli": "2.6.2",
-    "@graphql-codegen/typescript": "2.5.1",
+    "@graphql-codegen/cli": "2.11.5",
+    "@graphql-codegen/typescript": "2.7.3",
+    "@graphql-codegen/typescript-operations": "2.5.3",
+    "@graphql-codegen/typescript-react-apollo": "3.3.3",
     "@types/node": "^17.0.41",
     "@types/react": "^18.0.12",
     "eslint": "8.17.0",
     "eslint-config-next": "12.1.6",
     "node": "^17.7.2",
-    "typescript": "^4.7.3"
+    "typescript": "^4.7.3",
+    "@graphql-codegen/introspection": "2.2.1"
   }
 }
