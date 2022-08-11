@@ -23,12 +23,15 @@ export default function  Dashboard ({session}) {
 
   const router = useRouter();
   const { isError, isLoading } = useAppContext();
+
+  let search = "viniscode"
   
   const { data, loading, error } = useGetGithubUserOverviewQuery({
     variables: {
-      userId: "viniscode"
+      userId: search
     },
   });
+
   
   // const [repos, setRepos] = useState<Repos[]>();
   // // get user data from props;
@@ -104,7 +107,7 @@ export default function  Dashboard ({session}) {
 // If user isn't logged in, the getServerSideProps function will redirect the user to the login page.
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const session = await getSession(context)
-
+  
   if (!session) {
     console.log('you cannot access this page if not logged in')
     return {
@@ -114,7 +117,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
       },
     }
   } 
-
+  
   return {
     props: { session }
   }

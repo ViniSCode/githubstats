@@ -1,4 +1,4 @@
-import { useSession } from "next-auth/react";
+import { getSession } from "next-auth/react";
 import { createContext, ReactNode, useEffect, useState } from "react";
 import { useAppContext } from "../hooks/useAppContext";
 
@@ -21,29 +21,28 @@ export const UserGithubSessionContext = createContext<UserGithubSessionContextDa
 export function UserGithubSessionProvider ({children}: UserGithubSessionProviderProps) {
 
   const { handleSetIsLoading, handleSetIsError } = useAppContext();
-  const {data: session} = useSession();
   const [ githubUserId, setGithubUserId ] = useState("");
 
   useEffect(() => {
     const fetchUserData = async () => {
-      if (session) {
-        try {
-              //get github id from the user image
-              const userId = session.user.image.split('/').pop().split('?')[0];
-              
-              if (!userId) {
-                throw new Error("Error Status " + "something went wrong...")
-              }
-
-              setGithubUserId(userId);
-              handleSetIsLoading(false);
-            } 
-            catch (err) {
-              console.log(err.message)
-              handleSetIsError(true);
+          try {
+            //get github id from the user image
+            const { user } = await getSession();
+            const userId = user.image.split('/').pop().split('?')[0];
+            
+            if (!userId) {
+              throw new Error("Error Status " + "something went wrong...")
             }
+            
+            setGithubUserId(userId);
+            handleSetIsLoading(false);
+          } 
+          catch (err) {
+            console.log(err.message)
+            handleSetIsError(true);
           }
         }
+        
       fetchUserData();
     }, [])  
 

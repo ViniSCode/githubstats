@@ -2,11 +2,14 @@
 
 ### Created using NextJS, Typescript and Chakra UI
 
-## Goals
-- [x] Learn Chakra UI 
-- [x] Learn Next Auth
-- [x] Learn more about Typescript
+## Main Goals
 - [x] Learn GraphQL
+- [x] Learn about codegen
+- [x] Learn about Apollo
+- [x] Learn Chakra UI 
+- [x] Learn about Github Graphql API
+- [x] Learn more about Typescript
+- [x] Learn more about Next.JS
 
 ## Technologies 
 - [x] Next.JS
@@ -21,19 +24,18 @@
 - [x] "Repositories" Page
 - [x] "Following" Page
 - [x] "Followers" Page
-- [x] useAuth hook, Auth Context
-- [x] Github API
 - [x] Search User
+- [x] Github Graphql API
 - [x] Header Component
 - [x] Pagination using react-paginate
 - [x] list all user followers / following
-z- [x] list all user repos
-z- [x] list all user starred repos
+- [x] list all user repos
+- [x] list all user starred repos
 
 
 ## Rules
-- [x] User can't access dashboard page if not logged in
 - [] User can search for a user and access their github stats
+- [x] User can't access dashboard page if not logged in
 
 # Layout Images
 
