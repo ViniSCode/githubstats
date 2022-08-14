@@ -25682,27 +25682,38 @@ export type WorkflowRunPendingDeploymentRequestsArgs = {
 };
 
 export type GetGithubUserInfoQueryVariables = Exact<{
-  userId: Scalars['String'];
+  searchQuery: Scalars['String'];
 }>;
 
 
-export type GetGithubUserInfoQuery = { __typename?: 'Query', user?: { __typename?: 'User', login: string, name?: string | null, avatarUrl: any, bio?: string | null } | null };
+export type GetGithubUserInfoQuery = { __typename?: 'Query', search: { __typename?: 'SearchResultItemConnection', edges?: Array<{ __typename?: 'SearchResultItemEdge', node?: { __typename?: 'App' } | { __typename?: 'Discussion' } | { __typename?: 'Issue' } | { __typename?: 'MarketplaceListing' } | { __typename?: 'Organization', login: string, name?: string | null, avatarUrl: any } | { __typename?: 'PullRequest' } | { __typename?: 'Repository' } | { __typename?: 'User', login: string, name?: string | null, avatarUrl: any, id: string } | null } | null> | null } };
 
 export type GetGithubUserOverviewQueryVariables = Exact<{
-  userId: Scalars['String'];
+  id: Scalars['String'];
 }>;
 
 
-export type GetGithubUserOverviewQuery = { __typename?: 'Query', user?: { __typename?: 'User', login: string, name?: string | null, avatarUrl: any, bio?: string | null, repositories: { __typename?: 'RepositoryConnection', edges?: Array<{ __typename?: 'RepositoryEdge', node?: { __typename?: 'Repository', name: string, description?: string | null, stargazerCount: number, url: any, primaryLanguage?: { __typename?: 'Language', name: string, color?: string | null } | null } | null } | null> | null } } | null };
+export type GetGithubUserOverviewQuery = { __typename?: 'Query', search: { __typename?: 'SearchResultItemConnection', edges?: Array<{ __typename?: 'SearchResultItemEdge', node?: { __typename?: 'App' } | { __typename?: 'Discussion' } | { __typename?: 'Issue' } | { __typename?: 'MarketplaceListing' } | { __typename?: 'Organization', login: string, name?: string | null, avatarUrl: any, email?: string | null, description?: string | null, location?: string | null, repositories: { __typename?: 'RepositoryConnection', edges?: Array<{ __typename?: 'RepositoryEdge', node?: { __typename?: 'Repository', name: string, description?: string | null, stargazerCount: number, url: any, primaryLanguage?: { __typename?: 'Language', name: string, color?: string | null } | null } | null } | null> | null } } | { __typename?: 'PullRequest' } | { __typename?: 'Repository' } | { __typename?: 'User', login: string, name?: string | null, avatarUrl: any, bio?: string | null, followers: { __typename?: 'FollowerConnection', totalCount: number }, following: { __typename?: 'FollowingConnection', totalCount: number }, repositories: { __typename?: 'RepositoryConnection', edges?: Array<{ __typename?: 'RepositoryEdge', node?: { __typename?: 'Repository', name: string, description?: string | null, stargazerCount: number, url: any, primaryLanguage?: { __typename?: 'Language', name: string, color?: string | null } | null } | null } | null> | null } } | null } | null> | null } };
 
 
 export const GetGithubUserInfoDocument = gql`
-    query GetGithubUserInfo($userId: String!) {
-  user(login: $userId) {
-    login
-    name
-    avatarUrl
-    bio
+    query GetGithubUserInfo($searchQuery: String!) {
+  search(query: $searchQuery, type: USER, first: 5) {
+    edges {
+      node {
+        ... on User {
+          login
+          name
+          avatarUrl
+          id
+        }
+        ... on Organization {
+          login
+          name
+          avatarUrl
+        }
+      }
+    }
   }
 }
     `;
@@ -25719,7 +25730,7 @@ export const GetGithubUserInfoDocument = gql`
  * @example
  * const { data, loading, error } = useGetGithubUserInfoQuery({
  *   variables: {
- *      userId: // value for 'userId'
+ *      searchQuery: // value for 'searchQuery'
  *   },
  * });
  */
@@ -25735,23 +25746,57 @@ export type GetGithubUserInfoQueryHookResult = ReturnType<typeof useGetGithubUse
 export type GetGithubUserInfoLazyQueryHookResult = ReturnType<typeof useGetGithubUserInfoLazyQuery>;
 export type GetGithubUserInfoQueryResult = Apollo.QueryResult<GetGithubUserInfoQuery, GetGithubUserInfoQueryVariables>;
 export const GetGithubUserOverviewDocument = gql`
-    query GetGithubUserOverview($userId: String!) {
-  user(login: $userId) {
-    login
-    name
-    avatarUrl
-    bio
-    repositories(last: 5) {
-      edges {
-        node {
+    query GetGithubUserOverview($id: String!) {
+  search(query: $id, type: USER, first: 5) {
+    edges {
+      node {
+        ... on User {
+          login
           name
-          description
-          primaryLanguage {
-            name
-            color
+          avatarUrl
+          bio
+          followers {
+            totalCount
           }
-          stargazerCount
-          url
+          following {
+            totalCount
+          }
+          repositories(last: 5) {
+            edges {
+              node {
+                name
+                description
+                primaryLanguage {
+                  name
+                  color
+                }
+                stargazerCount
+                url
+              }
+            }
+          }
+        }
+        ... on Organization {
+          login
+          name
+          avatarUrl
+          email
+          description
+          location
+          repositories(last: 5) {
+            edges {
+              node {
+                name
+                description
+                primaryLanguage {
+                  name
+                  color
+                }
+                stargazerCount
+                url
+              }
+            }
+          }
         }
       }
     }
@@ -25771,7 +25816,7 @@ export const GetGithubUserOverviewDocument = gql`
  * @example
  * const { data, loading, error } = useGetGithubUserOverviewQuery({
  *   variables: {
- *      userId: // value for 'userId'
+ *      id: // value for 'id'
  *   },
  * });
  */

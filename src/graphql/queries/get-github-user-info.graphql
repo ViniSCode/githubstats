@@ -1,8 +1,19 @@
-query GetGithubUserInfo ($userId: String!) { 
-  user(login: $userId){
-    login
-    name
-    avatarUrl
-    bio
+query GetGithubUserInfo($searchQuery: String!){ 
+  search(query:$searchQuery, type: USER, first: 5, ) {
+    edges{
+      node{
+        ... on User {
+          login
+          name
+          avatarUrl
+          id
+        }
+        ... on Organization {
+					login
+          name
+          avatarUrl
+        }
+      }
+    }
   }
 }

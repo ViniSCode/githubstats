@@ -4,18 +4,24 @@ import { HiOutlineLocationMarker } from 'react-icons/hi';
 
 interface UserOverviewProps {
   user: {
-    bio: string;
+    bio?: string;
     company?: string; 
     login: string;
     name: string;
     location?: string;
     avatarUrl: string;
+    following?: {
+      totalCount: number
+    }
+    followers?: {
+      totalCount: number
+    }
   }
 }
 
 export function UserOverview ({user} :UserOverviewProps) {
   return user ? (
-    <Box p="6" bg="gray.800" borderRadius="30px" pb="4" minWidth={{sm:'unset', md: 400, lg: 400, xl: 400}} maxWidth={480} minHeight={{sm: 'unset', md:"610px", lg:"610px", xl: "610px"}} boxShadow="md" _hover={{boxShadow: 'none'}} transition="box-shadow 200ms linear">
+    <Box p="6" bg="gray.800" borderRadius="30px" pb="4" minWidth={{sm:'unset', md: 400, lg: 350, xl: 400}} maxWidth={480} minHeight={{sm: 'unset', md:"610px", lg:"610px", xl: "610px"}} boxShadow="md" _hover={{boxShadow: 'none'}} transition="box-shadow 200ms linear">
     <Flex
         flexDirection="column"
         bg="gray.800"
@@ -32,7 +38,19 @@ export function UserOverview ({user} :UserOverviewProps) {
           <Text fontSize={["18px", "19px"]} color="pink.500"  alignSelf="self-start">{user.login}</Text>
         </Box>
 
-        <Text mt="4" fontSize="1xl" noOfLines={2} alignSelf="self-start">{user.bio}</Text>
+        <Flex alignSelf="self-start" gap="4" mt="2">
+          <Flex gap="1">
+            <Text fontWeight="bold">23</Text>
+            <Text>Followers</Text>
+          </Flex>
+
+          <Flex gap="1">
+            <Text fontWeight="bold">32</Text>
+            <Text>Following</Text>
+          </Flex>
+        </Flex>
+
+        <Text mt="2" fontSize="1xl" noOfLines={2} alignSelf="self-start">{user.bio}</Text>
         <HStack spacing="3" mt="3" alignSelf="self-start" alignItems="center">
           <Box display="flex" gap="0.5">
             <Icon as={HiOutlineLocationMarker} fontSize="17px" color="gray.200"/>

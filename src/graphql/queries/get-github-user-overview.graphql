@@ -1,5 +1,5 @@
-query GetGithubUserOverview ($userId: String!) { 
-  user(login: $userId){
+query GetGithubUserOverview ($id: String!) { 
+  user(login: $id){
     login
     name
     avatarUrl
