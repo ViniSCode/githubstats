@@ -1,6 +1,5 @@
 import { Button, Flex, Spinner, Text } from '@chakra-ui/react';
-import { GetServerSideProps } from 'next';
-import { getSession, useSession } from 'next-auth/react';
+import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import { RiArrowLeftFill } from 'react-icons/ri';
@@ -76,20 +75,3 @@ export default function  Following () {
   )
 }
 
-export const getServerSideProps: GetServerSideProps = async (context) => {
-  const session = await getSession(context)
-
-  if (!session) {
-    console.log('you cannot access this page if not logged in')
-    return {
-      redirect: {
-        destination: '/',
-        permanent: false,
-      },
-    }
-  } 
-
-  return {
-    props: { session }
-  }
-}

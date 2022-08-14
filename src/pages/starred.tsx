@@ -1,6 +1,4 @@
 import { Button, Flex, Spinner, Text } from '@chakra-ui/react';
-import { GetServerSideProps } from 'next';
-import { getSession } from 'next-auth/react';
 import { useRouter } from 'next/router';
 import { RiArrowLeftFill } from 'react-icons/ri';
 import { Header } from "../components/Header";
@@ -41,22 +39,3 @@ export default function Starred () {
     </Flex>
   )
 }
-
-export const getServerSideProps: GetServerSideProps = async (context) => {
-  const session = await getSession(context)
-
-  if (!session) {
-    console.log('you cannot access this page if not logged in')
-    return {
-      redirect: {
-        destination: '/',
-        permanent: false,
-      },
-    }
-    } 
-    
-  return {
-    props: { session }
-  }
-}
-
