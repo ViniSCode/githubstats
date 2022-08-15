@@ -1,5 +1,6 @@
 import { Avatar, Flex, Icon, Input, Spinner, Text, VStack } from '@chakra-ui/react';
 import Link from 'next/link';
+import { useRouter } from 'next/router';
 import { useEffect, useRef, useState } from 'react';
 import { RiSearchLine } from 'react-icons/ri';
 import { useGetGithubUserInfoLazyQuery } from '../graphql/generated/schema';
@@ -7,8 +8,9 @@ import { useAppContext } from '../hooks/useAppContext';
 
 export default function Search() {
   const searchInputRef = useRef<HTMLInputElement>(null); 
+  const router = useRouter();
   const [search, setSearch] = useState("");
-  const { handleSetSearchedUser } = useAppContext();
+  const { handleSetSearchType } = useAppContext();
   const [searchedUsers, setSearchedUsers] = useState([]);
 
   const [loadUsers, { data, error,  called, loading}] = useGetGithubUserInfoLazyQuery({
@@ -97,8 +99,9 @@ export default function Search() {
             searchedUsers && !error ? (
               searchedUsers.map(user => {
                 return (
-                  <Link href={`/dashboard/${user.node.login}`} key={user.node.login}>
+                  <Link href={`/${user.node.login}`} key={user.node.login}>
                     <Flex
+                        onClick={() => handleSetSearchType(user.node.__typename)}
                         align="center"
                         gap="4"
                         w="100%"
@@ -124,7 +127,3 @@ export default function Search() {
     </VStack>
   ) 
 }
-
-// if user is logged in, 
-// the getServerSideProps will automatically redirect user to the dashboard page
-// users must be logged in to access the dashboard

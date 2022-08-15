@@ -24,13 +24,14 @@
 - [x] "Repositories" Page
 - [x] "Following" Page
 - [x] "Followers" Page
-- [x] Search User
-- [x] Github Graphql API
 - [x] Header Component
-- [x] Pagination using react-paginate
-- [x] list all user followers / following
-- [x] list all user repos
-- [x] list all user starred repos
+- [x] Github Graphql API
+- [x] Search User
+- [] Search Organizations
+- [] Pagination using react-paginate
+- [] list all user followers / following
+- [] list all user repos
+- [] list all user starred repos
 
 
 ## Rules

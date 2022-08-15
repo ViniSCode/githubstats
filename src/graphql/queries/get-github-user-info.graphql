@@ -7,11 +7,13 @@ query GetGithubUserInfo($searchQuery: String!){
           name
           avatarUrl
           id
+          __typename
         }
         ... on Organization {
 					login
           name
           avatarUrl
+          __typename
         }
       }
     }

@@ -1,0 +1,63 @@
+query GetGithubOverviewData($id: String!){ 
+  search(query:$id, type: USER, first: 1,) {
+    edges {
+      node {
+        ... on User {
+          login
+          name
+          avatarUrl
+          bio
+          location
+          company
+          followers {
+            totalCount
+          }
+          following {
+            totalCount
+          }
+          __typename
+          repositories(last: 5) {
+            edges {
+              node {
+                name
+                description
+                primaryLanguage {
+                  name
+                  color
+                }
+                stargazerCount,
+                url
+              }
+            }
+          }
+        }
+        
+        ... on Organization {
+          name,
+          login,
+          description,
+          avatarUrl,
+          email,
+          twitterUsername
+          location
+          __typename
+          repositories(last:5, privacy: PUBLIC) {
+            edges {
+              node {
+                name
+                description,
+                primaryLanguage {
+                  color
+                  name
+                }
+                stargazerCount
+                url
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
+        
