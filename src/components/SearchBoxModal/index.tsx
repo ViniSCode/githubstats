@@ -3,13 +3,15 @@ import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useEffect, useRef, useState } from 'react';
 import { RiSearchLine } from 'react-icons/ri';
-import { useGetGithubUserInfoLazyQuery } from '../graphql/generated/schema';
+import { useGetGithubUserInfoLazyQuery } from '../../graphql/generated/schema';
+import { useAppContext } from '../../hooks/useAppContext';
 
-export default function Search() {
+export default function SearchBoxModal() {
   const searchInputRef = useRef<HTMLInputElement>(null); 
   const router = useRouter();
   const [search, setSearch] = useState("");
   const [searchedUsers, setSearchedUsers] = useState([]);
+  const {handleSetIsSearchModalOpen} = useAppContext();
 
   const [loadUsers, { data, error,  called, loading}] = useGetGithubUserInfoLazyQuery({
     variables: {
@@ -35,28 +37,26 @@ export default function Search() {
       setSearchedUsers([])
       return () => clearTimeout(timer);
 
-  }, [search])
+  }, [search]);
+
+  useEffect(() => {
+    const close = (e) => {
+      if(e.key === 'Escape'){
+        handleSetIsSearchModalOpen(false)
+      }
+    }
+    window.addEventListener('keydown', close)
+  return () => window.removeEventListener('keydown', close)
+},[])
 
   return (
-    <VStack mt="10vh">
-      
-    <Text
-      align="center"
-      fontSize={["2xl", "3xl"]}
-      fontWeight="bold"
-      letterSpacing="tight"
-      w="64"
-      mb="4"
-    >
-      githubstats
-      <Text as="span" ml="1" color="pink.500">.</Text>
-    </Text>
-
+    <VStack mt="20" zIndex={20} position="absolute" top='0' left='0' right='0' w="680px" mx="auto">
       <Flex
         flexDir="column"
-        w="100%"
-        bg="gray.900"
         p="8"
+        bg="gray.900"
+        maxWidth="680px"
+        w="100%"
         borderRadius={8}
       >
         <Flex
@@ -65,12 +65,12 @@ export default function Search() {
         py="4"
         px="8"
         ml="8"
-        w="90%"
+        w="100%"
         maxWidth='680px'
         mx="auto"
         align="center"
         color="gray.200"
-        // position="relative" 
+        mt="2"
         bg="gray.800"
         borderRadius="full"
         boxShadow="md" _hover={{boxShadow: 'none'}} transition="box-shadow 200ms linear"
@@ -84,6 +84,7 @@ export default function Search() {
             _placeholder={{color:'gray.400'}} 
             ref={searchInputRef}
             onChange={(e) => setSearch(e.target.value)}
+            autoFocus={true}
           />
           {
             loading 
@@ -92,13 +93,14 @@ export default function Search() {
           }
         </Flex>
 
-        <VStack gap="2" mt="5" w="100%" maxWidth='680px' mx="auto">
+        <VStack gap="2" mt="2" w="100%" maxWidth='680px' mx="auto">
           {
             searchedUsers && !error ? (
               searchedUsers.map(user => {
                 return (
                   <Link href={`/${user.node.login}`} key={user.node.login}>
                     <Flex
+                        onClick={() => handleSetIsSearchModalOpen(false)}
                         align="center"
                         gap="4"
                         w="100%"

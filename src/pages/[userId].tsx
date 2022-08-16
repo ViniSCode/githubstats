@@ -4,19 +4,18 @@ import { useEffect, useState } from 'react';
 import { RiArrowLeftFill } from 'react-icons/ri';
 import { Header } from "../components/Header";
 import { OrgOverview } from '../components/Overview/OrgOverview';
-import { UserOverview } from '../components/Overview/userOverview';
+import { UserOverview } from '../components/Overview/UserOverview';
 import { RepoOverview } from '../components/RepoOverview';
+import SearchBoxModal from '../components/SearchBoxModal';
 import { Sidebar } from '../components/Sidebar';
 import { useGetGithubOverviewDataLazyQuery } from '../graphql/generated/schema';
 import { useAppContext } from '../hooks/useAppContext';
 
 export default function Overview () {
+  const { handleSetIsSearchModalOpen, isSearchModalOpen } = useAppContext();
   const router = useRouter();
-  const { searchType } = useAppContext();
   const userId = router.query.userId as string;
   const [githubOverviewData, setGithubOverviewData] = useState(null);
-
-
 
   const [loadGithubOverviewData, {data, error, loading }] = useGetGithubOverviewDataLazyQuery({
     variables: {
@@ -45,6 +44,14 @@ export default function Overview () {
 
   return !loading && !error && githubOverviewData && githubOverviewData.__typename === 'User' ? (
     <Flex direction="column" h="100vh" pb="4">
+       {
+        isSearchModalOpen && (
+          <>
+            <Box position="fixed" w="100vw" h="100vh" background='#3a3e49b7' zIndex={10} onClick={() => handleSetIsSearchModalOpen(false)} />
+            <SearchBoxModal />
+          </>
+        )
+      }
       <Header />
       <Flex w="100%" my="6" maxWidth={1480} mx="auto" px="6" mt="8">
         <Sidebar />
@@ -84,7 +91,15 @@ export default function Overview () {
   // change the page layout for organizations and enterprises
   : !loading && !error && githubOverviewData && githubOverviewData.__typename === "Organization" ? (
     <Flex direction="column" h="100vh" pb="4">
-    <Header />
+      {
+        isSearchModalOpen && (
+          <>
+            <Box position="fixed" w="100vw" h="100vh" background='#3a3e49b7' zIndex={10} onClick={() => handleSetIsSearchModalOpen(false)}/>
+            <SearchBoxModal />
+          </>
+        )
+      }
+      <Header />
     <Flex w="100%" my="6" maxWidth={1480} mx="auto" px="6" mt="8">
       <Sidebar />
       <Flex flex="1" gap="4rem" alignItems="flex-start" justifyContent={{ base: 'center', md: 'center', lg: 'space-between', xl: 'space-between' }} flexWrap={{ base: 'wrap', md: 'initial', lg: 'initial', xl: 'initial' }}>
@@ -110,7 +125,7 @@ export default function Overview () {
                 })
               ) : (
                 <>
-                  <Text alignSelf="center" color="gray.200" fontSize={20}>No repos to display.</Text>
+                  <Text alignSelf="center" color="gray.200" fontSize={20}>This organization has no public repositories.</Text>
                 </>
               )
             }
