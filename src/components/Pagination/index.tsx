@@ -1,86 +1,58 @@
-import { Flex, Spinner } from '@chakra-ui/react';
-import { useEffect, useState } from 'react';
-import ReactPaginate from 'react-paginate';
-import { PageItems } from './PageItems';
-import styles from './test.module.css';
+import { Button, Flex, VStack } from "@chakra-ui/react";
+import { Repo } from "../Repo";
 
-interface Items {
-  name: string;
-  description?: string;
-  html_url: string;
-  language: string;
-  stargazers_count?: number;
-}
+export function Pagination ({items}) {
+  let reposLeft;
+  let reposRight;
 
-interface PaginationProps {
-  isRepo?: boolean;
-  itemsPerPage: number;
-  repos?: Items[];
-  followers?: Followers[]
-}
-
-interface Followers{
-  name: string;
-  login: string;
-  avatar_url: string;
-  html_url: string;
-}
-
-export function Pagination({ itemsPerPage, repos, followers, isRepo = false }: PaginationProps) {
-
-  const [currentItems, setCurrentItems] = useState<Items[]>();
-  const [pageCount, setPageCount] = useState(0);
-  const [itemOffset, setItemOffset] = useState(0);
-  let items;
-
-  if (isRepo) {
-    items = repos;
-  } else {
-    items = followers;
+  if (items) {
+    reposLeft = items.slice(0, 5)
+    reposRight = items.slice(5, 10)
+    console.log(reposLeft)
+    console.log(reposRight)
   }
 
-    useEffect(() => {
-      const endOffset = itemOffset + itemsPerPage;  
-      setCurrentItems(items.slice(itemOffset, endOffset));
-  
-      setPageCount(Math.ceil(items.length / itemsPerPage));
-    }, [itemOffset, itemsPerPage]);
-  
-    // Invoke when user click to request another page.
-    const handlePageClick = (event) => {
-      const newOffset = (event.selected * itemsPerPage) % items.length;
-      setItemOffset(newOffset);
-    };  
+  return items && (
+    <Flex mb="6rem" flex="1" pb="20" gap="4" alignItems="baseline"justifyContent={{xl: "space-between", lg: "space-between", md: "space-between", sm: "center"}} flexWrap={{ base: 'wrap', md: 'initial', lg: 'initial', xl: 'initial' }} pos="relative">
+      <Flex gap="4" flexWrap={{sm: 'wrap', md: 'nowrap', lg: 'nowrap', xl: 'nowrap'}}>
+        <VStack gap="4" w="100%">
+          {
+            reposLeft.map(repo => {
+              return (
+                <Repo  
+                  key={repo.node.url}
+                  description={repo.node.description} 
+                  html_url={repo.node.url}
+                  name={repo.node.name}
+                  language={repo.node.primaryLanguage?.name}
+                  stargazers_count={repo.node.stargazerCount}
+                />
+              )
+            })
+          }    
+        </VStack>
+        <VStack gap="4" w="100%">
+          {
+            reposRight.map(repo => {
+              return (
+                <Repo  
+                  key={repo.node.url}
+                  description={repo.node.description} 
+                  html_url={repo.node.url}
+                  name={repo.node.name}
+                  language={repo.node.primaryLanguage?.name}
+                  stargazers_count={repo.node.stargazerCount}
+                />
+              )
+            })
+          }    
+        </VStack>
+        <Flex pos="absolute" right='0' left='0' bottom='0' top='0' mx="auto" width="fit-content">
+          <Button colorScheme='pink'>
 
-    return currentItems ? (
-      <Flex mb="6rem" flex="1" pb="20" gap="4" alignItems="baseline"justifyContent={{xl: "space-between", lg: "space-between", md: "space-between", sm: "center"}} flexWrap={{ base: 'wrap', md: 'initial', lg: 'initial', xl: 'initial' }} pos="relative">
-        <PageItems currentItems={currentItems} isRepo={isRepo}/>
-        <ReactPaginate
-          breakLabel="..."
-          nextLabel="next"
-          onPageChange={handlePageClick}
-          pageRangeDisplayed={5}
-          pageCount={pageCount}
-          
-          previousLabel="prev"
-          renderOnZeroPageCount={null}
-      
-          breakClassName={styles.item}
-          breakLinkClassName={styles.item}
-          containerClassName={styles.pagination}
-          pageClassName={styles.item}
-          pageLinkClassName={styles.link}
-          previousClassName={styles.prev}
-          previousLinkClassName={styles.prevLink}
-          nextClassName={styles.next}
-          nextLinkClassName={styles.nextLink}
-          activeClassName={styles.active}
-          disabledClassName={styles.disabled}
-        />
+          </Button>
+        </Flex>
       </Flex>
-    ): (
-      <Flex align='center' direction="column" justify='center' height="100vh" gap='2rem'>
-          <Spinner size="lg" />
-      </Flex>
-    )
-  }
+    </Flex>
+  )
+}

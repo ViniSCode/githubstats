@@ -12,9 +12,9 @@ import { useGetGithubOverviewDataLazyQuery } from '../graphql/generated/schema';
 import { useAppContext } from '../hooks/useAppContext';
 
 export default function Overview () {
-  const { handleSetIsSearchModalOpen, isSearchModalOpen } = useAppContext();
+  const { handleSetIsSearchModalOpen, isSearchModalOpen, handleSetUser } = useAppContext();
   const router = useRouter();
-  const userId = router.query.userId as string;
+  const userId = router.query.username as string;
   const [githubOverviewData, setGithubOverviewData] = useState(null);
 
   const [loadGithubOverviewData, {data, error, loading }] = useGetGithubOverviewDataLazyQuery({
@@ -25,6 +25,7 @@ export default function Overview () {
   
   useEffect(() => {
     if (userId) {
+      handleSetUser(userId);
       const fetchUserOverview = async () => {
         try {
           const getUserOverview = await loadGithubOverviewData();

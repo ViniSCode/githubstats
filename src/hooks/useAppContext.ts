@@ -2,7 +2,7 @@ import { useContext } from "react";
 import { AppContext } from "../Context/AppContext";
 
 export function useAppContext () {
-  const { handleSetIsError, handleSetIsLoading, isError, isLoading, handleSetIsSearchModalOpen, isSearchModalOpen} = useContext(AppContext);
+  const { handleSetIsError, handleSetIsLoading, isError, isLoading, handleSetIsSearchModalOpen, isSearchModalOpen, handleSetUser, user} = useContext(AppContext);
 
   return {
     handleSetIsError, 
@@ -10,6 +10,8 @@ export function useAppContext () {
     isError, 
     isLoading,
     handleSetIsSearchModalOpen,
-    isSearchModalOpen
+    isSearchModalOpen,
+    handleSetUser, 
+    user
   }
 }

@@ -1,0 +1,54 @@
+query getGithubRepos($id: String!, $afterCursor: String, $beforeCursor: String){ 
+  search(query:$id, type: USER, first: 1,) {
+    edges {
+      node {
+        ... on User {
+          __typename
+          repositories(first: 10, after: $afterCursor, before: $beforeCursor) {
+            totalCount
+            pageInfo {
+              endCursor
+              startCursor
+            }
+            edges {
+              node {
+                name
+                description
+                primaryLanguage {
+                  name
+                  color
+                }
+                stargazerCount,
+                url
+              }
+            }
+          }
+        }
+        
+        ... on Organization {
+          __typename
+          repositories(first:10, after: $afterCursor, before: $beforeCursor, privacy: PUBLIC) {
+            totalCount
+            pageInfo {
+              endCursor
+              startCursor
+            }
+            edges {
+              node {
+                name
+                description,
+                primaryLanguage {
+                  color
+                  name
+                }
+                stargazerCount
+                url
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
+        

@@ -4744,6 +4744,8 @@ export type DiscussionCategory = Node & RepositoryNode & {
   name: Scalars['String'];
   /** The repository associated with this node. */
   repository: Repository;
+  /** The slug of this category. */
+  slug: Scalars['String'];
   /** Identifies the date and time when the object was last updated. */
   updatedAt: Scalars['DateTime'];
 };
@@ -18947,6 +18949,8 @@ export type Repository = Node & PackageOwner & ProjectOwner & ProjectV2Recent & 
   discussion?: Maybe<Discussion>;
   /** A list of discussion categories that are available in the repository. */
   discussionCategories: DiscussionCategoryConnection;
+  /** A discussion category by slug. */
+  discussionCategory?: Maybe<DiscussionCategory>;
   /** A list of discussions that have been opened in the repository. */
   discussions: DiscussionConnection;
   /** The number of kilobytes this repository occupies on disk. */
@@ -19230,6 +19234,12 @@ export type RepositoryDiscussionCategoriesArgs = {
   filterByAssignable?: InputMaybe<Scalars['Boolean']>;
   first?: InputMaybe<Scalars['Int']>;
   last?: InputMaybe<Scalars['Int']>;
+};
+
+
+/** A repository contains the content for a project. */
+export type RepositoryDiscussionCategoryArgs = {
+  slug: Scalars['String'];
 };
 
 
@@ -25688,6 +25698,15 @@ export type GetGithubOverviewDataQueryVariables = Exact<{
 
 export type GetGithubOverviewDataQuery = { __typename?: 'Query', search: { __typename?: 'SearchResultItemConnection', edges?: Array<{ __typename?: 'SearchResultItemEdge', node?: { __typename?: 'App' } | { __typename?: 'Discussion' } | { __typename?: 'Issue' } | { __typename?: 'MarketplaceListing' } | { __typename: 'Organization', name?: string | null, login: string, description?: string | null, avatarUrl: any, email?: string | null, twitterUsername?: string | null, location?: string | null, repositories: { __typename?: 'RepositoryConnection', edges?: Array<{ __typename?: 'RepositoryEdge', node?: { __typename?: 'Repository', name: string, description?: string | null, stargazerCount: number, url: any, primaryLanguage?: { __typename?: 'Language', color?: string | null, name: string } | null } | null } | null> | null } } | { __typename?: 'PullRequest' } | { __typename?: 'Repository' } | { __typename: 'User', login: string, name?: string | null, avatarUrl: any, bio?: string | null, location?: string | null, company?: string | null, followers: { __typename?: 'FollowerConnection', totalCount: number }, following: { __typename?: 'FollowingConnection', totalCount: number }, repositories: { __typename?: 'RepositoryConnection', edges?: Array<{ __typename?: 'RepositoryEdge', node?: { __typename?: 'Repository', name: string, description?: string | null, stargazerCount: number, url: any, primaryLanguage?: { __typename?: 'Language', name: string, color?: string | null } | null } | null } | null> | null } } | null } | null> | null } };
 
+export type GetGithubReposQueryVariables = Exact<{
+  id: Scalars['String'];
+  afterCursor?: InputMaybe<Scalars['String']>;
+  beforeCursor?: InputMaybe<Scalars['String']>;
+}>;
+
+
+export type GetGithubReposQuery = { __typename?: 'Query', search: { __typename?: 'SearchResultItemConnection', edges?: Array<{ __typename?: 'SearchResultItemEdge', node?: { __typename?: 'App' } | { __typename?: 'Discussion' } | { __typename?: 'Issue' } | { __typename?: 'MarketplaceListing' } | { __typename: 'Organization', repositories: { __typename?: 'RepositoryConnection', totalCount: number, pageInfo: { __typename?: 'PageInfo', endCursor?: string | null, startCursor?: string | null }, edges?: Array<{ __typename?: 'RepositoryEdge', node?: { __typename?: 'Repository', name: string, description?: string | null, stargazerCount: number, url: any, primaryLanguage?: { __typename?: 'Language', color?: string | null, name: string } | null } | null } | null> | null } } | { __typename?: 'PullRequest' } | { __typename?: 'Repository' } | { __typename: 'User', repositories: { __typename?: 'RepositoryConnection', totalCount: number, pageInfo: { __typename?: 'PageInfo', endCursor?: string | null, startCursor?: string | null }, edges?: Array<{ __typename?: 'RepositoryEdge', node?: { __typename?: 'Repository', name: string, description?: string | null, stargazerCount: number, url: any, primaryLanguage?: { __typename?: 'Language', name: string, color?: string | null } | null } | null } | null> | null } } | null } | null> | null } };
+
 export type GetGithubUserInfoQueryVariables = Exact<{
   searchQuery: Scalars['String'];
 }>;
@@ -25787,6 +25806,95 @@ export function useGetGithubOverviewDataLazyQuery(baseOptions?: Apollo.LazyQuery
 export type GetGithubOverviewDataQueryHookResult = ReturnType<typeof useGetGithubOverviewDataQuery>;
 export type GetGithubOverviewDataLazyQueryHookResult = ReturnType<typeof useGetGithubOverviewDataLazyQuery>;
 export type GetGithubOverviewDataQueryResult = Apollo.QueryResult<GetGithubOverviewDataQuery, GetGithubOverviewDataQueryVariables>;
+export const GetGithubReposDocument = gql`
+    query getGithubRepos($id: String!, $afterCursor: String, $beforeCursor: String) {
+  search(query: $id, type: USER, first: 1) {
+    edges {
+      node {
+        ... on User {
+          __typename
+          repositories(first: 10, after: $afterCursor, before: $beforeCursor) {
+            totalCount
+            pageInfo {
+              endCursor
+              startCursor
+            }
+            edges {
+              node {
+                name
+                description
+                primaryLanguage {
+                  name
+                  color
+                }
+                stargazerCount
+                url
+              }
+            }
+          }
+        }
+        ... on Organization {
+          __typename
+          repositories(
+            first: 10
+            after: $afterCursor
+            before: $beforeCursor
+            privacy: PUBLIC
+          ) {
+            totalCount
+            pageInfo {
+              endCursor
+              startCursor
+            }
+            edges {
+              node {
+                name
+                description
+                primaryLanguage {
+                  color
+                  name
+                }
+                stargazerCount
+                url
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
+    `;
+
+/**
+ * __useGetGithubReposQuery__
+ *
+ * To run a query within a React component, call `useGetGithubReposQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetGithubReposQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetGithubReposQuery({
+ *   variables: {
+ *      id: // value for 'id'
+ *      afterCursor: // value for 'afterCursor'
+ *      beforeCursor: // value for 'beforeCursor'
+ *   },
+ * });
+ */
+export function useGetGithubReposQuery(baseOptions: Apollo.QueryHookOptions<GetGithubReposQuery, GetGithubReposQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetGithubReposQuery, GetGithubReposQueryVariables>(GetGithubReposDocument, options);
+      }
+export function useGetGithubReposLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetGithubReposQuery, GetGithubReposQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetGithubReposQuery, GetGithubReposQueryVariables>(GetGithubReposDocument, options);
+        }
+export type GetGithubReposQueryHookResult = ReturnType<typeof useGetGithubReposQuery>;
+export type GetGithubReposLazyQueryHookResult = ReturnType<typeof useGetGithubReposLazyQuery>;
+export type GetGithubReposQueryResult = Apollo.QueryResult<GetGithubReposQuery, GetGithubReposQueryVariables>;
 export const GetGithubUserInfoDocument = gql`
     query GetGithubUserInfo($searchQuery: String!) {
   search(query: $searchQuery, type: USER, first: 5) {
