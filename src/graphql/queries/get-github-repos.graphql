@@ -1,17 +1,20 @@
-query getGithubRepos($id: String!, $afterCursor: String, $beforeCursor: String){ 
+query getGithubRepos($id: String!, $cursor: String){ 
   search(query:$id, type: USER, first: 1,) {
     edges {
       node {
         ... on User {
           __typename
-          repositories(first: 10, after: $afterCursor, before: $beforeCursor) {
+          repositories(first: 10, after: $cursor) {
             totalCount
             pageInfo {
               endCursor
               startCursor
+              hasPreviousPage
+              hasNextPage
             }
             edges {
               node {
+                id
                 name
                 description
                 primaryLanguage {
@@ -27,16 +30,19 @@ query getGithubRepos($id: String!, $afterCursor: String, $beforeCursor: String){
         
         ... on Organization {
           __typename
-          repositories(first:10, after: $afterCursor, before: $beforeCursor, privacy: PUBLIC) {
+          repositories(first:10, after: $cursor, privacy: PUBLIC) {
             totalCount
             pageInfo {
               endCursor
               startCursor
+              hasPreviousPage
+              hasNextPage
             }
             edges {
               node {
                 name
                 description,
+                id
                 primaryLanguage {
                   color
                   name

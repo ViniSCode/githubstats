@@ -25700,12 +25700,11 @@ export type GetGithubOverviewDataQuery = { __typename?: 'Query', search: { __typ
 
 export type GetGithubReposQueryVariables = Exact<{
   id: Scalars['String'];
-  afterCursor?: InputMaybe<Scalars['String']>;
-  beforeCursor?: InputMaybe<Scalars['String']>;
+  cursor?: InputMaybe<Scalars['String']>;
 }>;
 
 
-export type GetGithubReposQuery = { __typename?: 'Query', search: { __typename?: 'SearchResultItemConnection', edges?: Array<{ __typename?: 'SearchResultItemEdge', node?: { __typename?: 'App' } | { __typename?: 'Discussion' } | { __typename?: 'Issue' } | { __typename?: 'MarketplaceListing' } | { __typename: 'Organization', repositories: { __typename?: 'RepositoryConnection', totalCount: number, pageInfo: { __typename?: 'PageInfo', endCursor?: string | null, startCursor?: string | null }, edges?: Array<{ __typename?: 'RepositoryEdge', node?: { __typename?: 'Repository', name: string, description?: string | null, stargazerCount: number, url: any, primaryLanguage?: { __typename?: 'Language', color?: string | null, name: string } | null } | null } | null> | null } } | { __typename?: 'PullRequest' } | { __typename?: 'Repository' } | { __typename: 'User', repositories: { __typename?: 'RepositoryConnection', totalCount: number, pageInfo: { __typename?: 'PageInfo', endCursor?: string | null, startCursor?: string | null }, edges?: Array<{ __typename?: 'RepositoryEdge', node?: { __typename?: 'Repository', name: string, description?: string | null, stargazerCount: number, url: any, primaryLanguage?: { __typename?: 'Language', name: string, color?: string | null } | null } | null } | null> | null } } | null } | null> | null } };
+export type GetGithubReposQuery = { __typename?: 'Query', search: { __typename?: 'SearchResultItemConnection', edges?: Array<{ __typename?: 'SearchResultItemEdge', node?: { __typename?: 'App' } | { __typename?: 'Discussion' } | { __typename?: 'Issue' } | { __typename?: 'MarketplaceListing' } | { __typename: 'Organization', repositories: { __typename?: 'RepositoryConnection', totalCount: number, pageInfo: { __typename?: 'PageInfo', endCursor?: string | null, startCursor?: string | null, hasPreviousPage: boolean, hasNextPage: boolean }, edges?: Array<{ __typename?: 'RepositoryEdge', node?: { __typename?: 'Repository', name: string, description?: string | null, id: string, stargazerCount: number, url: any, primaryLanguage?: { __typename?: 'Language', color?: string | null, name: string } | null } | null } | null> | null } } | { __typename?: 'PullRequest' } | { __typename?: 'Repository' } | { __typename: 'User', repositories: { __typename?: 'RepositoryConnection', totalCount: number, pageInfo: { __typename?: 'PageInfo', endCursor?: string | null, startCursor?: string | null, hasPreviousPage: boolean, hasNextPage: boolean }, edges?: Array<{ __typename?: 'RepositoryEdge', node?: { __typename?: 'Repository', id: string, name: string, description?: string | null, stargazerCount: number, url: any, primaryLanguage?: { __typename?: 'Language', name: string, color?: string | null } | null } | null } | null> | null } } | null } | null> | null } };
 
 export type GetGithubUserInfoQueryVariables = Exact<{
   searchQuery: Scalars['String'];
@@ -25807,20 +25806,23 @@ export type GetGithubOverviewDataQueryHookResult = ReturnType<typeof useGetGithu
 export type GetGithubOverviewDataLazyQueryHookResult = ReturnType<typeof useGetGithubOverviewDataLazyQuery>;
 export type GetGithubOverviewDataQueryResult = Apollo.QueryResult<GetGithubOverviewDataQuery, GetGithubOverviewDataQueryVariables>;
 export const GetGithubReposDocument = gql`
-    query getGithubRepos($id: String!, $afterCursor: String, $beforeCursor: String) {
+    query getGithubRepos($id: String!, $cursor: String) {
   search(query: $id, type: USER, first: 1) {
     edges {
       node {
         ... on User {
           __typename
-          repositories(first: 10, after: $afterCursor, before: $beforeCursor) {
+          repositories(first: 10, after: $cursor) {
             totalCount
             pageInfo {
               endCursor
               startCursor
+              hasPreviousPage
+              hasNextPage
             }
             edges {
               node {
+                id
                 name
                 description
                 primaryLanguage {
@@ -25835,21 +25837,19 @@ export const GetGithubReposDocument = gql`
         }
         ... on Organization {
           __typename
-          repositories(
-            first: 10
-            after: $afterCursor
-            before: $beforeCursor
-            privacy: PUBLIC
-          ) {
+          repositories(first: 10, after: $cursor, privacy: PUBLIC) {
             totalCount
             pageInfo {
               endCursor
               startCursor
+              hasPreviousPage
+              hasNextPage
             }
             edges {
               node {
                 name
                 description
+                id
                 primaryLanguage {
                   color
                   name
@@ -25879,8 +25879,7 @@ export const GetGithubReposDocument = gql`
  * const { data, loading, error } = useGetGithubReposQuery({
  *   variables: {
  *      id: // value for 'id'
- *      afterCursor: // value for 'afterCursor'
- *      beforeCursor: // value for 'beforeCursor'
+ *      cursor: // value for 'cursor'
  *   },
  * });
  */

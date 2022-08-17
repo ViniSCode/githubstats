@@ -11,11 +11,10 @@ export default function Repos () {
   const [repos, setRepos] = useState(null);
   const userId = router.query.username as string;
 
-  const [loadGithubRepos, {error, loading, fetchMore}] = useGetGithubReposLazyQuery({
+  const [loadGithubRepos, {error, loading, fetchMore, updateQuery, data}] = useGetGithubReposLazyQuery({
     variables: {
       id: userId,
-      afterCursor: null,
-      beforeCursor: null,
+      cursor: null,
     }
   }) 
 
@@ -43,7 +42,7 @@ export default function Repos () {
       <Header />
       <Flex w="100%" my="6" maxWidth={1480} mx="auto" px="6" mt="8">
         <Sidebar />
-        <Pagination items={repos.repositories.edges}/>
+          <Pagination items={data} fetchMore={fetchMore} updateQuery={updateQuery} />
       </Flex>
     </Flex>
   )
