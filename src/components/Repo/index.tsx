@@ -14,13 +14,17 @@ interface Repo {
 }
 
 export function Repo ({ name, description, html_url, language, stargazers_count }: Repo) {
-    let langColor;
-    let ifNoLanguage;
-  
-    if (language) {
-      langColor = language_colors[language].color;
-    }
+  let langColor;
+  let ifNoLanguage;
 
+  if (language) {
+    try {
+      langColor = language_colors[language].color;
+    } catch (e) {
+      langColor = 'white';
+    }
+  }
+  
   return (
     <Link href={html_url}>
       <Box bg="gray.800" p="4" borderRadius="md" w="100%" maxWidth="100%" cursor="pointer" boxShadow="md" _hover={{boxShadow: 'none'}} transition="box-shadow 200ms linear">
@@ -41,7 +45,7 @@ export function Repo ({ name, description, html_url, language, stargazers_count 
           }
         <HStack display="flex" align="center" mt="2" spacing="4">
         <Box display="flex" alignItems="center">
-          <Icon mr="1.5" as={BsCircleFill} sx={{color: `${langColor}`}} fontSize="13px"/>
+          <Icon mr="1.5" as={BsCircleFill} sx={{color: `${langColor ? langColor: '#FFFFFF'}`}} fontSize="13px"/>
           <Text fontSize="14px" color="#ffffff">{language ? language : "None"}</Text>
         </Box>
         {

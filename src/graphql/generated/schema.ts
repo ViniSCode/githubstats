@@ -25706,6 +25706,14 @@ export type GetGithubReposQueryVariables = Exact<{
 
 export type GetGithubReposQuery = { __typename?: 'Query', search: { __typename?: 'SearchResultItemConnection', edges?: Array<{ __typename?: 'SearchResultItemEdge', node?: { __typename?: 'App' } | { __typename?: 'Discussion' } | { __typename?: 'Issue' } | { __typename?: 'MarketplaceListing' } | { __typename: 'Organization', repositories: { __typename?: 'RepositoryConnection', totalCount: number, pageInfo: { __typename?: 'PageInfo', endCursor?: string | null, startCursor?: string | null, hasPreviousPage: boolean, hasNextPage: boolean }, edges?: Array<{ __typename?: 'RepositoryEdge', node?: { __typename?: 'Repository', name: string, description?: string | null, id: string, stargazerCount: number, url: any, primaryLanguage?: { __typename?: 'Language', color?: string | null, name: string } | null } | null } | null> | null } } | { __typename?: 'PullRequest' } | { __typename?: 'Repository' } | { __typename: 'User', repositories: { __typename?: 'RepositoryConnection', totalCount: number, pageInfo: { __typename?: 'PageInfo', endCursor?: string | null, startCursor?: string | null, hasPreviousPage: boolean, hasNextPage: boolean }, edges?: Array<{ __typename?: 'RepositoryEdge', node?: { __typename?: 'Repository', id: string, name: string, description?: string | null, stargazerCount: number, url: any, primaryLanguage?: { __typename?: 'Language', name: string, color?: string | null } | null } | null } | null> | null } } | null } | null> | null } };
 
+export type GetGithubStarredReposQueryVariables = Exact<{
+  id: Scalars['String'];
+  cursor?: InputMaybe<Scalars['String']>;
+}>;
+
+
+export type GetGithubStarredReposQuery = { __typename?: 'Query', search: { __typename?: 'SearchResultItemConnection', edges?: Array<{ __typename?: 'SearchResultItemEdge', node?: { __typename?: 'App' } | { __typename?: 'Discussion' } | { __typename?: 'Issue' } | { __typename?: 'MarketplaceListing' } | { __typename: 'Organization', repositories: { __typename?: 'RepositoryConnection', totalCount: number, pageInfo: { __typename?: 'PageInfo', endCursor?: string | null, startCursor?: string | null, hasPreviousPage: boolean, hasNextPage: boolean }, edges?: Array<{ __typename?: 'RepositoryEdge', node?: { __typename?: 'Repository', name: string, description?: string | null, id: string, stargazerCount: number, url: any, primaryLanguage?: { __typename?: 'Language', color?: string | null, name: string } | null } | null } | null> | null } } | { __typename?: 'PullRequest' } | { __typename?: 'Repository' } | { __typename: 'User', starredRepositories: { __typename?: 'StarredRepositoryConnection', totalCount: number, pageInfo: { __typename?: 'PageInfo', endCursor?: string | null, startCursor?: string | null, hasPreviousPage: boolean, hasNextPage: boolean }, edges?: Array<{ __typename?: 'StarredRepositoryEdge', node: { __typename?: 'Repository', id: string, name: string, description?: string | null, stargazerCount: number, url: any, primaryLanguage?: { __typename?: 'Language', name: string, color?: string | null } | null } } | null> | null } } | null } | null> | null } };
+
 export type GetGithubUserInfoQueryVariables = Exact<{
   searchQuery: Scalars['String'];
 }>;
@@ -25894,6 +25902,100 @@ export function useGetGithubReposLazyQuery(baseOptions?: Apollo.LazyQueryHookOpt
 export type GetGithubReposQueryHookResult = ReturnType<typeof useGetGithubReposQuery>;
 export type GetGithubReposLazyQueryHookResult = ReturnType<typeof useGetGithubReposLazyQuery>;
 export type GetGithubReposQueryResult = Apollo.QueryResult<GetGithubReposQuery, GetGithubReposQueryVariables>;
+export const GetGithubStarredReposDocument = gql`
+    query getGithubStarredRepos($id: String!, $cursor: String) {
+  search(query: $id, type: USER, first: 1) {
+    edges {
+      node {
+        ... on User {
+          __typename
+          starredRepositories(first: 10, after: $cursor) {
+            totalCount
+            pageInfo {
+              endCursor
+              startCursor
+              hasPreviousPage
+              hasNextPage
+            }
+            edges {
+              node {
+                id
+                name
+                description
+                primaryLanguage {
+                  name
+                  color
+                }
+                stargazerCount
+                url
+              }
+            }
+          }
+        }
+        ... on Organization {
+          __typename
+          repositories(
+            first: 10
+            after: $cursor
+            privacy: PUBLIC
+            orderBy: {field: STARGAZERS, direction: DESC}
+          ) {
+            totalCount
+            pageInfo {
+              endCursor
+              startCursor
+              hasPreviousPage
+              hasNextPage
+            }
+            edges {
+              node {
+                name
+                description
+                id
+                primaryLanguage {
+                  color
+                  name
+                }
+                stargazerCount
+                url
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
+    `;
+
+/**
+ * __useGetGithubStarredReposQuery__
+ *
+ * To run a query within a React component, call `useGetGithubStarredReposQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetGithubStarredReposQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetGithubStarredReposQuery({
+ *   variables: {
+ *      id: // value for 'id'
+ *      cursor: // value for 'cursor'
+ *   },
+ * });
+ */
+export function useGetGithubStarredReposQuery(baseOptions: Apollo.QueryHookOptions<GetGithubStarredReposQuery, GetGithubStarredReposQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetGithubStarredReposQuery, GetGithubStarredReposQueryVariables>(GetGithubStarredReposDocument, options);
+      }
+export function useGetGithubStarredReposLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetGithubStarredReposQuery, GetGithubStarredReposQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetGithubStarredReposQuery, GetGithubStarredReposQueryVariables>(GetGithubStarredReposDocument, options);
+        }
+export type GetGithubStarredReposQueryHookResult = ReturnType<typeof useGetGithubStarredReposQuery>;
+export type GetGithubStarredReposLazyQueryHookResult = ReturnType<typeof useGetGithubStarredReposLazyQuery>;
+export type GetGithubStarredReposQueryResult = Apollo.QueryResult<GetGithubStarredReposQuery, GetGithubStarredReposQueryVariables>;
 export const GetGithubUserInfoDocument = gql`
     query GetGithubUserInfo($searchQuery: String!) {
   search(query: $searchQuery, type: USER, first: 5) {

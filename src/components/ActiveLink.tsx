@@ -10,7 +10,7 @@ interface ActiveLinkProps extends LinkProps {
 
 export function ActiveLink ({
   children, 
-  shouldMatchExactHref = false,
+  shouldMatchExactHref = true,
  ...rest }: ActiveLinkProps) {
   
   let isActive = false;

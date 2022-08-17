@@ -2,15 +2,17 @@ import { Flex } from "@chakra-ui/react";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { Header } from "../../components/Header";
-import { Pagination } from "../../components/Pagination";
+import { Pagination } from "../../components/Pagination/Pagination";
 import { Sidebar } from "../../components/Sidebar";
 import { useGetGithubReposLazyQuery } from "../../graphql/generated/schema";
+import { useAppContext } from "../../hooks/useAppContext";
 
 export default function Repos () {
   const router = useRouter();
   const [repos, setRepos] = useState(null);
   const userId = router.query.username as string;
-
+  const { handleSetUser } = useAppContext();
+  
   const [loadGithubRepos, {error, loading, fetchMore, updateQuery, data}] = useGetGithubReposLazyQuery({
     variables: {
       id: userId,
@@ -20,6 +22,7 @@ export default function Repos () {
 
   useEffect(() => {
     if (userId) {
+      handleSetUser(userId);
       const fetchUserOverview = async () => {
         try {
           const getUserRepos = await loadGithubRepos();
@@ -42,7 +45,13 @@ export default function Repos () {
       <Header />
       <Flex w="100%" my="6" maxWidth={1480} mx="auto" px="6" mt="8">
         <Sidebar />
-          <Pagination items={data} fetchMore={fetchMore} updateQuery={updateQuery} />
+          <Pagination
+            items={data}
+            fetchMore={fetchMore}
+            updateQuery={updateQuery}
+            loading={loading}
+            isRepo={true} 
+          />
       </Flex>
     </Flex>
   )
