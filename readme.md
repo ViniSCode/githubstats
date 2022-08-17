@@ -29,14 +29,14 @@
 - [x] Github Graphql API
 - [x] Search User
 - [x] Search Organizations
-- [] Pagination - Infinite Scrolling - "Load more"
-- [] list all user followers / following
-- [] list all user repos
-- [] list all user starred repos
+- [x] Pagination - Infinite Scrolling - "Load more"
+- [x] list all user/organization repos
+- [x] list all user/organization starred repos
+- [] list all user/organization followers / following
 
 
 ## Rules
-- [] User can search for a user and access their github stats
+- [] User can search for a user/organization and access their github stats
 - [x] User can't access dashboard page if not logged in
 
 # Layout Images
