@@ -24,7 +24,7 @@ export default function Overview () {
   })
 
   useEffect(() => {
-    if (user.id !== userId || !githubOverviewData) {
+    if (userId) {
       const fetchUserOverview = async () => {
         try {
           const getUserOverview = await loadGithubOverviewData();
@@ -41,8 +41,6 @@ export default function Overview () {
       }
 
       fetchUserOverview();
-    } else {
-      console.log(githubOverviewData)
     }
 
   }, [userId])

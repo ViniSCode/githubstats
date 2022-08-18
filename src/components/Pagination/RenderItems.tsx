@@ -1,4 +1,4 @@
-import { Flex, Grid } from "@chakra-ui/react";
+import { Flex, Grid, Image, Text } from "@chakra-ui/react";
 import { Repo } from "../Repo";
 import { User } from "../User";
 interface ItemsGridProps {
@@ -34,7 +34,7 @@ export function RenderItems ({items, itemsType}: ItemsGridProps) {
     reposRight = formattedItems.slice((formattedItems.length / 2), formattedItems.length)
   }
 
-  return itemsType === 'repos' || itemsType === 'starred' ? (
+  return formattedItems.length > 0 && (itemsType === 'repos' || itemsType === 'starred') ? (
     <Flex gap="4" w="100%">
       <Grid gap="4" w="100%" templateColumns={{sm: '1fr', md: '1fr 1fr', lg: '1fr 1fr', xl: '1fr 1fr'}}>
         {
@@ -53,8 +53,13 @@ export function RenderItems ({items, itemsType}: ItemsGridProps) {
         }    
       </Grid>
     </Flex>
-  ):
-  (
+  ):  formattedItems.length === 0 ? (
+    <Flex alignSelf="center" w="100%" mx="auto" mt="4" position="relative">
+      <Text pos="absolute" textAlign="center" fontSize="20px" color="pink.500" left="0" right="0" bottom="-14">No {itemsType} found</Text>
+      <Image src="/assets/nothing_to_display.svg" w="45%" mx="auto" mt="2"/>
+    </Flex>
+  )
+  : formattedItems.length > 0 &&(
     <Flex gap="4" w="100%">
       <Grid gap="4" w="100%" templateColumns={{sm: '1fr', md: '1fr 1fr', lg: '1fr 1fr', xl: '1fr 1fr'}}>
         {

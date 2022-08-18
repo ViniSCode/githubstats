@@ -17,7 +17,7 @@ interface UserOverviewProps {
 
 export function OrgOverview ({org} :UserOverviewProps) {
   return org ? (
-    <Box p="6" bg="gray.800" borderRadius="30px" pb="4" minWidth={{sm:'unset', md: 400, lg: 350, xl: 400}} maxWidth={480} minHeight={{sm: 'unset', md:"610px", lg:"610px", xl: "610px"}} boxShadow="md" _hover={{boxShadow: 'none'}} transition="box-shadow 200ms linear">
+    <Box p="6" bg="gray.800" borderRadius="30px" pb="4" minWidth={{sm:'unset', md: 400, lg: 400, xl: 400}} maxWidth={480} minHeight={{sm: 'unset', md:"610px", lg:"610px", xl: "610px"}} boxShadow="md" _hover={{boxShadow: 'none'}} transition="box-shadow 200ms linear">
     <Flex
         flexDirection="column"
         bg="gray.800"
@@ -29,11 +29,11 @@ export function OrgOverview ({org} :UserOverviewProps) {
       > 
         <Image src={org.avatarUrl} w="100%" maxWidth="380px" borderRadius="full" alt={org.name}/>
         <Box alignSelf="self-start" mt="3">
-          <Text fontSize={["22px", "32px"]} alignSelf="self-start" mb={{sm:'unset', md: 'unset', lg: '5', xl: 'unset'}}>{org.name}</Text>
+          <Text fontSize={["22px", "32px"]} alignSelf="self-start">{org.name}</Text>
           <Text fontSize={["18px", "19px"]} color="pink.500"  alignSelf="self-start">{org.login}</Text>
         </Box>
 
-        <Text mt="2" fontSize="1xl" noOfLines={2} alignSelf="self-start" mb={{sm:'unset', md: 'unset', lg: '5', xl: 'unset'}}>{org.description}</Text>
+        <Text mt="2" fontSize="1xl" noOfLines={2} alignSelf="self-start">{org.description}</Text>
         <HStack spacing="3" mt="3" alignSelf="self-start" alignItems="center">
           {
             org.location && (

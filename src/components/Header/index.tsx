@@ -1,4 +1,4 @@
-import { Flex, Icon, IconButton, useBreakpointValue } from '@chakra-ui/react';
+import { Flex, Icon, IconButton, Text, useBreakpointValue } from '@chakra-ui/react';
 import { RiMenuLine } from 'react-icons/ri';
 import { useSidebarDrawer } from '../../Context/SidebarDrawerContext';
 import { Logo } from './Logo';
@@ -40,6 +40,7 @@ export function Header () {
     
       <Flex align="center" ml="auto">
         {/* <Profile showProfileData={isWideVersion}/> */}
+        <Text>Centralizado</Text>
       </Flex>
     </Flex>
   );

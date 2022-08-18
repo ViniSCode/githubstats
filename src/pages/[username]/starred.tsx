@@ -13,6 +13,8 @@ export default function Starred () {
   const router = useRouter();
   const [starredRepos, setStarredRepos] = useState(null);
   const userId = router.query.username as string;
+  let isOrgStarredRepoEmpty;
+  let isUserStarredRepoEmpty;
   const { handleSetIsSearchModalOpen, isSearchModalOpen, handleSetUser } = useAppContext();
   
   const [loadGithubStarredRepos, {error, loading, fetchMore, updateQuery, data}] = useGetGithubStarredReposLazyQuery({
