@@ -1,26 +1,25 @@
 import { Button, Flex, Text } from "@chakra-ui/react";
 
 interface LoadMoreProps {
-  isRepo?: boolean;
-  isStarred?: boolean;
-  isUserFollow?: boolean;
   items?: any;
+  itemsType
   fetchMore?: any;
   updateQuery?: any;
   loading?: any;
 }
 
 
-export function LoadMore ({fetchMore, updateQuery, loading, items, isStarred, isRepo}: LoadMoreProps) {
+export function LoadMore ({fetchMore, updateQuery, loading, items, itemsType}: LoadMoreProps) {
   let validation;
 
-  if (items.search.edges[0].node.__typename === 'User' && isStarred) {
+  if (items.search.edges[0].node.__typename === 'User' && itemsType === 'starred') {
     validation = items.search.edges[0].node.starredRepositories.pageInfo.hasNextPage
-  } else {
+  } 
+  else {
     validation = items.search.edges[0].node.repositories.pageInfo.hasNextPage;
   }
 
-  return isStarred && items.search.edges[0].node.__typename === 'User' ? (
+  return itemsType === 'starred' && items.search.edges[0].node.__typename === 'User' ? (
     <>
       { 
         validation && (
@@ -51,7 +50,7 @@ export function LoadMore ({fetchMore, updateQuery, loading, items, isStarred, is
         )
       }
     </>
-  ): isRepo || (isStarred && items.search.edges[0].node.__typename === 'Organization') ? (
+  ): itemsType === 'repos' || (itemsType === 'starred' && items.search.edges[0].node.__typename === 'Organization') ? (
     <>
       { 
         validation && (

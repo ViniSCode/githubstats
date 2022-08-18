@@ -6305,7 +6305,9 @@ export enum EnterpriseUserAccountMembershipRole {
   /** The user is a member of an organization in the enterprise. */
   Member = 'MEMBER',
   /** The user is an owner of an organization in the enterprise. */
-  Owner = 'OWNER'
+  Owner = 'OWNER',
+  /** The user is not an owner of the enterprise, and not a member or owner of any organizations in the enterprise; only for EMU-enabled enterprises. */
+  Unaffiliated = 'UNAFFILIATED'
 }
 
 /** The possible GitHub Enterprise deployments where this user can exist. */
@@ -14130,11 +14132,6 @@ export enum ProjectNextFieldType {
    */
   SingleSelect = 'SINGLE_SELECT',
   /**
-   * Tasks
-   * @deprecated The `ProjectNext` API is deprecated in favour of the more capable `ProjectV2` API. Follow the ProjectV2 guide at https://github.blog/changelog/2022-06-23-the-new-github-issues-june-23rd-update/, to find a suitable replacement. Removal on 2022-10-01 UTC.
-   */
-  Tasks = 'TASKS',
-  /**
    * Text
    * @deprecated The `ProjectNext` API is deprecated in favour of the more capable `ProjectV2` API. Follow the ProjectV2 guide at https://github.blog/changelog/2022-06-23-the-new-github-issues-june-23rd-update/, to find a suitable replacement. Removal on 2022-10-01 UTC.
    */
@@ -14143,7 +14140,12 @@ export enum ProjectNextFieldType {
    * Title
    * @deprecated The `ProjectNext` API is deprecated in favour of the more capable `ProjectV2` API. Follow the ProjectV2 guide at https://github.blog/changelog/2022-06-23-the-new-github-issues-june-23rd-update/, to find a suitable replacement. Removal on 2022-10-01 UTC.
    */
-  Title = 'TITLE'
+  Title = 'TITLE',
+  /**
+   * Tracks
+   * @deprecated The `ProjectNext` API is deprecated in favour of the more capable `ProjectV2` API. Follow the ProjectV2 guide at https://github.blog/changelog/2022-06-23-the-new-github-issues-june-23rd-update/, to find a suitable replacement. Removal on 2022-10-01 UTC.
+   */
+  Tracks = 'TRACKS'
 }
 
 /** An item within a new Project. */
@@ -14681,12 +14683,12 @@ export enum ProjectV2FieldType {
   Reviewers = 'REVIEWERS',
   /** Single Select */
   SingleSelect = 'SINGLE_SELECT',
-  /** Tasks */
-  Tasks = 'TASKS',
   /** Text */
   Text = 'TEXT',
   /** Title */
-  Title = 'TITLE'
+  Title = 'TITLE',
+  /** Tracks */
+  Tracks = 'TRACKS'
 }
 
 /** The values that can be used to update a field of an item inside a Project. Only 1 value can be updated at a time. */
@@ -20214,6 +20216,8 @@ export type RepositoryVulnerabilityAlert = Node & RepositoryNode & {
   dependabotUpdate?: Maybe<DependabotUpdate>;
   /** The scope of an alert's dependency */
   dependencyScope?: Maybe<RepositoryVulnerabilityAlertDependencyScope>;
+  /** Comment explaining the reason the alert was dismissed */
+  dismissComment?: Maybe<Scalars['String']>;
   /** The reason the alert was dismissed */
   dismissReason?: Maybe<Scalars['String']>;
   /** When was the alert dismissed? */
@@ -25691,6 +25695,14 @@ export type WorkflowRunPendingDeploymentRequestsArgs = {
   last?: InputMaybe<Scalars['Int']>;
 };
 
+export type GetGithubOrgMembersQueryVariables = Exact<{
+  id: Scalars['String'];
+  cursor?: InputMaybe<Scalars['String']>;
+}>;
+
+
+export type GetGithubOrgMembersQuery = { __typename?: 'Query', search: { __typename?: 'SearchResultItemConnection', edges?: Array<{ __typename?: 'SearchResultItemEdge', node?: { __typename?: 'App' } | { __typename?: 'Discussion' } | { __typename?: 'Issue' } | { __typename?: 'MarketplaceListing' } | { __typename: 'Organization', membersWithRole: { __typename?: 'OrganizationMemberConnection', totalCount: number, pageInfo: { __typename?: 'PageInfo', endCursor?: string | null, startCursor?: string | null, hasPreviousPage: boolean, hasNextPage: boolean }, edges?: Array<{ __typename?: 'OrganizationMemberEdge', node?: { __typename?: 'User', id: string, avatarUrl: any, login: string, name?: string | null, bio?: string | null, location?: string | null, company?: string | null } | null } | null> | null } } | { __typename?: 'PullRequest' } | { __typename?: 'Repository' } | { __typename?: 'User' } | null } | null> | null } };
+
 export type GetGithubOverviewDataQueryVariables = Exact<{
   id: Scalars['String'];
 }>;
@@ -25714,6 +25726,22 @@ export type GetGithubStarredReposQueryVariables = Exact<{
 
 export type GetGithubStarredReposQuery = { __typename?: 'Query', search: { __typename?: 'SearchResultItemConnection', edges?: Array<{ __typename?: 'SearchResultItemEdge', node?: { __typename?: 'App' } | { __typename?: 'Discussion' } | { __typename?: 'Issue' } | { __typename?: 'MarketplaceListing' } | { __typename: 'Organization', repositories: { __typename?: 'RepositoryConnection', totalCount: number, pageInfo: { __typename?: 'PageInfo', endCursor?: string | null, startCursor?: string | null, hasPreviousPage: boolean, hasNextPage: boolean }, edges?: Array<{ __typename?: 'RepositoryEdge', node?: { __typename?: 'Repository', name: string, description?: string | null, id: string, stargazerCount: number, url: any, primaryLanguage?: { __typename?: 'Language', color?: string | null, name: string } | null } | null } | null> | null } } | { __typename?: 'PullRequest' } | { __typename?: 'Repository' } | { __typename: 'User', starredRepositories: { __typename?: 'StarredRepositoryConnection', totalCount: number, pageInfo: { __typename?: 'PageInfo', endCursor?: string | null, startCursor?: string | null, hasPreviousPage: boolean, hasNextPage: boolean }, edges?: Array<{ __typename?: 'StarredRepositoryEdge', node: { __typename?: 'Repository', id: string, name: string, description?: string | null, stargazerCount: number, url: any, primaryLanguage?: { __typename?: 'Language', name: string, color?: string | null } | null } } | null> | null } } | null } | null> | null } };
 
+export type GetGithubUserFollowersQueryVariables = Exact<{
+  id: Scalars['String'];
+  cursor?: InputMaybe<Scalars['String']>;
+}>;
+
+
+export type GetGithubUserFollowersQuery = { __typename?: 'Query', search: { __typename?: 'SearchResultItemConnection', edges?: Array<{ __typename?: 'SearchResultItemEdge', node?: { __typename?: 'App' } | { __typename?: 'Discussion' } | { __typename?: 'Issue' } | { __typename?: 'MarketplaceListing' } | { __typename?: 'Organization' } | { __typename?: 'PullRequest' } | { __typename?: 'Repository' } | { __typename: 'User', followers: { __typename?: 'FollowerConnection', totalCount: number, pageInfo: { __typename?: 'PageInfo', endCursor?: string | null, startCursor?: string | null, hasPreviousPage: boolean, hasNextPage: boolean }, edges?: Array<{ __typename?: 'UserEdge', node?: { __typename?: 'User', id: string, avatarUrl: any, login: string, name?: string | null, bio?: string | null, location?: string | null, company?: string | null } | null } | null> | null } } | null } | null> | null } };
+
+export type GetGithubUserFollowingQueryVariables = Exact<{
+  id: Scalars['String'];
+  cursor?: InputMaybe<Scalars['String']>;
+}>;
+
+
+export type GetGithubUserFollowingQuery = { __typename?: 'Query', search: { __typename?: 'SearchResultItemConnection', edges?: Array<{ __typename?: 'SearchResultItemEdge', node?: { __typename?: 'App' } | { __typename?: 'Discussion' } | { __typename?: 'Issue' } | { __typename?: 'MarketplaceListing' } | { __typename?: 'Organization' } | { __typename?: 'PullRequest' } | { __typename?: 'Repository' } | { __typename: 'User', following: { __typename?: 'FollowingConnection', totalCount: number, pageInfo: { __typename?: 'PageInfo', endCursor?: string | null, startCursor?: string | null, hasPreviousPage: boolean, hasNextPage: boolean }, edges?: Array<{ __typename?: 'UserEdge', node?: { __typename?: 'User', id: string, avatarUrl: any, login: string, name?: string | null, bio?: string | null, location?: string | null, company?: string | null } | null } | null> | null } } | null } | null> | null } };
+
 export type GetGithubUserInfoQueryVariables = Exact<{
   searchQuery: Scalars['String'];
 }>;
@@ -25722,6 +25750,68 @@ export type GetGithubUserInfoQueryVariables = Exact<{
 export type GetGithubUserInfoQuery = { __typename?: 'Query', search: { __typename?: 'SearchResultItemConnection', edges?: Array<{ __typename?: 'SearchResultItemEdge', node?: { __typename?: 'App' } | { __typename?: 'Discussion' } | { __typename?: 'Issue' } | { __typename?: 'MarketplaceListing' } | { __typename: 'Organization', login: string, name?: string | null, avatarUrl: any } | { __typename?: 'PullRequest' } | { __typename?: 'Repository' } | { __typename: 'User', login: string, name?: string | null, avatarUrl: any, id: string } | null } | null> | null } };
 
 
+export const GetGithubOrgMembersDocument = gql`
+    query getGithubOrgMembers($id: String!, $cursor: String) {
+  search(query: $id, type: USER, first: 1) {
+    edges {
+      node {
+        ... on Organization {
+          __typename
+          membersWithRole(first: 10, after: $cursor) {
+            totalCount
+            pageInfo {
+              endCursor
+              startCursor
+              hasPreviousPage
+              hasNextPage
+            }
+            edges {
+              node {
+                id
+                avatarUrl
+                login
+                name
+                bio
+                location
+                company
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
+    `;
+
+/**
+ * __useGetGithubOrgMembersQuery__
+ *
+ * To run a query within a React component, call `useGetGithubOrgMembersQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetGithubOrgMembersQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetGithubOrgMembersQuery({
+ *   variables: {
+ *      id: // value for 'id'
+ *      cursor: // value for 'cursor'
+ *   },
+ * });
+ */
+export function useGetGithubOrgMembersQuery(baseOptions: Apollo.QueryHookOptions<GetGithubOrgMembersQuery, GetGithubOrgMembersQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetGithubOrgMembersQuery, GetGithubOrgMembersQueryVariables>(GetGithubOrgMembersDocument, options);
+      }
+export function useGetGithubOrgMembersLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetGithubOrgMembersQuery, GetGithubOrgMembersQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetGithubOrgMembersQuery, GetGithubOrgMembersQueryVariables>(GetGithubOrgMembersDocument, options);
+        }
+export type GetGithubOrgMembersQueryHookResult = ReturnType<typeof useGetGithubOrgMembersQuery>;
+export type GetGithubOrgMembersLazyQueryHookResult = ReturnType<typeof useGetGithubOrgMembersLazyQuery>;
+export type GetGithubOrgMembersQueryResult = Apollo.QueryResult<GetGithubOrgMembersQuery, GetGithubOrgMembersQueryVariables>;
 export const GetGithubOverviewDataDocument = gql`
     query GetGithubOverviewData($id: String!) {
   search(query: $id, type: USER, first: 1) {
@@ -25996,6 +26086,130 @@ export function useGetGithubStarredReposLazyQuery(baseOptions?: Apollo.LazyQuery
 export type GetGithubStarredReposQueryHookResult = ReturnType<typeof useGetGithubStarredReposQuery>;
 export type GetGithubStarredReposLazyQueryHookResult = ReturnType<typeof useGetGithubStarredReposLazyQuery>;
 export type GetGithubStarredReposQueryResult = Apollo.QueryResult<GetGithubStarredReposQuery, GetGithubStarredReposQueryVariables>;
+export const GetGithubUserFollowersDocument = gql`
+    query getGithubUserFollowers($id: String!, $cursor: String) {
+  search(query: $id, type: USER, first: 1) {
+    edges {
+      node {
+        ... on User {
+          __typename
+          followers(first: 10, after: $cursor) {
+            totalCount
+            pageInfo {
+              endCursor
+              startCursor
+              hasPreviousPage
+              hasNextPage
+            }
+            edges {
+              node {
+                id
+                avatarUrl
+                login
+                name
+                bio
+                location
+                company
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
+    `;
+
+/**
+ * __useGetGithubUserFollowersQuery__
+ *
+ * To run a query within a React component, call `useGetGithubUserFollowersQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetGithubUserFollowersQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetGithubUserFollowersQuery({
+ *   variables: {
+ *      id: // value for 'id'
+ *      cursor: // value for 'cursor'
+ *   },
+ * });
+ */
+export function useGetGithubUserFollowersQuery(baseOptions: Apollo.QueryHookOptions<GetGithubUserFollowersQuery, GetGithubUserFollowersQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetGithubUserFollowersQuery, GetGithubUserFollowersQueryVariables>(GetGithubUserFollowersDocument, options);
+      }
+export function useGetGithubUserFollowersLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetGithubUserFollowersQuery, GetGithubUserFollowersQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetGithubUserFollowersQuery, GetGithubUserFollowersQueryVariables>(GetGithubUserFollowersDocument, options);
+        }
+export type GetGithubUserFollowersQueryHookResult = ReturnType<typeof useGetGithubUserFollowersQuery>;
+export type GetGithubUserFollowersLazyQueryHookResult = ReturnType<typeof useGetGithubUserFollowersLazyQuery>;
+export type GetGithubUserFollowersQueryResult = Apollo.QueryResult<GetGithubUserFollowersQuery, GetGithubUserFollowersQueryVariables>;
+export const GetGithubUserFollowingDocument = gql`
+    query getGithubUserFollowing($id: String!, $cursor: String) {
+  search(query: $id, type: USER, first: 1) {
+    edges {
+      node {
+        ... on User {
+          __typename
+          following(first: 10, after: $cursor) {
+            totalCount
+            pageInfo {
+              endCursor
+              startCursor
+              hasPreviousPage
+              hasNextPage
+            }
+            edges {
+              node {
+                id
+                avatarUrl
+                login
+                name
+                bio
+                location
+                company
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
+    `;
+
+/**
+ * __useGetGithubUserFollowingQuery__
+ *
+ * To run a query within a React component, call `useGetGithubUserFollowingQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetGithubUserFollowingQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetGithubUserFollowingQuery({
+ *   variables: {
+ *      id: // value for 'id'
+ *      cursor: // value for 'cursor'
+ *   },
+ * });
+ */
+export function useGetGithubUserFollowingQuery(baseOptions: Apollo.QueryHookOptions<GetGithubUserFollowingQuery, GetGithubUserFollowingQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetGithubUserFollowingQuery, GetGithubUserFollowingQueryVariables>(GetGithubUserFollowingDocument, options);
+      }
+export function useGetGithubUserFollowingLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetGithubUserFollowingQuery, GetGithubUserFollowingQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetGithubUserFollowingQuery, GetGithubUserFollowingQueryVariables>(GetGithubUserFollowingDocument, options);
+        }
+export type GetGithubUserFollowingQueryHookResult = ReturnType<typeof useGetGithubUserFollowingQuery>;
+export type GetGithubUserFollowingLazyQueryHookResult = ReturnType<typeof useGetGithubUserFollowingLazyQuery>;
+export type GetGithubUserFollowingQueryResult = Apollo.QueryResult<GetGithubUserFollowingQuery, GetGithubUserFollowingQueryVariables>;
 export const GetGithubUserInfoDocument = gql`
     query GetGithubUserInfo($searchQuery: String!) {
   search(query: $searchQuery, type: USER, first: 5) {

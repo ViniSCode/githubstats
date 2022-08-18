@@ -6,6 +6,7 @@ import { useAppContext } from "../../hooks/useAppContext";
 export function SearchBox () {
   const searchInputRef = useRef<HTMLInputElement>(null); 
   const { handleSetIsSearchModalOpen, isSearchModalOpen } = useAppContext();  
+  
   return (
     <Flex
       onClick={() => handleSetIsSearchModalOpen(true)}

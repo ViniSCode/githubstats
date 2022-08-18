@@ -12,7 +12,7 @@ import { useGetGithubOverviewDataLazyQuery } from '../graphql/generated/schema';
 import { useAppContext } from '../hooks/useAppContext';
 
 export default function Overview () {
-  const { handleSetIsSearchModalOpen, isSearchModalOpen, handleSetUser } = useAppContext();
+  const { handleSetIsSearchModalOpen, isSearchModalOpen, handleSetUser, user } = useAppContext();
   const router = useRouter();
   const userId = router.query.username as string;
   const [githubOverviewData, setGithubOverviewData] = useState(null);
@@ -22,23 +22,27 @@ export default function Overview () {
       id: userId,
     }
   })
-  
+
   useEffect(() => {
-    if (userId) {
-      handleSetUser(userId);
+    if (user.id !== userId || !githubOverviewData) {
       const fetchUserOverview = async () => {
         try {
           const getUserOverview = await loadGithubOverviewData();
-       
+          
           if (getUserOverview.data && !getUserOverview.error) {
             setGithubOverviewData(getUserOverview.data.search.edges[0].node)
           }
+
+          handleSetUser(userId, getUserOverview.data.search.edges[0].node.__typename);
+
         } catch (err) {
           throw new Error(err.message);
         }
       }
 
       fetchUserOverview();
+    } else {
+      console.log(githubOverviewData)
     }
 
   }, [userId])
@@ -135,13 +139,11 @@ export default function Overview () {
       </Flex>
     </Flex>
   </Flex>
-  ):  (loading  && !error) ? (
+  ): (loading  && !error) ? (
     <Flex align='center' direction="column" justify='center' height="100vh" gap='2rem'>
-      <Text textAlign='center' fontSize="xl">
-      </Text>
         <Spinner size="lg" />
     </Flex>
-  ): (
+  ): !loading && error && (
     <Flex align='center' direction="column" justify='center' height="100vh" gap='2rem'>
       <Text textAlign='center' fontSize="xl">
         Something went wrong...
@@ -151,5 +153,5 @@ export default function Overview () {
         Go back
       </Button>
     </Flex>
-  )
+  ) 
 } 

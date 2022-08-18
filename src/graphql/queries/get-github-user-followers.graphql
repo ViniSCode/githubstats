@@ -1,0 +1,32 @@
+query getGithubUserFollowers($id: String!, $cursor: String){ 
+  search(query:$id, type: USER, first: 1,) {
+    edges {
+      node {
+        ... on User {
+          __typename
+          followers(first:10, after: $cursor) {
+            totalCount
+            pageInfo {
+              endCursor
+              startCursor
+              hasPreviousPage
+              hasNextPage
+            }
+            edges {
+              node {
+                id
+                avatarUrl
+                login
+                name
+                bio
+                location
+                company
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
+        

@@ -1,47 +1,77 @@
 import { Flex, Spinner } from "@chakra-ui/react";
 import { LoadMore } from "./LoadMore";
+import { LoadMoreFollow } from "./LoadMoreFollow";
 import { RenderItems } from "./RenderItems";
 
 interface PaginationProps {
-  isRepo?: boolean;
-  isStarred?: boolean;
-  isUserFollow?: boolean;
   items?: any;
   fetchMore?: any;
   updateQuery?: any;
   loading?: any;
+  itemsType: string;
 }
 
-export function Pagination ({items, fetchMore, updateQuery, loading, isRepo, isStarred, isUserFollow}: PaginationProps) {
-
-  return items && isRepo ? (
+export function Pagination ({items, fetchMore, updateQuery, loading, itemsType}: PaginationProps) {
+  // Paginate Repos
+  return items && itemsType === "repos" ? (
     <Flex mb="6rem" flex="1" pb="20" gap="4" alignItems="baseline"justifyContent={{xl: "space-between", lg: "space-between", md: "space-between", sm: "center"}} flexWrap={{ base: 'wrap', md: 'initial', lg: 'initial', xl: 'initial' }} pos="relative">
-      <RenderItems items={items} isRepo={isRepo}/>
+      <RenderItems items={items} itemsType={itemsType}/>
       <LoadMore
         items={items}
         fetchMore={fetchMore}
         updateQuery={updateQuery}
         loading={loading} 
-        isRepo={isRepo}
-        />
+        itemsType={itemsType}
+      />
     </Flex>
-  ): items && isStarred ? (
+  ): items && itemsType === "starred" ? (
     <Flex mb="6rem" flex="1" pb="20" gap="4" alignItems="baseline"justifyContent={{xl: "space-between", lg: "space-between", md: "space-between", sm: "center"}} flexWrap={{ base: 'wrap', md: 'initial', lg: 'initial', xl: 'initial' }} pos="relative">
-      <RenderItems items={items} isStarred={isStarred}/>
+      <RenderItems items={items} itemsType={itemsType}/>
       <LoadMore
         items={items}
-        isStarred={isStarred}
+        itemsType={itemsType}
         fetchMore={fetchMore}
         updateQuery={updateQuery}
         loading={loading} 
       />
     </Flex>
-  ): items && isUserFollow ? (
+  )
+    // Paginate user following/followers and org members
+  : items && itemsType === "followers" ? (
     <Flex mb="6rem" flex="1" pb="20" gap="4" alignItems="baseline"justifyContent={{xl: "space-between", lg: "space-between", md: "space-between", sm: "center"}} flexWrap={{ base: 'wrap', md: 'initial', lg: 'initial', xl: 'initial' }} pos="relative">
-      <RenderItems items={items} isUserFollow={isUserFollow} />
-      <LoadMore items={items} fetchMore={fetchMore} updateQuery={updateQuery} loading={loading}/>
+      <RenderItems items={items} itemsType={itemsType}/>
+      <LoadMoreFollow
+        items={items}
+        fetchMore={fetchMore}
+        updateQuery={updateQuery}
+        loading={loading} 
+        itemsType={itemsType}
+      />
     </Flex>
-  ) : (
+  ) : items && itemsType === "following" ? (
+    <Flex mb="6rem" flex="1" pb="20" gap="4" alignItems="baseline"justifyContent={{xl: "space-between", lg: "space-between", md: "space-between", sm: "center"}} flexWrap={{ base: 'wrap', md: 'initial', lg: 'initial', xl: 'initial' }} pos="relative">
+      <RenderItems items={items} itemsType={itemsType}/>
+      <LoadMoreFollow
+        items={items}
+        fetchMore={fetchMore}
+        updateQuery={updateQuery}
+        loading={loading} 
+        itemsType={itemsType}
+      />
+    </Flex>
+  ) : items && itemsType === "members" ? (
+    <Flex mb="6rem" flex="1" pb="20" gap="4" alignItems="baseline"justifyContent={{xl: "space-between", lg: "space-between", md: "space-between", sm: "center"}} flexWrap={{ base: 'wrap', md: 'initial', lg: 'initial', xl: 'initial' }} pos="relative">
+      <RenderItems items={items} itemsType={itemsType}/>
+      <LoadMoreFollow
+        items={items}
+        fetchMore={fetchMore}
+        updateQuery={updateQuery}
+        loading={loading} 
+        itemsType={itemsType}
+      />
+    </Flex>
+  )
+  :(
     <Flex align='center' direction="column" justify='center' height="100vh" gap='2rem'>
         <Spinner size="lg" />
     </Flex>

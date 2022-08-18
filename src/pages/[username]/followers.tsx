@@ -6,16 +6,17 @@ import { Header } from "../../components/Header";
 import { Pagination } from "../../components/Pagination/Pagination";
 import SearchBoxModal from "../../components/SearchBoxModal";
 import { Sidebar } from "../../components/Sidebar";
-import { useGetGithubStarredReposLazyQuery } from "../../graphql/generated/schema";
+import { useGetGithubUserFollowersLazyQuery } from "../../graphql/generated/schema";
 import { useAppContext } from "../../hooks/useAppContext";
 
-export default function Starred () {
+export default function Followers () {
   const router = useRouter();
-  const [starredRepos, setStarredRepos] = useState(null);
+  const [followers, setFollowers] = useState(null);
   const userId = router.query.username as string;
-  const { handleSetIsSearchModalOpen, isSearchModalOpen, handleSetUser } = useAppContext();
+  const { handleSetUser, isSearchModalOpen, handleSetIsSearchModalOpen} = useAppContext();
+
   
-  const [loadGithubStarredRepos, {error, loading, fetchMore, updateQuery, data}] = useGetGithubStarredReposLazyQuery({
+  const [loadGithubUserFollowers, {error, loading, fetchMore, updateQuery, data}] = useGetGithubUserFollowersLazyQuery({
     variables: {
       id: userId,
       cursor: null,
@@ -24,25 +25,25 @@ export default function Starred () {
 
   useEffect(() => {
     if (userId) {
-      const fetchStarred = async () => {
+      const fetchUserFollowers = async () => {
         try {
-          const getUserStarredRepos = await loadGithubStarredRepos();
-          if (getUserStarredRepos.data && !getUserStarredRepos.error) {
-            setStarredRepos(getUserStarredRepos.data.search.edges[0].node)
+          const getUserFollowers = await loadGithubUserFollowers();          
+          if (getUserFollowers.data && !getUserFollowers.error) {
+            setFollowers(getUserFollowers.data.search.edges[0].node)
           }
-
-          handleSetUser(userId, getUserStarredRepos.data.search.edges[0].node.__typename);
+          
+          handleSetUser(userId, getUserFollowers.data.search.edges[0].node.__typename);
         } catch (err) {
           throw new Error(err.message);
         }
       }
 
-      fetchStarred();      
+      fetchUserFollowers();
     }
 
   }, [userId])
-
-  return !loading && !error && starredRepos ? (
+  
+  return !loading && !error && followers ? (
     <Flex direction="column" h="100vh" pb="4">
       {
         isSearchModalOpen && (
@@ -60,7 +61,7 @@ export default function Starred () {
             fetchMore={fetchMore}
             updateQuery={updateQuery}
             loading={loading}
-            itemsType={"starred"} 
+            itemsType="followers"
           />
       </Flex>
     </Flex>
