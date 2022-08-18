@@ -1,6 +1,7 @@
-import { Box, Flex } from "@chakra-ui/react";
+import { Box, Button, Flex, Spinner, Text } from "@chakra-ui/react";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
+import { RiArrowLeftFill } from "react-icons/ri";
 import { Header } from "../../components/Header";
 import { Pagination } from "../../components/Pagination/Pagination";
 import SearchBoxModal from "../../components/SearchBoxModal";
@@ -8,7 +9,7 @@ import { Sidebar } from "../../components/Sidebar";
 import { useGetGithubOrgMembersLazyQuery } from "../../graphql/generated/schema";
 import { useAppContext } from "../../hooks/useAppContext";
 
-export default function Repos () {
+export default function Members () {
   const router = useRouter();
   const [members, setMembers] = useState(null);
   const userId = router.query.username as string;
@@ -23,7 +24,7 @@ export default function Repos () {
 
   useEffect(() => {
     if (userId) {
-      const fetchUserOverview = async () => {
+      const fetchOrgMembers = async () => {
         try {
           const getUserRepos = await loadGithubOrgMembers();          
           if (getUserRepos.data && !getUserRepos.error) {
@@ -36,12 +37,11 @@ export default function Repos () {
         }
       }
 
-      fetchUserOverview();
+      fetchOrgMembers();
     }
-
   }, [userId])
   
-  return !loading && !error && members && (
+  return !loading && !error && members ? (
     <Flex direction="column" h="100vh" pb="4">
       {
         isSearchModalOpen && (
@@ -62,6 +62,20 @@ export default function Repos () {
             itemsType="members"
           />
       </Flex>
+    </Flex>
+  ): (loading  && !error) ? (
+    <Flex align='center' direction="column" justify='center' height="100vh" gap='2rem'>
+        <Spinner size="lg" />
+    </Flex>
+  ): !loading && error && (
+    <Flex align='center' direction="column" justify='center' height="100vh" gap='2rem'>
+      <Text textAlign='center' fontSize="xl">
+        Something went wrong...
+      </Text>
+
+      <Button onClick={() => router.push('/')} colorScheme='red' leftIcon={<RiArrowLeftFill fontSize="20px"/>}>
+        Go back
+      </Button>
     </Flex>
   )
 }
