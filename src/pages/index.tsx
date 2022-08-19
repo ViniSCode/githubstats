@@ -3,7 +3,7 @@ import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useEffect, useRef, useState } from 'react';
 import { RiSearchLine } from 'react-icons/ri';
-import { useGetGithubUserInfoLazyQuery } from '../graphql/generated/schema';
+import { useGetGithubUserDataLazyQuery } from '../graphql/generated/schema';
 
 export default function Search() {
   const searchInputRef = useRef<HTMLInputElement>(null); 
@@ -11,7 +11,7 @@ export default function Search() {
   const [search, setSearch] = useState("");
   const [searchedUsers, setSearchedUsers] = useState([]);
 
-  const [loadUsers, { data, error,  called, loading}] = useGetGithubUserInfoLazyQuery({
+  const [loadUsers, { data, error,  called, loading}] = useGetGithubUserDataLazyQuery({
     variables: {
       searchQuery: search
     }

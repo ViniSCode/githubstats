@@ -1,16 +1,20 @@
 # githubstats.
-### work in progress...
+### work in progress (60%/100%)
 
 ### Created using NextJS, Typescript and Chakra UI
 
 ## Main Goals
 - [x] Learn GraphQL
+- [x] Learn about Github Graphql API
+- [x] Learn more about Typescript
 - [x] Learn about codegen
 - [x] Learn about Apollo
 - [x] Learn Chakra UI 
-- [x] Learn about Github Graphql API
-- [x] Learn more about Typescript
-- [x] Learn more about Next.JS
+- [x] Next.JS
+
+## App Goal
+- [x] User can search for a user/organization and access their github profile
+- [x] repos, starred repos, following/followers, members (organization). 
 
 ## Technologies 
 - [x] Next.JS
@@ -33,11 +37,6 @@
 - [x] list all user/organization repos
 - [x] list all user/organization starred repos
 - [] list all user/organization followers / following
-
-
-## Rules
-- [] User can search for a user/organization and access their github stats
-- [x] User can't access dashboard page if not logged in
 
 # Layout Images
 

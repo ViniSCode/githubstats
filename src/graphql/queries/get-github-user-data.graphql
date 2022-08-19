@@ -1,4 +1,4 @@
-query GetGithubUserInfo($searchQuery: String!){ 
+query GetGithubUserData($searchQuery: String!){ 
   search(query:$searchQuery, type: USER, first: 5, ) {
     edges{
       node{

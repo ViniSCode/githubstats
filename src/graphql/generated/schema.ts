@@ -2466,7 +2466,7 @@ export type CommitMessage = {
  * qualified).
  *
  * The Ref may be specified by its global node ID or by the
- * repository nameWithOwner and branch name.
+ * `repositoryNameWithOwner` and `branchName`.
  *
  * ### Examples
  *
@@ -2474,10 +2474,10 @@ export type CommitMessage = {
  *
  *     { "id": "MDM6UmVmMTpyZWZzL2hlYWRzL21haW4=" }
  *
- * Specify a branch using nameWithOwner and branch name:
+ * Specify a branch using `repositoryNameWithOwner` and `branchName`:
  *
  *     {
- *       "nameWithOwner": "github/graphql-client",
+ *       "repositoryNameWithOwner": "github/graphql-client",
  *       "branchName": "main"
  *     }
  *
@@ -5164,7 +5164,7 @@ export type EnablePullRequestAutoMergeInput = {
   commitBody?: InputMaybe<Scalars['String']>;
   /** Commit headline to use for the commit when the PR is mergable; if omitted, a default message will be used. */
   commitHeadline?: InputMaybe<Scalars['String']>;
-  /** The merge method to use. If omitted, defaults to 'MERGE' */
+  /** The merge method to use. If omitted, defaults to `MERGE` */
   mergeMethod?: InputMaybe<PullRequestMergeMethod>;
   /** ID of the pull request to enable auto-merge on. */
   pullRequestId: Scalars['ID'];
@@ -9428,7 +9428,7 @@ export type Mutation = {
   unpinIssue?: Maybe<UnpinIssuePayload>;
   /** Marks a review thread as unresolved. */
   unresolveReviewThread?: Maybe<UnresolveReviewThreadPayload>;
-  /** Create a new branch protection rule */
+  /** Update a branch protection rule */
   updateBranchProtectionRule?: Maybe<UpdateBranchProtectionRulePayload>;
   /** Update a check run */
   updateCheckRun?: Maybe<UpdateCheckRunPayload>;
@@ -9488,6 +9488,8 @@ export type Mutation = {
   updateNotificationRestrictionSetting?: Maybe<UpdateNotificationRestrictionSettingPayload>;
   /** Sets whether private repository forks are enabled for an organization. */
   updateOrganizationAllowPrivateRepositoryForkingSetting?: Maybe<UpdateOrganizationAllowPrivateRepositoryForkingSettingPayload>;
+  /** Sets whether contributors are required to sign off on web-based commits for repositories in an organization. */
+  updateOrganizationWebCommitSignoffSetting?: Maybe<UpdateOrganizationWebCommitSignoffSettingPayload>;
   /** Updates an existing project. */
   updateProject?: Maybe<UpdateProjectPayload>;
   /** Updates an existing project card. */
@@ -9529,6 +9531,8 @@ export type Mutation = {
   updateRef?: Maybe<UpdateRefPayload>;
   /** Update information about a repository. */
   updateRepository?: Maybe<UpdateRepositoryPayload>;
+  /** Sets whether contributors are required to sign off on web-based commits for a repository. */
+  updateRepositoryWebCommitSignoffSetting?: Maybe<UpdateRepositoryWebCommitSignoffSettingPayload>;
   /** Change visibility of your sponsorship and opt in or out of email updates from the maintainer. */
   updateSponsorshipPreferences?: Maybe<UpdateSponsorshipPreferencesPayload>;
   /** Updates the state for subscribable subjects. */
@@ -10519,6 +10523,12 @@ export type MutationUpdateOrganizationAllowPrivateRepositoryForkingSettingArgs =
 
 
 /** The root query for implementing GraphQL mutations. */
+export type MutationUpdateOrganizationWebCommitSignoffSettingArgs = {
+  input: UpdateOrganizationWebCommitSignoffSettingInput;
+};
+
+
+/** The root query for implementing GraphQL mutations. */
 export type MutationUpdateProjectArgs = {
   input: UpdateProjectInput;
 };
@@ -10611,6 +10621,12 @@ export type MutationUpdateRefArgs = {
 /** The root query for implementing GraphQL mutations. */
 export type MutationUpdateRepositoryArgs = {
   input: UpdateRepositoryInput;
+};
+
+
+/** The root query for implementing GraphQL mutations. */
+export type MutationUpdateRepositoryWebCommitSignoffSettingArgs = {
+  input: UpdateRepositoryWebCommitSignoffSettingInput;
 };
 
 
@@ -12287,6 +12303,8 @@ export type Organization = Actor & MemberStatusable & Node & PackageOwner & Prof
   viewerIsFollowing: Scalars['Boolean'];
   /** True if the viewer is sponsoring this user/organization. */
   viewerIsSponsoring: Scalars['Boolean'];
+  /** Whether contributors are required to sign off on web-based commits for repositories in this organization. */
+  webCommitSignoffRequired: Scalars['Boolean'];
   /** The organization's public profile URL. */
   websiteUrl?: Maybe<Scalars['URI']>;
 };
@@ -19155,6 +19173,8 @@ export type Repository = Node & PackageOwner & ProjectOwner & ProjectV2Recent & 
   vulnerabilityAlerts?: Maybe<RepositoryVulnerabilityAlertConnection>;
   /** A list of users watching the repository. */
   watchers: UserConnection;
+  /** Whether contributors are required to sign off on web-based commits in this repository. */
+  webCommitSignoffRequired: Scalars['Boolean'];
 };
 
 
@@ -21791,6 +21811,8 @@ export type StartRepositoryMigrationInput = {
   gitArchiveUrl?: InputMaybe<Scalars['String']>;
   /** The GitHub personal access token of the user importing to the target repository. */
   githubPat?: InputMaybe<Scalars['String']>;
+  /** Whether to lock the source repository. */
+  lockSource?: InputMaybe<Scalars['Boolean']>;
   /** The signed URL to access the user-uploaded metadata archive */
   metadataArchiveUrl?: InputMaybe<Scalars['String']>;
   /** The ID of the organization that will own the imported repository. */
@@ -24155,6 +24177,27 @@ export type UpdateOrganizationAllowPrivateRepositoryForkingSettingPayload = {
   organization?: Maybe<Organization>;
 };
 
+/** Autogenerated input type of UpdateOrganizationWebCommitSignoffSetting */
+export type UpdateOrganizationWebCommitSignoffSettingInput = {
+  /** A unique identifier for the client performing the mutation. */
+  clientMutationId?: InputMaybe<Scalars['String']>;
+  /** The ID of the organization on which to set the web commit signoff setting. */
+  organizationId: Scalars['ID'];
+  /** Enable signoff on web-based commits for repositories in the organization? */
+  webCommitSignoffRequired: Scalars['Boolean'];
+};
+
+/** Autogenerated return type of UpdateOrganizationWebCommitSignoffSetting */
+export type UpdateOrganizationWebCommitSignoffSettingPayload = {
+  __typename?: 'UpdateOrganizationWebCommitSignoffSettingPayload';
+  /** A unique identifier for the client performing the mutation. */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** A message confirming the result of updating the web commit signoff setting. */
+  message?: Maybe<Scalars['String']>;
+  /** The organization with the updated web commit signoff setting. */
+  organization?: Maybe<Organization>;
+};
+
 /** Autogenerated input type of UpdateProjectCard */
 export type UpdateProjectCardInput = {
   /** A unique identifier for the client performing the mutation. */
@@ -24611,6 +24654,27 @@ export type UpdateRepositoryPayload = {
   __typename?: 'UpdateRepositoryPayload';
   /** A unique identifier for the client performing the mutation. */
   clientMutationId?: Maybe<Scalars['String']>;
+  /** The updated repository. */
+  repository?: Maybe<Repository>;
+};
+
+/** Autogenerated input type of UpdateRepositoryWebCommitSignoffSetting */
+export type UpdateRepositoryWebCommitSignoffSettingInput = {
+  /** A unique identifier for the client performing the mutation. */
+  clientMutationId?: InputMaybe<Scalars['String']>;
+  /** The ID of the repository to update. */
+  repositoryId: Scalars['ID'];
+  /** Indicates if the repository should require signoff on web-based commits. */
+  webCommitSignoffRequired: Scalars['Boolean'];
+};
+
+/** Autogenerated return type of UpdateRepositoryWebCommitSignoffSetting */
+export type UpdateRepositoryWebCommitSignoffSettingPayload = {
+  __typename?: 'UpdateRepositoryWebCommitSignoffSettingPayload';
+  /** A unique identifier for the client performing the mutation. */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** A message confirming the result of updating the web commit signoff setting. */
+  message?: Maybe<Scalars['String']>;
   /** The updated repository. */
   repository?: Maybe<Repository>;
 };
@@ -25726,6 +25790,13 @@ export type GetGithubStarredReposQueryVariables = Exact<{
 
 export type GetGithubStarredReposQuery = { __typename?: 'Query', search: { __typename?: 'SearchResultItemConnection', edges?: Array<{ __typename?: 'SearchResultItemEdge', node?: { __typename?: 'App' } | { __typename?: 'Discussion' } | { __typename?: 'Issue' } | { __typename?: 'MarketplaceListing' } | { __typename: 'Organization', repositories: { __typename?: 'RepositoryConnection', totalCount: number, pageInfo: { __typename?: 'PageInfo', endCursor?: string | null, startCursor?: string | null, hasPreviousPage: boolean, hasNextPage: boolean }, edges?: Array<{ __typename?: 'RepositoryEdge', node?: { __typename?: 'Repository', name: string, description?: string | null, id: string, stargazerCount: number, url: any, primaryLanguage?: { __typename?: 'Language', color?: string | null, name: string } | null } | null } | null> | null } } | { __typename?: 'PullRequest' } | { __typename?: 'Repository' } | { __typename: 'User', starredRepositories: { __typename?: 'StarredRepositoryConnection', totalCount: number, pageInfo: { __typename?: 'PageInfo', endCursor?: string | null, startCursor?: string | null, hasPreviousPage: boolean, hasNextPage: boolean }, edges?: Array<{ __typename?: 'StarredRepositoryEdge', node: { __typename?: 'Repository', id: string, name: string, description?: string | null, stargazerCount: number, url: any, primaryLanguage?: { __typename?: 'Language', name: string, color?: string | null } | null } } | null> | null } } | null } | null> | null } };
 
+export type GetGithubUserDataQueryVariables = Exact<{
+  searchQuery: Scalars['String'];
+}>;
+
+
+export type GetGithubUserDataQuery = { __typename?: 'Query', search: { __typename?: 'SearchResultItemConnection', edges?: Array<{ __typename?: 'SearchResultItemEdge', node?: { __typename?: 'App' } | { __typename?: 'Discussion' } | { __typename?: 'Issue' } | { __typename?: 'MarketplaceListing' } | { __typename: 'Organization', login: string, name?: string | null, avatarUrl: any } | { __typename?: 'PullRequest' } | { __typename?: 'Repository' } | { __typename: 'User', login: string, name?: string | null, avatarUrl: any, id: string } | null } | null> | null } };
+
 export type GetGithubUserFollowersQueryVariables = Exact<{
   id: Scalars['String'];
   cursor?: InputMaybe<Scalars['String']>;
@@ -25741,13 +25812,6 @@ export type GetGithubUserFollowingQueryVariables = Exact<{
 
 
 export type GetGithubUserFollowingQuery = { __typename?: 'Query', search: { __typename?: 'SearchResultItemConnection', edges?: Array<{ __typename?: 'SearchResultItemEdge', node?: { __typename?: 'App' } | { __typename?: 'Discussion' } | { __typename?: 'Issue' } | { __typename?: 'MarketplaceListing' } | { __typename?: 'Organization' } | { __typename?: 'PullRequest' } | { __typename?: 'Repository' } | { __typename: 'User', following: { __typename?: 'FollowingConnection', totalCount: number, pageInfo: { __typename?: 'PageInfo', endCursor?: string | null, startCursor?: string | null, hasPreviousPage: boolean, hasNextPage: boolean }, edges?: Array<{ __typename?: 'UserEdge', node?: { __typename?: 'User', id: string, avatarUrl: any, login: string, name?: string | null, bio?: string | null, location?: string | null, company?: string | null } | null } | null> | null } } | null } | null> | null } };
-
-export type GetGithubUserInfoQueryVariables = Exact<{
-  searchQuery: Scalars['String'];
-}>;
-
-
-export type GetGithubUserInfoQuery = { __typename?: 'Query', search: { __typename?: 'SearchResultItemConnection', edges?: Array<{ __typename?: 'SearchResultItemEdge', node?: { __typename?: 'App' } | { __typename?: 'Discussion' } | { __typename?: 'Issue' } | { __typename?: 'MarketplaceListing' } | { __typename: 'Organization', login: string, name?: string | null, avatarUrl: any } | { __typename?: 'PullRequest' } | { __typename?: 'Repository' } | { __typename: 'User', login: string, name?: string | null, avatarUrl: any, id: string } | null } | null> | null } };
 
 
 export const GetGithubOrgMembersDocument = gql`
@@ -26086,6 +26150,57 @@ export function useGetGithubStarredReposLazyQuery(baseOptions?: Apollo.LazyQuery
 export type GetGithubStarredReposQueryHookResult = ReturnType<typeof useGetGithubStarredReposQuery>;
 export type GetGithubStarredReposLazyQueryHookResult = ReturnType<typeof useGetGithubStarredReposLazyQuery>;
 export type GetGithubStarredReposQueryResult = Apollo.QueryResult<GetGithubStarredReposQuery, GetGithubStarredReposQueryVariables>;
+export const GetGithubUserDataDocument = gql`
+    query GetGithubUserData($searchQuery: String!) {
+  search(query: $searchQuery, type: USER, first: 5) {
+    edges {
+      node {
+        ... on User {
+          login
+          name
+          avatarUrl
+          id
+          __typename
+        }
+        ... on Organization {
+          login
+          name
+          avatarUrl
+          __typename
+        }
+      }
+    }
+  }
+}
+    `;
+
+/**
+ * __useGetGithubUserDataQuery__
+ *
+ * To run a query within a React component, call `useGetGithubUserDataQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetGithubUserDataQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetGithubUserDataQuery({
+ *   variables: {
+ *      searchQuery: // value for 'searchQuery'
+ *   },
+ * });
+ */
+export function useGetGithubUserDataQuery(baseOptions: Apollo.QueryHookOptions<GetGithubUserDataQuery, GetGithubUserDataQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetGithubUserDataQuery, GetGithubUserDataQueryVariables>(GetGithubUserDataDocument, options);
+      }
+export function useGetGithubUserDataLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetGithubUserDataQuery, GetGithubUserDataQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetGithubUserDataQuery, GetGithubUserDataQueryVariables>(GetGithubUserDataDocument, options);
+        }
+export type GetGithubUserDataQueryHookResult = ReturnType<typeof useGetGithubUserDataQuery>;
+export type GetGithubUserDataLazyQueryHookResult = ReturnType<typeof useGetGithubUserDataLazyQuery>;
+export type GetGithubUserDataQueryResult = Apollo.QueryResult<GetGithubUserDataQuery, GetGithubUserDataQueryVariables>;
 export const GetGithubUserFollowersDocument = gql`
     query getGithubUserFollowers($id: String!, $cursor: String) {
   search(query: $id, type: USER, first: 1) {
@@ -26210,54 +26325,3 @@ export function useGetGithubUserFollowingLazyQuery(baseOptions?: Apollo.LazyQuer
 export type GetGithubUserFollowingQueryHookResult = ReturnType<typeof useGetGithubUserFollowingQuery>;
 export type GetGithubUserFollowingLazyQueryHookResult = ReturnType<typeof useGetGithubUserFollowingLazyQuery>;
 export type GetGithubUserFollowingQueryResult = Apollo.QueryResult<GetGithubUserFollowingQuery, GetGithubUserFollowingQueryVariables>;
-export const GetGithubUserInfoDocument = gql`
-    query GetGithubUserInfo($searchQuery: String!) {
-  search(query: $searchQuery, type: USER, first: 5) {
-    edges {
-      node {
-        ... on User {
-          login
-          name
-          avatarUrl
-          id
-          __typename
-        }
-        ... on Organization {
-          login
-          name
-          avatarUrl
-          __typename
-        }
-      }
-    }
-  }
-}
-    `;
-
-/**
- * __useGetGithubUserInfoQuery__
- *
- * To run a query within a React component, call `useGetGithubUserInfoQuery` and pass it any options that fit your needs.
- * When your component renders, `useGetGithubUserInfoQuery` returns an object from Apollo Client that contains loading, error, and data properties
- * you can use to render your UI.
- *
- * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
- *
- * @example
- * const { data, loading, error } = useGetGithubUserInfoQuery({
- *   variables: {
- *      searchQuery: // value for 'searchQuery'
- *   },
- * });
- */
-export function useGetGithubUserInfoQuery(baseOptions: Apollo.QueryHookOptions<GetGithubUserInfoQuery, GetGithubUserInfoQueryVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<GetGithubUserInfoQuery, GetGithubUserInfoQueryVariables>(GetGithubUserInfoDocument, options);
-      }
-export function useGetGithubUserInfoLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetGithubUserInfoQuery, GetGithubUserInfoQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<GetGithubUserInfoQuery, GetGithubUserInfoQueryVariables>(GetGithubUserInfoDocument, options);
-        }
-export type GetGithubUserInfoQueryHookResult = ReturnType<typeof useGetGithubUserInfoQuery>;
-export type GetGithubUserInfoLazyQueryHookResult = ReturnType<typeof useGetGithubUserInfoLazyQuery>;
-export type GetGithubUserInfoQueryResult = Apollo.QueryResult<GetGithubUserInfoQuery, GetGithubUserInfoQueryVariables>;

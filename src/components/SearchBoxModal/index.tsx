@@ -3,7 +3,7 @@ import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useEffect, useRef, useState } from 'react';
 import { RiSearchLine } from 'react-icons/ri';
-import { useGetGithubUserInfoLazyQuery } from '../../graphql/generated/schema';
+import { useGetGithubUserDataLazyQuery } from '../../graphql/generated/schema';
 import { useAppContext } from '../../hooks/useAppContext';
 
 export default function SearchBoxModal() {
@@ -13,7 +13,7 @@ export default function SearchBoxModal() {
   const [searchedUsers, setSearchedUsers] = useState([]);
   const {handleSetIsSearchModalOpen} = useAppContext();
 
-  const [loadUsers, { data, error,  called, loading}] = useGetGithubUserInfoLazyQuery({
+  const [loadUsers, { data, error,  called, loading}] = useGetGithubUserDataLazyQuery({
     variables: {
       searchQuery: search
     }

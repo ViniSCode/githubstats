@@ -1,12 +1,8 @@
 import { createContext, ReactNode, useState } from "react";
 
 interface AppContextData {
-  handleSetIsLoading: (value: boolean) => void;
-  handleSetIsError: (value: boolean) => void;
   handleSetIsSearchModalOpen: (value: boolean) => void;
   handleSetUser: (id, type: string) => void;
-  isError: boolean;
-  isLoading: boolean;
   isSearchModalOpen: boolean;
   user: {
     id: string;
@@ -54,7 +50,7 @@ export function AppProvider ({children}: AppProviderProps) {
   }
 
   return (
-    <AppContext.Provider value={{isLoading, handleSetIsLoading, isError, handleSetIsError, handleSetIsSearchModalOpen, isSearchModalOpen, handleSetUser, user}}>
+    <AppContext.Provider value={{handleSetIsSearchModalOpen, isSearchModalOpen, handleSetUser, user}}>
       {children}
     </AppContext.Provider>
   )
