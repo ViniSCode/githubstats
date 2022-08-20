@@ -1,4 +1,5 @@
 # githubstats.
+## [App Preview](https://githubstats-seven.vercel.app/)
 ### work in progress (60%/100%)
 
 ### Created using NextJS, Typescript and Chakra UI
