@@ -26,12 +26,19 @@ export default function Members () {
     if (userId) {
       const fetchOrgMembers = async () => {
         try {
-          const getUserRepos = await loadGithubOrgMembers();          
-          if (getUserRepos.data && !getUserRepos.error) {
-            setMembers(getUserRepos.data.search.edges[0].node)
+          const getOrgRepos = await loadGithubOrgMembers();
+            
+          if (getOrgRepos.data.search.edges[0].node.__typename === 'User') {
+            console.log(userId)
+            router.push(`/${userId}/followers`)
+            return;
           }
           
-          handleSetUser(userId, getUserRepos.data.search.edges[0].node.__typename);
+          if (getOrgRepos.data && !getOrgRepos.error) {
+            setMembers(getOrgRepos.data.search.edges[0].node)
+          }
+          
+          handleSetUser(userId, getOrgRepos.data.search.edges[0].node.__typename);
         } catch (err) {
           throw new Error(err.message);
         }
@@ -43,16 +50,16 @@ export default function Members () {
   
   return !loading && !error && members ? (
     <Flex direction="column" h="100vh" pb="4">
-      {
-        isSearchModalOpen && (
-          <>
-            <Box position="fixed" w="100vw" h="100vh" background='#3a3e49b7' zIndex={10} onClick={() => handleSetIsSearchModalOpen(false)} />
-            <SearchBoxModal />
-          </>
-        )
-      }
-      <Header />
-      <Flex w="100%" my="6" maxWidth={1480} mx="auto" px="6" mt="8">
+    {
+     isSearchModalOpen && (
+       <>
+         <Box position="fixed" w="100vw" h="100vh" background='#3a3e49b7' zIndex={10} onClick={() => handleSetIsSearchModalOpen(false)} />
+         <SearchBoxModal />
+       </>
+     )
+   }
+   <Header />
+   <Flex w="100%" my="6" maxWidth={1480} mx="auto" px="6" mt={{base:"6rem",sm: "6rem", md: "8", lg: "8", xl: "8"}}>
         <Sidebar />
           <Pagination
             items={data}

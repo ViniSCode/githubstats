@@ -15,7 +15,7 @@ interface UserProps {
 export function User ({avatar_url, login, bio, name, location, company}: UserProps) {
   return (
     <Link href={`/${login}`}>
-      <Flex bg="gray.800" p="3" alignItems="center" borderRadius="md" w="100%" maxWidth="100%" padding="0.625rem" cursor="pointer">
+      <Flex bg="gray.800" p="3" alignItems="center" borderRadius="md" mx="auto" w="100%" maxWidth={{sm: "480px",md: "100%", lg: "100%", xl: "100%"}} padding="0.625rem" cursor="pointer">
         <UserAvatar src={avatar_url} name={name}/>
         <Box w="100%">
           <Flex gap="4" align="center" justify="space-between">

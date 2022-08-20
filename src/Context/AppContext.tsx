@@ -3,6 +3,8 @@ import { createContext, ReactNode, useState } from "react";
 interface AppContextData {
   handleSetIsSearchModalOpen: (value: boolean) => void;
   handleSetUser: (id, type: string) => void;
+  handleSetIsLoading: (value: boolean) => void;
+  isLoading: boolean;
   isSearchModalOpen: boolean;
   user: {
     id: string;
@@ -23,7 +25,6 @@ export const AppContext = createContext<AppContextData>({} as AppContextData);
 
 export function AppProvider ({children}: AppProviderProps) {
   const [isLoading, setIsLoading] = useState(true);
-  const [isError, setIsError] = useState(false);
   const [isSearchModalOpen, setIsSearchModalOpen] = useState(false);
   const [user, setUser] = useState<User>({
     id: '',
@@ -32,10 +33,6 @@ export function AppProvider ({children}: AppProviderProps) {
 
   function handleSetIsLoading(value: boolean) {
     setIsLoading(value);
-  }
-
-  function handleSetIsError(value: boolean) {
-    setIsError(value);
   }
 
   function handleSetIsSearchModalOpen (value: boolean) {
@@ -50,7 +47,7 @@ export function AppProvider ({children}: AppProviderProps) {
   }
 
   return (
-    <AppContext.Provider value={{handleSetIsSearchModalOpen, isSearchModalOpen, handleSetUser, user}}>
+    <AppContext.Provider value={{handleSetIsSearchModalOpen, isSearchModalOpen, handleSetUser, user, handleSetIsLoading, isLoading}}>
       {children}
     </AppContext.Provider>
   )

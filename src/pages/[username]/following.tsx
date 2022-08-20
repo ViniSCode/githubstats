@@ -15,7 +15,6 @@ export default function Following () {
   const userId = router.query.username as string;
   const { handleSetUser, isSearchModalOpen, handleSetIsSearchModalOpen} = useAppContext();
 
-  
   const [loadGithubUserFollowing, {error, loading, fetchMore, updateQuery, data}] = useGetGithubUserFollowingLazyQuery({
     variables: {
       id: userId,
@@ -27,7 +26,14 @@ export default function Following () {
     if (userId) {
       const fetchUserFollowing = async () => {
         try {
-          const getUserFollowing = await loadGithubUserFollowing();          
+          const getUserFollowing = await loadGithubUserFollowing(); 
+            
+          if (getUserFollowing.data.search.edges[0].node.__typename === 'Organization') {
+            console.log(userId)
+            router.push(`/${userId}/members`)
+            return;
+          }
+
           if (getUserFollowing.data && !getUserFollowing.error) {
             setFollowing(getUserFollowing.data.search.edges[0].node)
           }
@@ -45,7 +51,7 @@ export default function Following () {
   
   return !loading && !error && following ? (
     <Flex direction="column" h="100vh" pb="4">
-      {
+       {
         isSearchModalOpen && (
           <>
             <Box position="fixed" w="100vw" h="100vh" background='#3a3e49b7' zIndex={10} onClick={() => handleSetIsSearchModalOpen(false)} />
@@ -54,7 +60,7 @@ export default function Following () {
         )
       }
       <Header />
-      <Flex w="100%" my="6" maxWidth={1480} mx="auto" px="6" mt="8">
+      <Flex w="100%" my="6" maxWidth={1480} mx="auto" px="6" mt={{base:"6rem",sm: "6rem", md: "8", lg: "8", xl: "8"}}>
         <Sidebar />
           <Pagination
             items={data}

@@ -13,21 +13,31 @@ export default function Followers () {
   const router = useRouter();
   const [followers, setFollowers] = useState(null);
   const userId = router.query.username as string;
-  const { handleSetUser, isSearchModalOpen, handleSetIsSearchModalOpen} = useAppContext();
+  const { handleSetUser, isSearchModalOpen, handleSetIsSearchModalOpen, handleSetIsLoading} = useAppContext();
 
-  
   const [loadGithubUserFollowers, {error, loading, fetchMore, updateQuery, data}] = useGetGithubUserFollowersLazyQuery({
     variables: {
       id: userId,
       cursor: null,
     }
   }) 
+  
+  useEffect(() => {
+    handleSetIsLoading(loading);
+  }, [loading])
 
   useEffect(() => {
     if (userId) {
       const fetchUserFollowers = async () => {
         try {
           const getUserFollowers = await loadGithubUserFollowers();          
+          
+          if (getUserFollowers.data.search.edges[0].node.__typename === 'Organization') {
+            console.log(userId)
+            router.push(`/${userId}/members`)
+            return;
+          }
+
           if (getUserFollowers.data && !getUserFollowers.error) {
             setFollowers(getUserFollowers.data.search.edges[0].node)
           }
