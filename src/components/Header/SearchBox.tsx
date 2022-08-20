@@ -8,13 +8,15 @@ export function SearchBox () {
   const { handleSetIsSearchModalOpen, isSearchModalOpen } = useAppContext();  
   return (
     <Flex
+      mt={{base:"8rem",sm: "6rem", md: "0", lg: "0", xl: "0"}}
       onClick={() => handleSetIsSearchModalOpen(true)}
       cursor="pointer"
       as="label"
       flex="1"
       py="4"
       px="8"
-      ml="8"
+      ml={{sm:"auto", md:"auto", lg: "8", xl: "8" }}
+      mr={{sm: "auto", md: "0", lg: "0", xl: "0"}}
       maxWidth={400}
       align="center"
       color="gray.200"

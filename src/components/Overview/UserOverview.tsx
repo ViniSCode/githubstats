@@ -34,7 +34,7 @@ export function UserOverview ({user} :UserOverviewProps) {
   }
 
   return user ? (
-    <Box p="6" bg="gray.800" borderRadius="30px" pb="4" minWidth={{sm:'unset', md: 400, lg: 400, xl: 400}} maxWidth={480} minHeight={{sm: 'unset', md:"610px", lg:"610px", xl: "610px"}} boxShadow="md" _hover={{boxShadow: 'none'}} transition="box-shadow 200ms linear">
+    <Box p="6" bg="gray.800" borderRadius="30px" pb="4" w="100%" minWidth={{sm:'unset', md: 400, lg: 400, xl: 400}} maxWidth={480} minHeight={{sm: 'unset', md:"610px", lg:"610px", xl: "610px"}} boxShadow="md" _hover={{boxShadow: 'none'}} transition="box-shadow 200ms linear">
     <Flex
         flexDirection="column"
         bg="gray.800"

@@ -65,12 +65,11 @@ export default function Search() {
         py="4"
         px="8"
         ml="8"
-        w="90%"
+        w="100%"
         maxWidth='680px'
         mx="auto"
         align="center"
         color="gray.200"
-        // position="relative" 
         bg="gray.800"
         borderRadius="full"
         boxShadow="md" _hover={{boxShadow: 'none'}} transition="box-shadow 200ms linear"

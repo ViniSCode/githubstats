@@ -56,9 +56,9 @@ export default function Overview () {
         )
       }
       <Header />
-      <Flex w="100%" my="6" maxWidth={1480} mx="auto" px="6" mt="8">
+      <Flex w="100%" my="6" maxWidth={1480} mx="auto" px="6" mt={{base:"6rem",sm: "6rem", md: "8", lg: "8", xl: "8"}}>
         <Sidebar />
-        <Flex flex="1" gap="4rem" alignItems="flex-start" justifyContent={{ base: 'center', md: 'center', lg: 'space-between', xl: 'space-between' }} flexWrap={{ base: 'wrap', md: 'initial', lg: 'initial', xl: 'initial' }}>
+        <Flex flex="1" gap="5" alignItems="flex-start" justifyContent={{ base: 'center', md: 'center', lg: 'space-between', xl: 'space-between' }} flexWrap={{ base: 'wrap', md: 'initial', lg: 'initial', xl: 'initial' }}>
           <Box mb="4">
             <UserOverview user={githubOverviewData}/>
           </Box>
@@ -94,19 +94,19 @@ export default function Overview () {
   // change the page layout for organizations and enterprises
   : !loading && !error && githubOverviewData && githubOverviewData.__typename === "Organization" ? (
     <Flex direction="column" h="100vh" pb="4">
-      {
+       {
         isSearchModalOpen && (
           <>
-            <Box position="fixed" w="100vw" h="100vh" background='#3a3e49b7' zIndex={10} onClick={() => handleSetIsSearchModalOpen(false)}/>
+            <Box position="fixed" w="100vw" h="100vh" background='#3a3e49b7' zIndex={10} onClick={() => handleSetIsSearchModalOpen(false)} />
             <SearchBoxModal />
           </>
         )
       }
       <Header />
-    <Flex w="100%" my="6" maxWidth={1480} mx="auto" px="6" mt="8">
-      <Sidebar />
-      <Flex flex="1" gap="4rem" alignItems="flex-start" justifyContent={{ base: 'center', md: 'center', lg: 'space-between', xl: 'space-between' }} flexWrap={{ base: 'wrap', md: 'initial', lg: 'initial', xl: 'initial' }}>
-        <Box mb="4">
+      <Flex w="100%" my="6" maxWidth={1480} mx="auto" px="6" mt={{base:"6rem",sm: "6rem", md: "8", lg: "8", xl: "8"}}>
+        <Sidebar />
+        <Flex flex="1" gap="5" alignItems="flex-start" justifyContent={{ base: 'center', md: 'center', lg: 'space-between', xl: 'space-between' }} flexWrap={{ base: 'wrap', md: 'initial', lg: 'initial', xl: 'initial' }}>
+          <Box mb="4">
           <OrgOverview org={githubOverviewData}/>
         </Box>
         <Box borderRadius="8" pb="4" w="100%">

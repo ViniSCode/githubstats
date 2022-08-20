@@ -50,11 +50,11 @@ export default function SearchBoxModal() {
 },[])
 
   return (
-    <VStack mt="20" zIndex={20} position="absolute" top='0' left='0' right='0' w="680px" mx="auto">
+    <VStack mt="20" zIndex={20} position="absolute" top='0' left='0' right='0' mx="auto" w="100%">
       <Flex
         flexDir="column"
-        p="8"
-        bg="gray.900"
+        p={{base:"4",sm: "4", md: "8", lg: "8", xl: "8"}}
+        bg={{base:"6rem",sm: "6rem", md: "gray.900", lg: "gray.900", xl: "gray.900"}}
         maxWidth="680px"
         w="100%"
         borderRadius={8}

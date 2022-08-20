@@ -44,7 +44,7 @@ export default function Repos () {
   
   return !loading && !error && repos ? (
     <Flex direction="column" h="100vh" pb="4">
-      {
+       {
         isSearchModalOpen && (
           <>
             <Box position="fixed" w="100vw" h="100vh" background='#3a3e49b7' zIndex={10} onClick={() => handleSetIsSearchModalOpen(false)} />
@@ -53,7 +53,7 @@ export default function Repos () {
         )
       }
       <Header />
-      <Flex w="100%" my="6" maxWidth={1480} mx="auto" px="6" mt="8">
+      <Flex w="100%" my="6" maxWidth={1480} mx="auto" px="6" mt={{base:"6rem",sm: "6rem", md: "8", lg: "8", xl: "8"}}>
         <Sidebar />
           <Pagination
             items={data}
