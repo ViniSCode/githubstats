@@ -1,44 +1,59 @@
-# githubstats.
-## [App Preview](https://githubstats-seven.vercel.app/)
-### work in progress (60%/100%)
+# Githubstats | A github user search App
+### Created using NextJS, Typescript, Chakra UI, GraphQL (Apollo), Codegen.
+## [GithubStats Website](https://githubstats-seven.vercel.app/)
 
-### Created using NextJS, Typescript and Chakra UI
 
 ## Main Goals
+
 - [x] Learn GraphQL
+
 - [x] Learn about Github Graphql API
-- [x] Learn more about Typescript
+
 - [x] Learn about codegen
+
 - [x] Learn about Apollo
-- [x] Learn Chakra UI 
+
+- [x] Learn Chakra UI
+
 - [x] Next.JS
 
-## App Goal
-- [x] User can search for a user/organization and access their github profile
-- [x] repos, starred repos, following/followers, members (organization). 
+  
 
-## Technologies 
-- [x] Next.JS
-- [X] Typescript
-- [x] Github API
-- [x] Github Auth
-- [x] Chakra UI
-- [x] react-paginate
+## App Goals
+
+- [x] Search for a user/organization and access their github profile
+
+- [x] repos, starred repos, following/followers, members (organization).
+
+## Technologies
+
+- [x] Next.JS | Typescript | Github API | Github Auth | ChakraUI
 
 ## ToDo
-- [x] "Dashboard" Page (Overview)
-- [x] "Repositories" Page
-- [x] "Following" Page
-- [x] "Followers" Page
 - [x] Header Component
-- [x] Github Graphql API
+- [x] "overview" Page (Profile Overview) 
+- [x] "repos" Page (list repos)
+- [x] "starred" Page (list starred repos)
+- [x] "followers/following" Page (if User)
+- [x] "members" Page (if Organization)
+- [x] Get data from Github Graphql API
 - [x] Search User
 - [x] Search Organizations
-- [x] Pagination - Infinite Scrolling - "Load more"
-- [x] list all user/organization repos
-- [x] list all user/organization starred repos
-- [] list all user/organization followers / following
+- [x] Pagination - Infinite Scrolling - "Load more" (Apollo Pagination)
+
 
 # Layout Images
-
-
+### Home Page
+![home page](https://github.com/ViniSCode/githubstats/blob/main/public/assets/home.png?raw=true)
+### User  Overview Page
+![overview page](https://github.com/ViniSCode/githubstats/blob/main/public/assets/overview.png?raw=true)
+### User/Org Repos and Starred repos
+![repos page](https://github.com/ViniSCode/githubstats/blob/main/public/assets/repos.png?raw=true)
+### User Followers / Following
+![followers/following page](https://github.com/ViniSCode/githubstats/blob/main/public/assets/followers.png?raw=true)
+### Members (Organizations don't have followers, I decided to show their members)
+![members page](https://github.com/ViniSCode/githubstats/blob/main/public/assets/organization_members.png?raw=true)
+### SearchBox (Dashboard)
+![enter image description here](https://github.com/ViniSCode/githubstats/blob/main/public/assets/searchbox.png?raw=true)
+### If user/org don't have data to display
+![enter image description here](https://github.com/ViniSCode/githubstats/blob/main/public/assets/no_items_page.png?raw=true)
