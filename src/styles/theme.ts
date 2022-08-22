@@ -1,6 +1,15 @@
-import { extendTheme } from '@chakra-ui/react'
+import { extendTheme } from '@chakra-ui/react';
+
+const breakpoints = {
+  sm: '30em',
+  md: '48em',
+  lg: '62em',
+  xl: '85.313em',
+  '2xl': '90em',
+}
 
 export const theme = extendTheme({
+  breakpoints,
   colors: {
     gray: {
       "900": "#181b23",

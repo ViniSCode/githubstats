@@ -8,7 +8,10 @@ export function Sidebar () {
   const isDrawerSidebar = useBreakpointValue({
     base: true,
     lg: false,
+    xl: false,
   })
+
+  console.log(isDrawerSidebar)
 
   if (isDrawerSidebar) {
     

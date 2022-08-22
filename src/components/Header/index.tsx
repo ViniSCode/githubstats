@@ -9,16 +9,8 @@ export function Header () {
   const isWideVersion = useBreakpointValue({
     base: false,
     lg: true,
-  })
-
-  const isMediumVersion = useBreakpointValue({
-    base: false,
-    lg: true,
-  })
-
-  const isMobileVersion = useBreakpointValue({
-    base: false,
-    sm: true,
+    xl: true,
+    '2xl': true,
   })
 
   return (
