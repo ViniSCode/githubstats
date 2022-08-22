@@ -27,7 +27,7 @@
 
 ## Technologies
 
-- [x] Next.JS | Typescript | Github API | Github Auth | ChakraUI
+- [x] Next.JS | Typescript | GraphQL | Github GraphQL API | Apollo | Codegen | ChakraUI
 
 ## ToDo
 - [x] Header Component
