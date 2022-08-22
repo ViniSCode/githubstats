@@ -59,7 +59,7 @@ export default function Overview () {
       <Flex w="100%" my="6" maxWidth={1480} mx="auto" px="6" mt={{base:"6rem",sm: "6rem", md: "8", lg: "8", xl: "8"}}>
         <Sidebar />
         <Flex flex="1" gap="5" alignItems="flex-start" justifyContent={{ base: 'center', md: 'center', lg: 'space-between', xl: 'space-between' }} flexWrap={{ base: 'wrap', md: 'initial', lg: 'initial', xl: 'initial' }}>
-          <Box mb="4">
+          <Box mb="4" maxW={{base: "480", sm: "480", md: "unset", lg: "unset", xl: "unset", '2xl': "unset"}} w={{base: "100%", sm: "100%", md: "unset", lg: "unset", xl: "unset", '2xl': "unset"}}>
             <UserOverview user={githubOverviewData}/>
           </Box>
           <Box borderRadius="8" pb="4" w="100%">
