@@ -1,9 +1,9 @@
 import { Box, Flex, HStack, Icon, Image, Spinner, Text } from "@chakra-ui/react";
-import { FiMail } from "react-icons/fi";
+import { FiMail } from 'react-icons/fi';
 import { HiOutlineLocationMarker } from 'react-icons/hi';
 import { RiTwitterLine } from "react-icons/ri";
 
-interface UserOverviewProps {
+interface OrgOverviewProps {
   org: {
     description?: string;
     login: string;
@@ -15,7 +15,7 @@ interface UserOverviewProps {
   }
 }
 
-export function OrgOverview ({org} :UserOverviewProps) {
+export function OrgOverview ({org} :OrgOverviewProps) {
   return org ? (
     <Box p="6" bg="gray.800" borderRadius="30px" pb="4" w="100%" minWidth={{sm:'unset', md: 400, lg: 400, xl: 330, '2xl': 400}} maxWidth={480} minHeight={{sm: 'unset', md:"610px", lg:"610px", xl: "497px", '2xl': '610px'}} boxShadow="md" _hover={{boxShadow: 'none'}} transition="box-shadow 200ms linear">
     <Flex
@@ -27,15 +27,14 @@ export function OrgOverview ({org} :UserOverviewProps) {
         width="100%"
         height="100%"
       > 
-        <Image src={org.avatarUrl} w="100%" maxWidth={{base: "380px", sm: "380px", md: "380px", lg: "380px", xl: "225px", '2xl': '380'}} borderRadius="full" alt={org.name}/>
+        <Image src={org.avatarUrl} w="100%" maxWidth={{base: "380px", sm: "380px", md: "380px", lg: "380px", xl: "240px", '2xl': '380px'}} borderRadius="full" alt={org.name}/>
         <Box alignSelf="self-start" mt="3">
-        <Text fontSize={{base: "22px", sm: "22px", md: "22px", lg: "22px", xl: "20px", '2xl': '22px'}} alignSelf="self-start">{org.name}</Text>
+          <Text fontSize={{base: "22px", sm: "22px", md: "22px", lg: "22px", xl: "20px", '2xl': '22px'}} alignSelf="self-start">{org.name}</Text>
           <Text fontSize={{base: "18px", sm: "18px", md: "18px", lg: "16px", xl: "14px", '2xl': '16px'}} color="pink.500"  alignSelf="self-start">{org.login}</Text>
         </Box>
-
         <Text mt="2" fontSize={{base: "16px", sm: "16px", md: "16px", lg: "16px", xl: "14px", '2xl': '16px'}} noOfLines={2} alignSelf="self-start">{org.description}</Text>
         <HStack spacing="3" mt="3" alignSelf="self-start" alignItems="center">
-          {
+        {
             org.location && (
               <Box display="flex" gap="0.5" alignItems="center">
                 <Icon as={HiOutlineLocationMarker} fontSize={{base: "17px", sm: "17px", md: "17px", lg: "17px", xl: "14px", '2xl': '17px'}} color="gray.200"/>
