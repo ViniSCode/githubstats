@@ -20,6 +20,8 @@ interface UserOverviewProps {
 }
 
 export function UserOverview ({user} :UserOverviewProps) {
+
+  // format follower to 1k, 1M
   function kFormatter(num: number) {
     if (num > 999999) {
       return num ? (num/1000000).toFixed(1) + 'M' : num
@@ -35,15 +37,7 @@ export function UserOverview ({user} :UserOverviewProps) {
 
   return user ? (
     <Box p="6" bg="gray.800" borderRadius="30px" pb="4" w="100%" minWidth={{sm:'unset', md: 400, lg: 400, xl: 330, '2xl': 400}} maxWidth={480} minHeight={{sm: 'unset', md:"610px", lg:"610px", xl: "497px", '2xl': '610px'}} boxShadow="md" _hover={{boxShadow: 'none'}} transition="box-shadow 200ms linear">
-    <Flex
-        flexDirection="column"
-        bg="gray.800"
-        borderRadius="30px"
-        align="center"
-        justify="center"
-        width="100%"
-        height="100%"
-      > 
+      <Flex flexDirection="column" bg="gray.800" borderRadius="30px" align="center" justify="center" width="100%" height="100%">
         <Image src={user.avatarUrl} w="100%" maxWidth={{base: "380px", sm: "380px", md: "380px", lg: "380px", xl: "240px", '2xl': '380px'}} borderRadius="full" alt={user.name}/>
         <Box alignSelf="self-start" mt="3">
           <Text fontSize={{base: "22px", sm: "22px", md: "22px", lg: "22px", xl: "20px", '2xl': '22px'}} alignSelf="self-start">{user.name}</Text>

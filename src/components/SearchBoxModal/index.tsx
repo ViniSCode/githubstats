@@ -20,6 +20,7 @@ export default function SearchBoxModal() {
   });
 
   useEffect(() => {
+    // search if user stops typing
     let timer = setTimeout(async () => {
       try {
         if (search) {

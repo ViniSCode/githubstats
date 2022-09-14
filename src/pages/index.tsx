@@ -39,26 +39,12 @@ export default function Search() {
 
   return (
     <VStack mt="10vh">
-      
-    <Text
-      align="center"
-      fontSize={["2xl", "3xl"]}
-      fontWeight="bold"
-      letterSpacing="tight"
-      w="64"
-      mb="4"
-    >
+    <Text align="center" fontSize={["2xl", "3xl"]} fontWeight="bold" letterSpacing="tight" w="64" mb="4">
       githubstats
       <Text as="span" ml="1" color="pink.500">.</Text>
     </Text>
 
-      <Flex
-        flexDir="column"
-        w="100%"
-        bg="gray.900"
-        p="8"
-        borderRadius={8}
-      >
+      <Flex flexDir="column" w="100%" bg="gray.900" p="8" borderRadius={8}>
         <Flex
         as="label"
         flex="1"
@@ -84,11 +70,7 @@ export default function Search() {
             ref={searchInputRef}
             onChange={(e) => setSearch(e.target.value)}
           />
-          {
-            loading 
-            ? <Spinner size="sm"/> 
-            : <Icon as={RiSearchLine} fontSize="20" />
-          }
+          { loading ? <Spinner size="sm"/> : <Icon as={RiSearchLine} fontSize="20" /> }
         </Flex>
 
         <VStack gap="2" mt="5" w="100%" maxWidth='680px' mx="auto">

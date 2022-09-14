@@ -29,7 +29,6 @@ export default function Members () {
           const getOrgRepos = await loadGithubOrgMembers();
             
           if (getOrgRepos.data.search.edges[0].node.__typename === 'User') {
-            console.log(userId)
             router.push(`/${userId}/followers`)
             return;
           }

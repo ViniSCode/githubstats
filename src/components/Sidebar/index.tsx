@@ -11,8 +11,6 @@ export function Sidebar () {
     xl: false,
   })
 
-  console.log(isDrawerSidebar)
-
   if (isDrawerSidebar) {
     
     return (

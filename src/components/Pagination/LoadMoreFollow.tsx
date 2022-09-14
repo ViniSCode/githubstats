@@ -12,6 +12,9 @@ interface LoadMoreProps {
 export function LoadMoreFollow ({items, fetchMore, updateQuery, loading, itemsType}: LoadMoreProps) {
   let validation;
 
+  // Orgs don't have followers.
+  // I decided to separate the following returns ir user return followers/following | if org return members) 
+
   if (items.search.edges[0].node.__typename === 'User' && itemsType === 'followers') {
     validation = items.search.edges[0].node.followers.pageInfo.hasNextPage
   } 

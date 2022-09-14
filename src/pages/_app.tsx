@@ -2,7 +2,6 @@ import { ApolloProvider } from '@apollo/client';
 import { ChakraProvider } from '@chakra-ui/react';
 import { AppProps } from 'next/app';
 import { AppProvider } from '../Context/AppContext';
-// import { ReposProvider } from '../Context/ReposContext';
 import { SidebarDrawerProvider } from '../Context/SidebarDrawerContext';
 import { client } from '../lib/apollo';
 import { theme } from '../styles/theme';

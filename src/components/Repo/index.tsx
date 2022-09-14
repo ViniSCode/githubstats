@@ -13,6 +13,7 @@ interface Repo {
   stargazers_count: number;
 }
 
+// the repo card
 export function Repo ({ name, description, html_url, language, stargazers_count }: Repo) {
   let langColor;
   let ifNoLanguage;

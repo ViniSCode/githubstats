@@ -15,7 +15,7 @@ interface RepoOverview {
   stargazers_count: number;
 }
 
-
+// Show this repos on Overview Page
 export function RepoOverview ({ name, description, html_url, language, stargazers_count }: RepoOverview) {
     let langColor;
 

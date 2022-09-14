@@ -13,6 +13,8 @@ export function RenderItems ({items, itemsType}: ItemsGridProps) {
   let reposRight;
   let formattedItems; 
   
+  // render items according to its data type
+
   if (items.search.edges[0].node.__typename === 'User' && itemsType === 'starred') {
     formattedItems = items.search.edges[0].node.starredRepositories.edges;
   } 

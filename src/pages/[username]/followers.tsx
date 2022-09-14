@@ -33,7 +33,6 @@ export default function Followers () {
           const getUserFollowers = await loadGithubUserFollowers();          
           
           if (getUserFollowers.data.search.edges[0].node.__typename === 'Organization') {
-            console.log(userId)
             router.push(`/${userId}/members`)
             return;
           }

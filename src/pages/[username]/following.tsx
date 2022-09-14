@@ -29,7 +29,6 @@ export default function Following () {
           const getUserFollowing = await loadGithubUserFollowing(); 
             
           if (getUserFollowing.data.search.edges[0].node.__typename === 'Organization') {
-            console.log(userId)
             router.push(`/${userId}/members`)
             return;
           }
