@@ -1,4 +1,4 @@
-import { Avatar, Flex, Icon, Input, Spinner, Text, VStack } from '@chakra-ui/react';
+import { Avatar, Flex, Icon, Input, Spinner, Text, useToast, VStack } from '@chakra-ui/react';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useEffect, useRef, useState } from 'react';
@@ -8,6 +8,7 @@ import { useGetGithubUserDataLazyQuery } from '../graphql/generated/schema';
 export default function Search() {
   const searchInputRef = useRef<HTMLInputElement>(null); 
   const router = useRouter();
+  const toast = useToast();
   const [search, setSearch] = useState("");
   const [searchedUsers, setSearchedUsers] = useState([]);
 
@@ -25,6 +26,17 @@ export default function Search() {
           
           if (getUsers.data && !getUsers.error) {
             setSearchedUsers(getUsers.data.search.edges)
+          } 
+          
+          if (getUsers.data.search.edges.length === 0) {
+            toast({
+              colorScheme: 'messenger',
+              title: 'User/Organization Not found',
+              position: 'top-right',
+              isClosable: true,
+              duration: 4000,
+              status: 'warning',
+            })
           }
         }
       } catch (err) {

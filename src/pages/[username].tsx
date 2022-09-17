@@ -36,7 +36,8 @@ export default function Overview () {
           handleSetUser(userId, getUserOverview.data.search.edges[0].node.__typename);
 
         } catch (err) {
-          throw new Error(err.message);
+          console.log(err);
+          router.push('/error') 
         }
       }
 
