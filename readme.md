@@ -1,6 +1,9 @@
+
 # Githubstats | A github user search App
+![enter image description here](https://github.com/ViniSCode/githubstats/blob/main/public/assets/githubstats-preview.png?raw=true)
+
 ### Created using NextJS, Typescript, Chakra UI, GraphQL (Apollo), Codegen.
-## [GithubStats Website](https://githubstats-seven.vercel.app/)
+## [GithubStats Live Preview](https://githubstats-seven.vercel.app/)
 
 
 ## Main Goals
@@ -55,5 +58,5 @@
 ![members page](https://github.com/ViniSCode/githubstats/blob/main/public/assets/organization_members.png?raw=true)
 ### SearchBox (Dashboard)
 ![enter image description here](https://github.com/ViniSCode/githubstats/blob/main/public/assets/searchbox.png?raw=true)
-### If user/org don't have data to display
+### If user/org doesn't have data to display
 ![enter image description here](https://github.com/ViniSCode/githubstats/blob/main/public/assets/no_items_page.png?raw=true)
