@@ -1,6 +1,6 @@
 
 # Githubstats | A github user search App
-![enter image description here](https://github.com/ViniSCode/githubstats/blob/main/public/assets/githubstats-preview.png?raw=true)
+![GithubStats Preview](https://github.com/ViniSCode/githubstats/blob/main/public/assets/githubstats_preview.png?raw=true)
 
 ### Created using NextJS, Typescript, Chakra UI, GraphQL (Apollo), Codegen.
 ## [GithubStats Live Preview](https://githubstats-seven.vercel.app/)
